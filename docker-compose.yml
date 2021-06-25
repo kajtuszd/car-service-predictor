@@ -1,0 +1,26 @@
+version: "3"
+services:
+
+ db:
+  image: postgres:latest
+  restart: unless-stopped
+  container_name: database
+  env_file:
+   - .env
+
+ webapp:
+  build: ./code
+  container_name: webapp
+  restart: unless-stopped
+  ports:
+   - "8000:8000"
+  env_file:
+   - .env
+  depends_on:
+   - db
+  links:
+   - db:db
+  volumes:
+   - ./code:/code
+  entrypoint: "bash /code/docker-entrypoint.sh"
+  command: "runserver 0.0.0.0:8000"
