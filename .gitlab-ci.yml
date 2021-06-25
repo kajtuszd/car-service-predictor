@@ -1,0 +1,19 @@
+stages:
+  - test
+
+services:
+  - docker:dind
+
+test:
+  image: docker/compose:latest
+  stage: test
+  before_script:
+    - docker --version
+    - docker-compose --version
+  script:
+    - cp example.env .env
+    - docker-compose build
+  tags:
+    - docker
+  only:
+    refs: [merge_requests]
