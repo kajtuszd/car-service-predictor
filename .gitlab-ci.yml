@@ -1,0 +1,22 @@
+stages:
+  - test
+
+services:
+  - docker:dind
+
+build-docker-image:
+  image: docker/compose:latest
+  stage: test
+  before_script:
+    - docker --version
+    - docker-compose --version
+  script:
+    - cp example.env .env
+    - docker-compose up -d
+    - docker exec webapp chmod +x wait_for_db.sh || exit 1
+    - docker exec webapp ./wait_for_db.sh || exit 1
+    - docker exec webapp python3 manage.py test
+  tags:
+    - docker
+  only:
+    refs: [merge_requests]

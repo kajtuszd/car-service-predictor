@@ -27,14 +27,6 @@ python manage.py migrate || exit 1
 
 echo ''
 echo '--------------------------'
-echo 'Run tests'
-echo '--------------------------'
-echo ''
-
-python manage.py test || exit 1
-
-echo ''
-echo '--------------------------'
 echo 'Ownership fixes'
 echo '--------------------------'
 echo ''
