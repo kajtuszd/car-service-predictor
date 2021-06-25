@@ -16,8 +16,7 @@ build-docker-image:
     - docker exec webapp chmod +x wait_for_db.sh || exit 1
     - docker exec webapp ./wait_for_db.sh || exit 1
     - docker exec webapp python3 manage.py test
-    - docker-compose down
   tags:
     - docker
   only:
-    refs: [merge_requests]
+    - master
