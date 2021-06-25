@@ -19,4 +19,4 @@ build-docker-image:
   tags:
     - docker
   only:
-    refs: [merge_requests]
+    - main
