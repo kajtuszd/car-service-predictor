@@ -24,11 +24,32 @@ class User(AbstractUser):
                                                              'the format '
                                                              '12-345.'))])
 
+    class Meta:
+        verbose_name = _('user')
+        verbose_name_plural = _('users')
 
-class Customer(User):
-    pass
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
 
 
-class Workshop(User):
-    pass
+class Customer(models.Model):
+    user = models.OneToOneField('users.User', on_delete=models.CASCADE, primary_key=True)
+
+    class Meta:
+        verbose_name = _('customer')
+        verbose_name_plural = _('customers')
+
+    def __str__(self):
+        return f'{self.user.first_name} {self.user.last_name}'
+
+
+class Workshop(models.Model):
+    user = models.OneToOneField('users.User', on_delete=models.CASCADE, primary_key=True)
+
+    class Meta:
+        verbose_name = _('workshop')
+        verbose_name_plural = _('workshops')
+
+    def __str__(self):
+        return f'{self.user.first_name} {self.user.last_name}'
 
