@@ -3,10 +3,21 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.utils.translation import ugettext_lazy as _
 from django.core.validators import (MaxValueValidator, MinValueValidator,
-                                                            RegexValidator)
+                                    EmailValidator, RegexValidator)
 
 
 class User(AbstractUser):
+    first_name = models.CharField(max_length=30, blank=False, null=True)
+    last_name = models.CharField(max_length=30, blank=False, null=True)
+    phone = models.CharField(_('Phone number'), unique=True, null=True,
+                             max_length=15, validators=[
+            RegexValidator(r'^\+?1?\d{9,15}$', _('Phone number must be '
+                                                 'entered in the format: '
+                                                 '123456789 or +48123456789. '
+                                                 'Up to 15 digits allowed.'))])
+    email = models.CharField(_('Email address'), max_length=30, unique=True,
+                             validators=[EmailValidator(
+                                 message='Please enter valid E-mail address')])
     is_customer = models.BooleanField(_('Is customer'), default=False)
     is_workshop = models.BooleanField(_('Is workshop'), default=False)
     city = models.CharField(_('City'), max_length=30, null=True)
@@ -33,7 +44,8 @@ class User(AbstractUser):
 
 
 class Customer(models.Model):
-    user = models.OneToOneField('users.User', on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField('users.User', on_delete=models.CASCADE,
+                                primary_key=True)
 
     class Meta:
         verbose_name = _('customer')
@@ -44,12 +56,14 @@ class Customer(models.Model):
 
 
 class Workshop(models.Model):
-    user = models.OneToOneField('users.User', on_delete=models.CASCADE, primary_key=True)
+    workshop_name = models.CharField(_('Workshop name'), max_length=30,
+                                     unique=True, null=True)
+    user = models.OneToOneField('users.User', on_delete=models.CASCADE,
+                                primary_key=True)
 
     class Meta:
         verbose_name = _('workshop')
         verbose_name_plural = _('workshops')
 
     def __str__(self):
-        return f'{self.user.first_name} {self.user.last_name}'
-
+        return f'{self.workshop_name}'
