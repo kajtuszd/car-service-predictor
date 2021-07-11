@@ -12,7 +12,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     last_name = factory.Faker('last_name')
 
     class Meta:
-        model = 'user.User'
+        model = 'users.User'
 
 
 class WorkshopFactory(factory.django.DjangoModelFactory):
@@ -20,4 +20,4 @@ class WorkshopFactory(factory.django.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
 
     class Meta:
-        model = 'user.Workshop'
+        model = 'users.Workshop'
