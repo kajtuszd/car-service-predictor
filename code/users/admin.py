@@ -11,7 +11,8 @@ class CustomUserAdmin(UserAdmin):
     )
     list_display = (
         'first_name', 'last_name', 'email', 'username', 'phone', 'is_superuser',
-        'is_staff', 'is_active', 'date_joined',)
+        'is_staff', 'is_active', 'date_joined',
+        )
     ordering = ('email', 'first_name', 'last_name', 'username', 'date_joined',)
     search_fields = ('email', 'phone', 'first_name', 'last_name', 'username',)
     list_filter = ('is_active', 'is_superuser', 'is_staff')
