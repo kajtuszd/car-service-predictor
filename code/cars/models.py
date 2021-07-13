@@ -14,6 +14,34 @@ def max_value_current_year(value):
     return MaxValueValidator(return_current_year())(value)
 
 
+class EngineType():
+    TYPES = (
+        ('Petrol', _('Petrol')),
+        ('Diesel', _('Diesel')),
+        ('Hybrid', _('Hybrid')),
+        ('LPG', _('LPG')),
+    )
+
+
+class Engine(models.Model):
+    capacity = models.DecimalField(_('Capacity'), default=2.0, max_digits=4,
+                                   validators=[MaxValueValidator(6.0),
+                                               MinValueValidator(0.7)],
+                                   decimal_places=2, blank=False)
+    horsepower = models.IntegerField(_('Horsepower'), blank=False, default=100,
+                                     validators=[MaxValueValidator(1000),
+                                                 MinValueValidator(20)])
+    engine_type = models.CharField(_('Engine type'), max_length=20,
+                                   choices=EngineType.TYPES)
+
+    class Meta:
+        verbose_name = _('engine')
+        verbose_name_plural = _('engines')
+
+    def __str__(self):
+        return f'{self.engine_type} {self.horsepower}HP {self.capacity}'
+
+
 class Car(models.Model):
     brand = models.CharField(_('Brand'), max_length=30, blank=False)
     model = models.CharField(_('Model'), max_length=30, blank=False)
@@ -33,6 +61,7 @@ class Car(models.Model):
                                           validators=[
                                               MinValueValidator(0),
                                               MaxValueValidator(1000000)])
+    engine = models.ForeignKey(Engine, on_delete=models.CASCADE, null=True, blank=False)
 
     class Meta:
         verbose_name = _('car')
