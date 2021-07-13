@@ -17,7 +17,7 @@ class User(AbstractUser):
                                                  'Up to 15 digits allowed.'))])
     email = models.CharField(_('Email address'), max_length=30, unique=True,
                              validators=[EmailValidator(
-                                 message='Please enter valid E-mail address')])
+                                message='Please enter valid E-mail address')])
     is_customer = models.BooleanField(_('Is customer'), default=False)
     is_workshop = models.BooleanField(_('Is workshop'), default=False)
     city = models.CharField(_('City'), max_length=30, null=True)
@@ -57,7 +57,7 @@ class Customer(models.Model):
 
 class Workshop(models.Model):
     workshop_name = models.CharField(_('Workshop name'), max_length=30,
-                                     unique=True, null=True)
+                                    unique=True, null=True)
     user = models.OneToOneField('users.User', on_delete=models.CASCADE,
                                 primary_key=True)
 

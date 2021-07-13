@@ -21,3 +21,10 @@ class WorkshopFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = 'users.Workshop'
+
+
+class CustomerFactory(factory.django.DjangoModelFactory):
+    user = factory.SubFactory(UserFactory)
+
+    class Meta:
+        model = 'users.Customer'

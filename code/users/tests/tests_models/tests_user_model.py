@@ -19,7 +19,7 @@ class UserModelTests(TestCase):
         with self.assertRaises(IntegrityError):
             self.users[1].save()
 
-    def test_creating_accounts_not_possible_with_one_username(self):
+    def test_creating_accounts_not_possible_with_not_unique_username(self):
         self.users[1].username = self.users[0].username
         self.users[0].save()
         with self.assertRaises(IntegrityError):
