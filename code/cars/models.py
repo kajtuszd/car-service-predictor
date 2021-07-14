@@ -44,6 +44,8 @@ class Engine(models.Model):
 
 
 class Car(models.Model):
+    owner = models.ForeignKey('users.Customer', on_delete=models.CASCADE,
+                              blank=False, null=True)
     brand = models.CharField(_('Brand'), max_length=30, blank=False)
     model = models.CharField(_('Model'), max_length=30, blank=False)
     production_year = models.PositiveIntegerField(_('Production year'),

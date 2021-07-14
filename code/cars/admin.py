@@ -3,10 +3,13 @@ from .models import Car, Engine
 
 
 class CustomCarAdmin(admin.ModelAdmin):
-    list_display = ('brand', 'model', 'production_year', 'registration', 'mileage', 'capacity', 'horsepower', 'engine_type',)
-    search_fields = ('brand', 'model', 'registration', 'capacity', 'horsepower',)
-    ordering = ('brand', 'model',)
-    list_filter = ('brand', 'model',)
+    list_display = (
+        'brand', 'model', 'owner', 'production_year', 'registration', 'mileage',
+        'capacity', 'horsepower', 'engine_type',)
+    search_fields = (
+        'brand', 'model', 'owner', 'registration', 'capacity', 'horsepower',)
+    ordering = ('brand', 'model', 'owner',)
+    list_filter = ('brand', 'model', 'owner',)
 
     def capacity(self, obj):
         return obj.engine.capacity

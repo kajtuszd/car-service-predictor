@@ -30,4 +30,5 @@ def car_brand_validator(brand, model):
 def unique_registration_validator(registration):
     Car = apps.get_model('cars.Car')
     if Car.objects.filter(registration=registration).exists():
-        raise ValidationError(f'Car with registration {registration} exists in database already')
+        raise ValidationError(f'Car with registration {registration} exists '
+                              f'in database already')
