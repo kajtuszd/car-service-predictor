@@ -1,4 +1,4 @@
-from .validators import car_brand_validator
+from .validators import car_brand_validator, unique_registration_validator
 import datetime
 from django.db import models
 from django.core.validators import RegexValidator
@@ -56,7 +56,8 @@ class Car(models.Model):
                                         r'^[A-Z]{2,3}[\s]{1}[0-9A-Z]{5,6}$',
                                         _("Please enter 2-3 letters, "
                                           "whitespace and 5-6 signs"),
-                                        'invalid')],
+                                        'invalid'),
+                                        unique_registration_validator],
                                     max_length=10, blank=True, null=True)
     mileage = models.PositiveIntegerField(_('Car mileage'), default=0,
                                           validators=[
