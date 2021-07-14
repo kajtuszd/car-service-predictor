@@ -1,3 +1,4 @@
+from .validators import car_brand_validator
 import datetime
 from django.db import models
 from django.core.validators import RegexValidator
@@ -56,12 +57,13 @@ class Car(models.Model):
                                         _("Please enter 2-3 letters, "
                                           "whitespace and 5-6 signs"),
                                         'invalid')],
-                                    max_length=10, blank=True, unique=True)
+                                    max_length=10, blank=True, null=True)
     mileage = models.PositiveIntegerField(_('Car mileage'), default=0,
                                           validators=[
                                               MinValueValidator(0),
                                               MaxValueValidator(1000000)])
-    engine = models.ForeignKey(Engine, on_delete=models.CASCADE, null=True, blank=False)
+    engine = models.ForeignKey(Engine, on_delete=models.CASCADE, null=True,
+                               blank=False)
 
     class Meta:
         verbose_name = _('car')
@@ -69,3 +71,7 @@ class Car(models.Model):
 
     def __str__(self):
         return f'{self.brand} {self.model}'
+
+    def save(self, *args, **kwargs):
+        self.brand, self.model = car_brand_validator(self.brand, self.model)
+        super(Car, self).save(*args, **kwargs)
