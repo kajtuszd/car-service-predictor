@@ -3,8 +3,8 @@ import factory.fuzzy
 import random
 import string
 
-from users.factories import CustomerFactory
 from .models import EngineType, return_current_year
+from users.factories import CustomerFactory
 
 
 class EngineFactory(factory.django.DjangoModelFactory):
@@ -29,7 +29,8 @@ class CarFactory(factory.django.DjangoModelFactory):
     owner = factory.SubFactory(CustomerFactory)
     brand = factory.fuzzy.FuzzyChoice(car_models.keys())
     model = factory.LazyAttribute(
-        lambda n: random.choice(n.car_models[n.brand]))
+        lambda n: random.choice(n.car_models[n.brand])
+        )
     production_year = factory.fuzzy.FuzzyInteger(1990, return_current_year())
     mileage = factory.fuzzy.FuzzyInteger(0, 1000000)
     engine = factory.SubFactory(EngineFactory)
