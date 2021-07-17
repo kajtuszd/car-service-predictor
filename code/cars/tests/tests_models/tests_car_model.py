@@ -1,7 +1,8 @@
 from django.test import TestCase
+from cars.models import Car, Engine
 from cars.factories import CarFactory
 from users.models import User, Customer
-from cars.models import Car, Engine
+from django.core.exceptions import ValidationError
 
 
 class CarCreationTests(TestCase):
@@ -19,6 +20,25 @@ class CarCreationTests(TestCase):
             self.assertIsNotNone(car.owner.pk)
             self.assertIsNotNone(car.engine.id)
             self.assertIsNotNone(car.id)
+
+    def test_invalid_car_brand_not_saved(self):
+        invalid_car = CarFactory()
+        invalid_car.brand = "Notexist"
+        with self.assertRaises(ValidationError):
+            invalid_car.save()
+
+    def test_invalid_car_model_for_brand_not_saved(self):
+        invalid_car = CarFactory()
+        invalid_car.model = "Notexist"
+        with self.assertRaises(ValidationError):
+            invalid_car.save()
+
+    def test_car_with_not_unique_registration_not_saved(self):
+        car1 = CarFactory()
+        car2 = CarFactory()
+        car1.registration = car2.registration
+        with self.assertRaises(ValidationError):
+            car1.save()
 
 
 class CarDeletionTests(TestCase):
@@ -45,7 +65,9 @@ class CarDeletionTests(TestCase):
         self.car.owner.user.delete()
         self.assertFalse(Customer.objects.filter(pk=self.car.owner.pk).exists())
         self.assertTrue(Engine.objects.filter(id=self.car.engine.id).exists())
-        self.assertFalse(User.objects.filter(id=self.car.owner.user.id).exists())
+        self.assertFalse(
+            User.objects.filter(id=self.car.owner.user.id).exists()
+        )
         self.assertFalse(Car.objects.filter(id=self.car.id).exists())
 
     def test_delete_engine_and_car_by_cascade(self):
@@ -54,3 +76,13 @@ class CarDeletionTests(TestCase):
         self.assertFalse(Engine.objects.filter(id=self.car.engine.id).exists())
         self.assertTrue(User.objects.filter(id=self.car.owner.user.id).exists())
         self.assertFalse(Car.objects.filter(id=self.car.id).exists())
+
+
+class CarModelTests(TestCase):
+
+    def setUp(self):
+        self.car = CarFactory()
+
+    def test_car_str_method(self):
+        self.assertEquals(self.car.__str__(),
+                          f'{self.car.brand} {self.car.model}')

@@ -1,6 +1,5 @@
 from django.test import TestCase
 from cars.factories import EngineFactory
-from cars.models import Car, Engine
 
 
 class EngineCreationTests(TestCase):

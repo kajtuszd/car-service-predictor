@@ -1,7 +1,6 @@
-from django.core.exceptions import ValidationError
 import json
+from django.core.exceptions import ValidationError
 import requests
-from django.apps import apps
 
 
 def car_brand_validator(brand, model):
@@ -25,10 +24,3 @@ def car_brand_validator(brand, model):
 
     return found_models.get('Make_Name').capitalize(), found_models.get(
         'Model_Name')
-
-
-def unique_registration_validator(registration):
-    Car = apps.get_model('cars.Car')
-    if Car.objects.filter(registration=registration).exists():
-        raise ValidationError(f'Car with registration {registration} exists '
-                              f'in database already')
