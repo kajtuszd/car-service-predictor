@@ -1,8 +1,11 @@
-from django.test import TestCase
-from cars.models import Car, Engine
+import datetime
+
+from cars.models import Car, Engine, return_current_year
 from cars.factories import CarFactory
 from users.models import User, Customer
+
 from django.core.exceptions import ValidationError
+from django.test import TestCase
 
 
 class CarCreationTests(TestCase):
@@ -86,3 +89,6 @@ class CarModelTests(TestCase):
     def test_car_str_method(self):
         self.assertEquals(self.car.__str__(),
                           f'{self.car.brand} {self.car.model}')
+
+    def test_method_returning_current_year(self):
+        self.assertEquals(datetime.date.today().year, return_current_year())

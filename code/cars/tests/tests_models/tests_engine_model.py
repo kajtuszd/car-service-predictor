@@ -13,6 +13,16 @@ class EngineCreationTests(TestCase):
             self.assertIsNotNone(engine.id)
 
 
+class EngineDeletionTests(TestCase):
+
+    def setUp(self):
+        self.engine = EngineFactory()
+
+    def test_save_engine_object(self):
+        self.engine.delete()
+        self.assertIsNone(self.engine.id)
+
+
 class EngineModelTests(TestCase):
 
     def setUp(self):
