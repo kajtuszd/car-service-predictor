@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Car, Engine
+from .models import Car, Engine, CarPartCategory
 
 
 class CustomCarAdmin(admin.ModelAdmin):
@@ -28,5 +28,13 @@ class CustomEngineAdmin(admin.ModelAdmin):
     list_filter = ('engine_type',)
 
 
+class CarPartCategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'drive_type',)
+    search_fields = ('name',)
+    ordering = ('name', 'drive_type',)
+    list_filter = ('drive_type',)
+
+
 admin.site.register(Car, CustomCarAdmin)
 admin.site.register(Engine, CustomEngineAdmin)
+admin.site.register(CarPartCategory, CarPartCategoryAdmin)

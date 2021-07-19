@@ -43,6 +43,19 @@ class Engine(models.Model):
         return f'{self.engine_type} {self.horsepower}HP {self.capacity}'
 
 
+class CarPartCategory(models.Model):
+    name = models.CharField(_('Part name'), max_length=30, unique=True)
+    drive_type = models.CharField(_('Only for drive type'), max_length=20,
+                                   choices=EngineType.TYPES, blank=True) 
+
+    class Meta:
+        verbose_name = _('car part category')
+        verbose_name_plural = _('car part categories')
+
+    def __str__(self):
+        return f'{self.name}'
+
+
 class Car(models.Model):
     owner = models.ForeignKey('users.Customer', on_delete=models.CASCADE,
                               blank=False, null=True)
