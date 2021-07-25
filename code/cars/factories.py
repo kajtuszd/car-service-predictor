@@ -1,10 +1,11 @@
-import factory
-import factory.fuzzy
 import random
 import string
 
-from .models import EngineType, return_current_year
+import factory
+import factory.fuzzy
 from users.factories import CustomerFactory
+
+from .models import EngineType, return_current_year
 
 
 class EngineFactory(factory.django.DjangoModelFactory):

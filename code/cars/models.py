@@ -1,11 +1,12 @@
 import datetime
-from django.db import models
-from django.core.validators import RegexValidator
-from django.utils.translation import ugettext_lazy as _
+
 from django.core.validators import (MaxValueValidator, MinValueValidator,
                                     RegexValidator)
-from .validators import car_brand_validator, no_future_validator, \
-    no_past_validator
+from django.db import models
+from django.utils.translation import ugettext_lazy as _
+
+from .validators import (car_brand_validator, no_future_validator,
+                         no_past_validator)
 
 
 def return_current_year():
@@ -54,7 +55,9 @@ class CarPartCategory(models.Model):
         verbose_name_plural = _('car part categories')
 
     def __str__(self):
-        return f'{self.name}'
+        if self.drive_type == '':
+            return f'{self.name}' 
+        return f'{self.name} ({self.drive_type})'
 
 
 class CarPart(models.Model):
@@ -113,6 +116,7 @@ class Car(models.Model):
                                               MaxValueValidator(1000000)])
     engine = models.ForeignKey(Engine, on_delete=models.CASCADE, null=True,
                                blank=False)
+    parts = models.ManyToManyField(CarPart, blank=True)
 
     class Meta:
         verbose_name = _('car')

@@ -1,11 +1,10 @@
 import datetime
 
-from cars.models import Car, Engine, return_current_year
 from cars.factories import CarFactory
-from users.models import User, Customer
-
+from cars.models import Car, Engine, return_current_year
 from django.core.exceptions import ValidationError
 from django.test import TestCase
+from users.models import Customer, User
 
 
 class CarCreationTests(TestCase):

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Car, Engine, CarPart, CarPartCategory
+
+from .models import Car, CarPart, CarPartCategory, Engine
 
 
 class CustomCarAdmin(admin.ModelAdmin):
