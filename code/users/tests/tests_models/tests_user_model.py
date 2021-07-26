@@ -1,8 +1,9 @@
 from django.db import IntegrityError
-from django.test import TestCase
+from django.test import TestCase, tag
 from users.factories import UserFactory
 
 
+@tag('user')
 class UserModelTests(TestCase):
 
     def setUp(self):

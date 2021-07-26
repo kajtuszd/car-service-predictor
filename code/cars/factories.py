@@ -17,6 +17,21 @@ class EngineFactory(factory.django.DjangoModelFactory):
         model = 'cars.Engine'
 
 
+class CarPartCategoryFactory(factory.django.DjangoModelFactory):
+    car_part_categories = {'Gearbox': '',
+                           'Batteries': 'Hybrid',
+                           'Timing belt': '',
+                           'Spark plugs': 'Petrol',
+                           'Glow plugs': 'Diesel'
+                           }
+    name = factory.Iterator(car_part_categories.keys())
+    drive_type = factory.LazyAttribute(lambda a: a.car_part_categories[a.name])
+
+    class Meta:
+        model = 'cars.CarPartCategory'
+        exclude = ('car_part_categories',)
+
+
 class CarFactory(factory.django.DjangoModelFactory):
     car_models = {'BMW': ['128i', '328i', 'X5', 'M6'],
                   'Volkswagen': ['Passat', 'Golf', 'Touareg', 'Jetta'],

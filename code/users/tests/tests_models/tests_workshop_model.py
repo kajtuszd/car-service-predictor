@@ -1,8 +1,9 @@
-from django.test import TestCase
+from django.test import TestCase, tag
 from users.factories import WorkshopFactory
 from users.models import User, Workshop
 
 
+@tag('workshop')
 class WorkshopCreationTests(TestCase):
 
     def setUp(self):
@@ -25,6 +26,7 @@ class WorkshopCreationTests(TestCase):
         self.assertFalse(Workshop.objects.filter(pk=self.workshop.pk).exists())
 
 
+@tag('workshop')
 class WorkshopModelTests(TestCase):
 
     def setUp(self):

@@ -1,20 +1,18 @@
 import datetime
 
-from django.test import tag
-
 from cars.factories import CarFactory
 from cars.models import Car, Engine, return_current_year
 from django.core.exceptions import ValidationError
-from django.test import TestCase
+from django.test import TestCase, tag
 from users.models import Customer, User
 
 
+@tag('car')
 class CarCreationTests(TestCase):
 
     def setUp(self):
         self.cars = CarFactory.build_batch(3)
 
-    @tag('slow')
     def test_save_car_object(self):
         for car in self.cars:
             car.owner.user.save()
@@ -52,6 +50,7 @@ class CarCreationTests(TestCase):
         self.assertIsNotNone(car2.id)
 
 
+@tag('car')
 class CarDeletionTests(TestCase):
 
     def setUp(self):
@@ -89,6 +88,7 @@ class CarDeletionTests(TestCase):
         self.assertFalse(Car.objects.filter(id=self.car.id).exists())
 
 
+@tag('car')
 class CarModelTests(TestCase):
 
     def setUp(self):
