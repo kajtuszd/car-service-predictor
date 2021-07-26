@@ -3,6 +3,7 @@ import datetime
 from django.core.validators import (MaxValueValidator, MinValueValidator,
                                     RegexValidator)
 from django.db import models
+from django.db.models import UniqueConstraint
 from django.utils.translation import ugettext_lazy as _
 
 from .validators import (car_brand_validator, no_future_validator,
@@ -46,17 +47,21 @@ class Engine(models.Model):
 
 
 class CarPartCategory(models.Model):
-    name = models.CharField(_('Part name'), max_length=30, unique=True)
+    name = models.CharField(_('Part name'), max_length=30)
     drive_type = models.CharField(_('Only for drive type'), max_length=20,
                                   choices=EngineType.TYPES, blank=True)
 
     class Meta:
         verbose_name = _('car part category')
         verbose_name_plural = _('car part categories')
+        constraints = [
+            UniqueConstraint(fields=["name", "drive_type"],
+                             name="unique_part_category")
+        ]
 
     def __str__(self):
         if self.drive_type == '':
-            return f'{self.name}' 
+            return f'{self.name}'
         return f'{self.name} ({self.drive_type})'
 
 
@@ -73,7 +78,7 @@ class CarPart(models.Model):
     fix_every_mileage = models.PositiveIntegerField(
         _('Service needed every - mileage'),
         validators=[MinValueValidator(0), MaxValueValidator(1000000)],
-        )
+    )
     next_fix_date = models.DateTimeField(_('Next service date'),
                                          validators=[no_past_validator],
                                          blank=True, null=True)
