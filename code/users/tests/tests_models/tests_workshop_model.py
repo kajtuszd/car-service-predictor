@@ -35,4 +35,3 @@ class WorkshopModelTests(TestCase):
     def test_str_method(self):
         for workshop in self.workshops:
             self.assertEquals(workshop.__str__(), f'{workshop.workshop_name}')
-

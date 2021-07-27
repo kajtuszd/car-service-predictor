@@ -1,7 +1,7 @@
 import datetime
 
-from cars.factories import CarFactory
-from cars.models import Car, Engine, return_current_year
+from cars.factories import CarFactory, CarPartFactory
+from cars.models import Car, CarPart, Engine, return_current_year
 from django.core.exceptions import ValidationError
 from django.test import TestCase, tag
 from users.models import Customer, User
@@ -45,7 +45,7 @@ class CarCreationTests(TestCase):
 
     def test_multiple_cars_with_empty_registration_saved_correctly(self):
         car1 = CarFactory(registration=None)
-        car2 = CarFactory(registration=None)    
+        car2 = CarFactory(registration=None)
         self.assertIsNotNone(car1.id)
         self.assertIsNotNone(car2.id)
 
@@ -100,3 +100,35 @@ class CarModelTests(TestCase):
 
     def test_method_returning_current_year(self):
         self.assertEquals(datetime.date.today().year, return_current_year())
+
+
+@tag('car')
+class CarPartsTests(TestCase):
+
+    def setUp(self):
+        self.car = CarFactory.create(
+            parts=tuple(CarPartFactory.create_batch(5)))
+
+    def test_car_parts_generation(self):
+        self.assertIsNotNone(self.car.id)
+        for part in self.car.parts.all():
+            self.assertIsNotNone(part.id)
+
+    def test_car_parts_deletion(self):
+        for part in self.car.parts.all():
+            part.delete()
+            self.assertFalse(CarPart.objects.filter(id=part.id).exists())
+        self.assertIsNotNone(self.car.id)
+
+    def test_car_deletion(self):
+        parts = self.car.parts.all()
+        self.car.delete()
+        for part in parts:
+            self.assertTrue(CarPart.objects.filter(id=part.id).exists())
+        self.assertIsNone(self.car.id)
+
+    def test_car_part_chosen_drive_type_same_as_engine_type(self):
+        for part in self.car.parts.all():
+            if part.category.drive_type != '':
+                self.assertEquals(part.category.drive_type,
+                                  self.car.engine.engine_type)
