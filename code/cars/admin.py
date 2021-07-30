@@ -31,13 +31,13 @@ class CustomEngineAdmin(admin.ModelAdmin):
 
 class CarPartAdmin(admin.ModelAdmin):
     list_display = (
-        'category', 'latest_fix_date', 'latest_fix_mileage', 'fix_every_period',
-        'fix_every_mileage',)
-    search_fields = ('category', 'latest_fix_date',)
+        'category', 'car', 'latest_fix_date', 'latest_fix_mileage',
+        'fix_every_period', 'fix_every_mileage',)
+    search_fields = ('category', 'car', 'latest_fix_date',)
     ordering = (
-        'category', 'latest_fix_date', 'latest_fix_mileage', 'fix_every_period',
-        'fix_every_mileage',)
-    list_filter = ('category',)
+        'category', 'car', 'latest_fix_date', 'latest_fix_mileage',
+        'fix_every_period', 'fix_every_mileage',)
+    list_filter = ('category', 'car',)
 
 
 class CarPartCategoryAdmin(admin.ModelAdmin):
