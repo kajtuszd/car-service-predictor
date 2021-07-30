@@ -1,13 +1,13 @@
 import datetime
 
-from cars.models import Car, Engine, return_current_year
-from cars.factories import CarFactory
-from users.models import User, Customer
-
+from cars.factories import CarFactory, CarPartFactory
+from cars.models import Car, CarPart, Engine, return_current_year
 from django.core.exceptions import ValidationError
-from django.test import TestCase
+from django.test import TestCase, tag
+from users.models import Customer, User
 
 
+@tag('car')
 class CarCreationTests(TestCase):
 
     def setUp(self):
@@ -43,7 +43,14 @@ class CarCreationTests(TestCase):
         with self.assertRaises(ValidationError):
             car1.save()
 
+    def test_multiple_cars_with_empty_registration_saved_correctly(self):
+        car1 = CarFactory(registration=None)
+        car2 = CarFactory(registration=None)
+        self.assertIsNotNone(car1.id)
+        self.assertIsNotNone(car2.id)
 
+
+@tag('car')
 class CarDeletionTests(TestCase):
 
     def setUp(self):
@@ -81,6 +88,7 @@ class CarDeletionTests(TestCase):
         self.assertFalse(Car.objects.filter(id=self.car.id).exists())
 
 
+@tag('car')
 class CarModelTests(TestCase):
 
     def setUp(self):

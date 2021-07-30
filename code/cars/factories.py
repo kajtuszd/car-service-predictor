@@ -1,19 +1,38 @@
-import factory
-import factory.fuzzy
 import random
 import string
+from datetime import datetime
+
+import factory
+import factory.fuzzy
+from django.utils import timezone
+from users.factories import CustomerFactory
 
 from .models import EngineType, return_current_year
-from users.factories import CustomerFactory
 
 
 class EngineFactory(factory.django.DjangoModelFactory):
     capacity = factory.fuzzy.FuzzyDecimal(0.7, 6.0, 1)
     horsepower = factory.fuzzy.FuzzyInteger(20, 1000)
-    engine_type = factory.fuzzy.FuzzyChoice(EngineType.TYPES[0])
+    engine_type = factory.fuzzy.FuzzyChoice([i[0] for i in EngineType.TYPES])
 
     class Meta:
         model = 'cars.Engine'
+
+
+class CarPartCategoryFactory(factory.django.DjangoModelFactory):
+    car_part_categories = {'Gearbox': 'LPG',
+                           'Batteries': 'Hybrid',
+                           'Timing belt': '',
+                           'Spark plugs': 'Petrol',
+                           'Glow plugs': 'Diesel',
+                           'Engine oil': ''
+                           }
+    name = factory.Iterator(car_part_categories.keys())
+    drive_type = factory.LazyAttribute(lambda a: a.car_part_categories[a.name])
+
+    class Meta:
+        model = 'cars.CarPartCategory'
+        exclude = ('car_part_categories',)
 
 
 class CarFactory(factory.django.DjangoModelFactory):
@@ -30,7 +49,7 @@ class CarFactory(factory.django.DjangoModelFactory):
     brand = factory.fuzzy.FuzzyChoice(car_models.keys())
     model = factory.LazyAttribute(
         lambda n: random.choice(n.car_models[n.brand])
-        )
+    )
     production_year = factory.fuzzy.FuzzyInteger(1990, return_current_year())
     mileage = factory.fuzzy.FuzzyInteger(0, 1000000)
     engine = factory.SubFactory(EngineFactory)
@@ -50,3 +69,26 @@ class CarFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = 'cars.Car'
         exclude = ('car_models',)
+
+
+class CarPartFactory(factory.django.DjangoModelFactory):
+    category = factory.SubFactory(CarPartCategoryFactory)
+    latest_fix_date = factory.fuzzy.FuzzyDateTime(
+        datetime(return_current_year(), 1, 1, tzinfo=timezone.now().tzinfo)
+        )
+    latest_fix_mileage = factory.fuzzy.FuzzyInteger(20, 1000)
+    fix_every_period = factory.fuzzy.FuzzyInteger(20, 1000)
+    fix_every_mileage = factory.fuzzy.FuzzyInteger(20, 1000)
+    car = factory.SubFactory(CarFactory)
+
+    @factory.lazy_attribute
+    def choose_engine(self):
+        if self.category.drive_type == '':
+            choices = [i[0] for i in EngineType.TYPES]
+            self.car.engine.engine_type = random.choice(choices)
+        else:
+            self.car.engine.engine_type = self.category.drive_type
+
+    class Meta:
+        model = 'cars.CarPart'
+        exclude = ('choose_engine',)

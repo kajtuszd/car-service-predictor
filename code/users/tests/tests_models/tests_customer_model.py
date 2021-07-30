@@ -1,8 +1,9 @@
-from django.test import TestCase
+from django.test import TestCase, tag
 from users.factories import CustomerFactory
-from users.models import User, Customer
+from users.models import Customer, User
 
 
+@tag('customer')
 class CustomerCreationTests(TestCase):
 
     def setUp(self):
@@ -25,6 +26,7 @@ class CustomerCreationTests(TestCase):
         self.assertFalse(Customer.objects.filter(pk=self.customer.pk).exists())
 
 
+@tag('customer')
 class CustomerModelTests(TestCase):
 
     def setUp(self):

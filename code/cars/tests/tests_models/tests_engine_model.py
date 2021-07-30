@@ -1,7 +1,8 @@
-from django.test import TestCase
 from cars.factories import EngineFactory
+from django.test import TestCase, tag
 
 
+@tag('engine')
 class EngineCreationTests(TestCase):
 
     def setUp(self):
@@ -13,16 +14,18 @@ class EngineCreationTests(TestCase):
             self.assertIsNotNone(engine.id)
 
 
+@tag('engine')
 class EngineDeletionTests(TestCase):
 
     def setUp(self):
         self.engine = EngineFactory()
 
-    def test_save_engine_object(self):
+    def test_delete_engine_object(self):
         self.engine.delete()
         self.assertIsNone(self.engine.id)
 
 
+@tag('engine')
 class EngineModelTests(TestCase):
 
     def setUp(self):

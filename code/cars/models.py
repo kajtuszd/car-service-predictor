@@ -1,10 +1,13 @@
-from .validators import car_brand_validator
 import datetime
-from django.db import models
-from django.core.validators import RegexValidator
-from django.utils.translation import ugettext_lazy as _
+
 from django.core.validators import (MaxValueValidator, MinValueValidator,
                                     RegexValidator)
+from django.db import models
+from django.db.models import UniqueConstraint
+from django.utils.translation import ugettext_lazy as _
+
+from .validators import (car_brand_validator, no_future_validator,
+                         no_past_validator)
 
 
 def return_current_year():
@@ -43,6 +46,25 @@ class Engine(models.Model):
         return f'{self.engine_type} {self.horsepower}HP {self.capacity}'
 
 
+class CarPartCategory(models.Model):
+    name = models.CharField(_('Part name'), max_length=30)
+    drive_type = models.CharField(_('Only for drive type'), max_length=20,
+                                  choices=EngineType.TYPES, blank=True)
+
+    class Meta:
+        verbose_name = _('car part category')
+        verbose_name_plural = _('car part categories')
+        constraints = [
+            UniqueConstraint(fields=["name", "drive_type"],
+                             name="unique_part_category")
+        ]
+
+    def __str__(self):
+        if self.drive_type == '':
+            return f'{self.name}'
+        return f'{self.name} ({self.drive_type})'
+
+
 class Car(models.Model):
     owner = models.ForeignKey('users.Customer', on_delete=models.CASCADE,
                               blank=False, null=True)
@@ -58,7 +80,7 @@ class Car(models.Model):
                                         r'^[A-Z]{2,3}[\s]{1}[0-9A-Z]{5,6}$',
                                         _("Please enter 2-3 letters, "
                                           "whitespace and 5-6 signs"),
-                                        'invalid'),],
+                                        'invalid'), ],
                                     max_length=10, blank=True, null=True)
     mileage = models.PositiveIntegerField(_('Car mileage'), default=0,
                                           validators=[
@@ -77,3 +99,37 @@ class Car(models.Model):
     def save(self, *args, **kwargs):
         self.brand, self.model = car_brand_validator(self.brand, self.model)
         super(Car, self).save(*args, **kwargs)
+
+
+class CarPart(models.Model):
+    category = models.ForeignKey(CarPartCategory, on_delete=models.CASCADE)
+    latest_fix_date = models.DateTimeField(_('Latest service date'),
+                                           validators=[no_future_validator])
+    latest_fix_mileage = models.PositiveIntegerField(
+        _('Car mileage before latest service'),
+        validators=[MinValueValidator(0), MaxValueValidator(1000000)],
+    )
+    fix_every_period = models.PositiveIntegerField(
+        _('Service needed every - period'))
+    fix_every_mileage = models.PositiveIntegerField(
+        _('Service needed every - mileage'),
+        validators=[MinValueValidator(0), MaxValueValidator(1000000)],
+    )
+    next_fix_date = models.DateTimeField(_('Next service date'),
+                                         validators=[no_past_validator],
+                                         blank=True, null=True)
+    next_fix_mileage = models.PositiveIntegerField(
+        _('Mileage until next service'),
+        validators=[MinValueValidator(0), MaxValueValidator(1000000)],
+        blank=True, null=True
+    )
+    description = models.CharField(_('Car part description'), max_length=50,
+                                   blank=True, null=True)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, blank=False, null=True)
+
+    class Meta:
+        verbose_name = _('car part')
+        verbose_name_plural = _('car parts')
+
+    def __str__(self):
+        return f'{self.category}'
