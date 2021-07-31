@@ -6,7 +6,8 @@ from .models import Service
 class CustomServiceAdmin(admin.ModelAdmin):
     list_display = (
         'car_part', 'car', 'owner', 'cost', 'registration', 'date_start',
-        'date_finish', 'is_active', 'created_at', 'updated_at',)
+        'date_finish', 'is_active', 'created_at', 'updated_at',
+        )
     ordering = ('car_part', 'created_at', 'date_start', 'date_finish',)
     list_filter = ('car_part', 'is_active',)
 

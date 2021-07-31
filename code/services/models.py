@@ -1,5 +1,5 @@
 from cars.models import CarPart
-from cars.validators import no_future_validator, no_past_validator
+from cars.validators import no_past_validator
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -14,7 +14,7 @@ class Service(models.Model):
     date_start = models.DateTimeField(_('Start date'),
                                       validators=[no_past_validator])
     date_finish = models.DateTimeField(_('Finish date'),
-                                       validators=[no_future_validator])
+                                       validators=[no_past_validator])
     is_active = models.BooleanField(_('Is active'), default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
