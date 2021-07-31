@@ -6,6 +6,7 @@ import factory.fuzzy
 from cars.factories import CarPartFactory
 from cars.models import return_current_year
 from django.utils import timezone
+from users.factories import WorkshopFactory
 
 
 class ServiceFactory(factory.django.DjangoModelFactory):
@@ -18,11 +19,13 @@ class ServiceFactory(factory.django.DjangoModelFactory):
     )
     is_active = factory.fuzzy.FuzzyChoice([True, False])
     description = factory.Sequence(lambda n: 'description%d' % n)
+    workshop = factory.SubFactory(WorkshopFactory)
 
     @factory.lazy_attribute
     def date_finish(self):
         return self.date_start + timedelta(
-            minutes=random.randrange(10, 120, 10))
+                minutes=random.randrange(10, 120, 10)
+            )
 
     class Meta:
         model = 'services.Service'

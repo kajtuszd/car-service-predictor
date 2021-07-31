@@ -1,7 +1,7 @@
 import datetime
 
-from cars.factories import CarFactory, CarPartFactory
-from cars.models import Car, CarPart, Engine, return_current_year
+from cars.factories import CarFactory
+from cars.models import Car, Engine, return_current_year
 from django.core.exceptions import ValidationError
 from django.test import TestCase, tag
 from users.models import Customer, User

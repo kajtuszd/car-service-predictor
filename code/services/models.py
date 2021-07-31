@@ -3,6 +3,7 @@ from cars.validators import no_past_validator
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from users.models import Workshop
 
 
 class Service(models.Model):
@@ -19,6 +20,8 @@ class Service(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     description = models.CharField(_('Description'), max_length=100, blank=True)
+    workshop = models.ForeignKey(Workshop, on_delete=models.CASCADE,
+                                 blank=False, null=True)
 
     class Meta:
         verbose_name = _('service')

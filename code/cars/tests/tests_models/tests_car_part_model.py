@@ -1,4 +1,8 @@
+import random
+
 from cars.factories import CarPartFactory
+from cars.models import EngineType
+from django.core.exceptions import ValidationError
 from django.test import TestCase, tag
 
 
@@ -22,7 +26,7 @@ class CarPartCreationTests(TestCase):
             self.assertIsNotNone(part.car.owner.pk)
             self.assertIsNotNone(part.car.id)
             self.assertIsNotNone(part.id)
-    
+
 
 @tag('part')
 class CarPartDeletionTests(TestCase):
@@ -52,4 +56,13 @@ class CarPartModelTests(TestCase):
             if part.category.drive_type != '':
                 self.assertEquals(part.category.drive_type,
                                   part.car.engine.engine_type)
-    
+
+    def test_car_part_chosen_drive_type_different_than_engine_type(self):
+        for part in self.parts:
+            if part.category.drive_type != '':
+                choices = [i[0] for i in EngineType.TYPES]
+                choices.remove(str(part.category.drive_type))
+                part.car.engine.engine_type = random.choice(choices)
+                with self.assertRaises(ValidationError, msg='Invalid car drive'
+                                                            'or car part type'):
+                    part.save()
