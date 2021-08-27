@@ -34,4 +34,4 @@ class EngineModelTests(TestCase):
     def test_engine_str_method(self):
         for e in self.engines:
             self.assertEquals(e.__str__(),
-                            f'{e.engine_type} {e.horsepower}HP {e.capacity}')
+                              f'{e.engine_type} {e.horsepower}HP {e.capacity}')
