@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import User, Workshop, Customer
+
+from .models import Customer, User, Workshop
 
 
 class AccountSerializer(serializers.ModelSerializer):
