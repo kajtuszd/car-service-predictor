@@ -4,6 +4,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from users.models import Workshop
+from utils.slugs import generate_slug
 
 
 class Service(models.Model):
@@ -22,6 +23,8 @@ class Service(models.Model):
     description = models.CharField(_('Description'), max_length=100, blank=True)
     workshop = models.ForeignKey(Workshop, on_delete=models.CASCADE,
                                  blank=False, null=True)
+    slug = models.CharField(_('Slug'), default=generate_slug, max_length=10,
+                             unique=True, db_index=True, editable=False)
 
     class Meta:
         verbose_name = _('service')
