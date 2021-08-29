@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import Car, CarPart, CarPartCategory, Engine
 
 
-class AccountSerializer(serializers.ModelSerializer):
+class EngineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Engine
         fields = '__all__'
@@ -13,7 +13,7 @@ class AccountSerializer(serializers.ModelSerializer):
         }
 
 
-class AccountSerializer(serializers.ModelSerializer):
+class CarPartCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = CarPartCategory
         fields = '__all__'
@@ -23,7 +23,7 @@ class AccountSerializer(serializers.ModelSerializer):
         }
 
 
-class AccountSerializer(serializers.ModelSerializer):
+class CarPartSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarPart
         fields = '__all__'
@@ -33,7 +33,7 @@ class AccountSerializer(serializers.ModelSerializer):
         }
 
 
-class AccountSerializer(serializers.ModelSerializer):
+class CarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Car
         fields = '__all__'
