@@ -5,6 +5,8 @@ from django.core.validators import (MaxValueValidator, MinValueValidator,
 from django.db import models
 from django.db.models import UniqueConstraint
 from django.utils.translation import ugettext_lazy as _
+from django_extensions.db.fields import AutoSlugField
+from utils.slugs import generate_slug, append_slug
 
 from .validators import (car_brand_validator, no_future_validator,
                          no_past_validator)
@@ -37,6 +39,8 @@ class Engine(models.Model):
                                                  MinValueValidator(20)])
     engine_type = models.CharField(_('Engine type'), max_length=20,
                                    choices=EngineType.TYPES)
+    slug = models.CharField(_('Slug'), default=generate_slug, max_length=10,
+                             unique=True, db_index=True, editable=False)
 
     class Meta:
         verbose_name = _('engine')
@@ -50,6 +54,8 @@ class CarPartCategory(models.Model):
     name = models.CharField(_('Part name'), max_length=30)
     drive_type = models.CharField(_('Only for drive type'), max_length=20,
                                   choices=EngineType.TYPES, blank=True)
+    slug = models.CharField(_('Slug'), default=generate_slug, max_length=10,
+                             unique=True, db_index=True, editable=False)
 
     class Meta:
         verbose_name = _('car part category')
@@ -88,6 +94,8 @@ class Car(models.Model):
                                               MaxValueValidator(1000000)])
     engine = models.ForeignKey(Engine, on_delete=models.CASCADE, null=True,
                                blank=False)
+    slug = AutoSlugField(populate_from=['brand', 'model'], db_index=True,
+                                unique=True, slugify_function=append_slug)
 
     class Meta:
         verbose_name = _('car')
@@ -126,6 +134,8 @@ class CarPart(models.Model):
     description = models.CharField(_('Car part description'), max_length=50,
                                    blank=True, null=True)
     car = models.ForeignKey(Car, on_delete=models.CASCADE, blank=False, null=True)
+    slug = models.CharField(_('Slug'), default=generate_slug, max_length=10,
+                             unique=True, db_index=True, editable=False)
 
     class Meta:
         verbose_name = _('car part')
