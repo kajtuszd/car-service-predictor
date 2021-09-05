@@ -24,3 +24,12 @@ services:
    - ./code:/code
   entrypoint: "bash /code/docker-entrypoint.sh"
   command: "runserver 0.0.0.0:8000"
+
+ front:
+  build: ./front
+  container_name: front
+  volumes:
+   - './front:/app'
+   - '/app/node_modules'
+  ports:
+   - '8081:8080'
