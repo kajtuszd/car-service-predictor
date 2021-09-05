@@ -1,3 +1,11 @@
-from django.shortcuts import render
+from .models import Service
+from .serializers import ServiceSerializer
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
-# Create your views here.
+
+class ServiceViewSet(viewsets.ModelViewSet):
+    serializer_class = ServiceSerializer
+    queryset = Service.objects.all()
+    lookup_field = 'slug'
+    permissions_classes = [IsAuthenticated]
