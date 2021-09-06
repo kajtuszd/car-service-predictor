@@ -9,7 +9,7 @@ services:
    - .env
 
  webapp:
-  build: ./code
+  build: ./back
   container_name: webapp
   restart: unless-stopped
   ports:
@@ -21,8 +21,8 @@ services:
   links:
    - db:db
   volumes:
-   - ./code:/code
-  entrypoint: "bash /code/docker-entrypoint.sh"
+   - ./back:/back
+  entrypoint: "bash /back/docker-entrypoint.sh"
   command: "runserver 0.0.0.0:8000"
 
  front:
