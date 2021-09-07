@@ -7,6 +7,8 @@ services:
   container_name: database
   env_file:
    - .env
+  networks:
+   - backend_network
 
  webapp:
   build: ./back
@@ -24,6 +26,9 @@ services:
    - ./back:/back
   entrypoint: "bash /back/docker-entrypoint.sh"
   command: "runserver 0.0.0.0:8000"
+  networks: 
+   - nginx_network
+   - backend_network
 
  front:
   build: ./front
@@ -33,3 +38,13 @@ services:
    - '/app/node_modules'
   ports:
    - '8081:8080'
+  networks:
+   - nginx_network
+  depends_on:
+   - db
+
+networks:
+ nginx_network:
+  driver: bridge
+ backend_network:
+  driver: bridge
