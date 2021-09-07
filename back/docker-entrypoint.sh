@@ -3,8 +3,8 @@
 ownership() {
     # Fixes files ownership
     # source: https://github.com/BD2KGenomics/cgl-docker-lib/blob/master/mutect/runtime/wrapper.sh#L5
-    user_id=$(stat -c '%u:%g' /code)
-    chown -R ${user_id} /code
+    user_id=$(stat -c '%u:%g' /back)
+    chown -R ${user_id} /back
 }
 
 echo ''

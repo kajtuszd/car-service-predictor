@@ -7,9 +7,11 @@ services:
   container_name: database
   env_file:
    - .env
+  networks:
+   - backend_network
 
  webapp:
-  build: ./code
+  build: ./back
   container_name: webapp
   restart: unless-stopped
   ports:
@@ -21,6 +23,28 @@ services:
   links:
    - db:db
   volumes:
-   - ./code:/code
-  entrypoint: "bash /code/docker-entrypoint.sh"
+   - ./back:/back
+  entrypoint: "bash /back/docker-entrypoint.sh"
   command: "runserver 0.0.0.0:8000"
+  networks: 
+   - nginx_network
+   - backend_network
+
+ front:
+  build: ./front
+  container_name: front
+  volumes:
+   - './front:/app'
+   - '/app/node_modules'
+  ports:
+   - '8081:8080'
+  networks:
+   - nginx_network
+  depends_on:
+   - db
+
+networks:
+ nginx_network:
+  driver: bridge
+ backend_network:
+  driver: bridge
