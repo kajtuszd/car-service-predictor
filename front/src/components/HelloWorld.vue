@@ -1,7 +1,6 @@
 <template>
     <div>
         Hello
-        <button v-on:click="getCars()">Get cars</button>
         <div v-for="car in results" v-bind:key="car.slug">
             {{ car.brand }} {{ car.model }}
         </div>
@@ -19,9 +18,9 @@ export default {
         }
     },
 
-    // mounted() {
-    //     this.getCars()
-    // },
+    mounted() {
+        this.getCars()
+    },
 
     methods: {
         getCars() {
