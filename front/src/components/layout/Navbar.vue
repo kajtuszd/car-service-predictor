@@ -2,7 +2,9 @@
     <nav class="navbar is-dark">
         <div class="navbar-brand">
             <router-link to="/" class="navbar-item">
-                <strong>Car Service Predictor</strong>
+                <strong>
+                    Car Service Predictor
+                </strong>
             </router-link>
         </div>
 
@@ -24,3 +26,9 @@
         name: 'Navbar',
     }
 </script>
+
+<style>
+.button {
+    transition: 0.5s;
+}
+</style>
