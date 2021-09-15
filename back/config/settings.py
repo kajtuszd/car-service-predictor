@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'users',
     'services',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
+    'djoser',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -80,9 +82,12 @@ TEMPLATES = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ]
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
 }
 
 WSGI_APPLICATION = 'config.wsgi.application'
