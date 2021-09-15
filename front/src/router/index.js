@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import SignUp from '../views/SignUp.vue'
 import LogIn from '../views/LogIn.vue'
 import Profile from '../views/Profile.vue'
+import store from '../store'
 
 const routes = [
   {
@@ -28,13 +29,25 @@ const routes = [
   {
     path: '/profile',
     name: 'Profile',
-    component: Profile
+    component: Profile,
+    meta: {
+        loginRequired: true,
+    }
   },
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.loginRequired)
+        && store.state.isAuthenticated === false) {
+            next('/log-in')
+        } else {
+            next()
+        }
 })
 
 export default router

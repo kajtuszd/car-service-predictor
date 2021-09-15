@@ -21,6 +21,7 @@
         },
         beforeCreate() {
             this.$store.commit('startStore')
+
             if (this.$store.state.token) {
                 let token = "Token " + this.$store.state.token
                 axios.defaults.headers.common['Authorization'] = token

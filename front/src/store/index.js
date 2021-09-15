@@ -19,7 +19,7 @@ export default createStore({
         setLoadingStatus(state, status) {
             state.isLoading = status
         },
-        setIsAuthenticatedStatus(state, authToken) {
+        setAuthToken(state, authToken) {
             state.authToken = authToken
             state.isAuthenticated = true
         },
