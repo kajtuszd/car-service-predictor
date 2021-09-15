@@ -7,15 +7,21 @@
                 <form>
                     <div class="field">
                         <label>Email</label>
-                        <div class="control">
+                        <div class="control has-icons-left">
                             <input type="email" name="email" class="input">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-at"></i>
+                            </span>
                         </div>
                     </div>
 
                     <div class="field">
                         <label>Password</label>
-                        <div class="control">
+                        <div class="control has-icons-left">
                             <input type="password" name="password1" class="input">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-lock"></i>
+                            </span>
                         </div>
                     </div>
 
