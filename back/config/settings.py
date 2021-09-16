@@ -92,6 +92,7 @@ REST_FRAMEWORK = {
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+AUTHENTICATION_BACKENDS = ['users.backends.EmailBackend']
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

@@ -109,6 +109,7 @@
                                     dismissible: true,
                                     pauseOnHover: true,
                                     position: 'top-center',
+                                    animate: { in: 'fadeIn', out: 'fadeOut' },
                                 }
                             )
 
