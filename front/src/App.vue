@@ -1,27 +1,38 @@
 <template>
-  <div id="app">
-    <HelloWorld />
-  </div>
+    <div>
+        <Navbar />
+        <div class="section">
+            <router-view/>
+        </div>
+        <Footer />
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+    import Navbar from './components/layout/Navbar.vue'
+    import Footer from './components/layout/Footer.vue'
+    import axios from 'axios'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+    export default {
+        name: 'App',
+        components: {
+            Navbar,
+            Footer,
+        },
+        beforeCreate() {
+            this.$store.commit('startStore')
+
+            if (this.$store.state.token) {
+                let token = "Token " + this.$store.state.token
+                axios.defaults.headers.common['Authorization'] = token
+            } else {
+                axios.defaults.headers.common['Authorization'] = ""
+            }
+        }
+    }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
+<style lang="scss">
+@import '../node_modules/bulma';
 </style>

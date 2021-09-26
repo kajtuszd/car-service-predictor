@@ -1,11 +1,11 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
+import router from './router'
+import store from './store'
 import axios from 'axios'
-
-Vue.config.productionTip = false
+import '@fortawesome/fontawesome-free/css/all.css'
+import '@fortawesome/fontawesome-free/js/all.js'
 
 axios.defaults.baseURL = 'http://0.0.0.0:8000/api/'
 
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+createApp(App).use(store).use(router, axios).mount('#app')
