@@ -69,7 +69,7 @@
                     }
 
                     axios
-                        .post('auth/token/login', logInData)
+                        .post('auth/token/login/', logInData)
                         .then(response => {
                             const authToken = response.data.auth_token 
                             this.$store.commit('setAuthToken', authToken)
