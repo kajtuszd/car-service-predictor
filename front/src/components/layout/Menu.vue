@@ -1,7 +1,7 @@
 <template>
     <div class="columns">
         <div class="column">
-            <div class="card">
+            <div class="card" @click="redirectToCarOwner">
                 <div class="card-image">
                     <figure class="image is-4by3">
                         <img src="https://picsum.photos/3000" alt="Car owner image">
@@ -16,7 +16,7 @@
         </div>
 
         <div class="column">
-            <div class="card">
+            <div class="card" @click="redirectToWorkshop">
                 <div class="card-image">
                     <figure class="image is-4by3">
                         <img src="https://picsum.photos/2000" alt="Workshop image">
@@ -36,5 +36,13 @@
 <script>
     export default {
         name: 'Menu',
+        methods: {
+            redirectToCarOwner() {
+                return this.$router.push('/profile/car-owner');
+            },
+            redirectToWorkshop() {
+                return this.$router.push('/profile/workshop');
+            },
+        }
     }
 </script>

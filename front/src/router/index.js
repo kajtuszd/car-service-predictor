@@ -3,6 +3,8 @@ import Home from '../views/Home.vue'
 import SignUp from '../views/SignUp.vue'
 import LogIn from '../views/LogIn.vue'
 import Profile from '../views/Profile.vue'
+import Workshop from '../views/Workshop.vue'
+import CarOwner from '../views/CarOwner.vue'
 import store from '../store'
 
 const routes = [
@@ -30,6 +32,22 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: Profile,
+    meta: {
+        loginRequired: true,
+    }
+  },
+  {
+    path: '/profile/workshop',
+    name: 'Workshop',
+    component: Workshop,
+    meta: {
+        loginRequired: true,
+    }
+  },
+  {
+    path: '/profile/car-owner',
+    name: 'CarOwner',
+    component: CarOwner,
     meta: {
         loginRequired: true,
     }

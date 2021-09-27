@@ -2,7 +2,6 @@ import { createStore } from 'vuex'
 
 export default createStore({
     state: {
-        isLoading: false,
         isAuthenticated: false,
         authToken: '',
     },
@@ -15,9 +14,6 @@ export default createStore({
                 state.authToken = ''
                 state.isAuthenticated = false
             }
-        },
-        setLoadingStatus(state, status) {
-            state.isLoading = status
         },
         setAuthToken(state, authToken) {
             state.authToken = authToken
