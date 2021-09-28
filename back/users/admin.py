@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import Customer, User, Workshop
+from .models import User, Workshop
 
 
 class CustomUserAdmin(UserAdmin):
@@ -25,12 +25,5 @@ class CustomWorkshopAdmin(admin.ModelAdmin):
     ordering = ('workshop_name', 'user',)
 
 
-class CustomCustomerAdmin(admin.ModelAdmin):
-    search_fields = ('user',)
-    list_display = ('user',)
-    ordering = ('user',)
-
-
 admin.site.register(User, CustomUserAdmin)
-admin.site.register(Customer, CustomCustomerAdmin)
 admin.site.register(Workshop, CustomWorkshopAdmin)

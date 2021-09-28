@@ -5,7 +5,7 @@ from datetime import datetime
 import factory
 import factory.fuzzy
 from django.utils import timezone
-from users.factories import CustomerFactory
+from users.factories import UserFactory
 
 from .models import EngineType, return_current_year
 
@@ -46,7 +46,7 @@ class CarFactory(factory.django.DjangoModelFactory):
                   'Jeep': ['Wrangler', 'Grand Cherokee', 'Renegade', 'Compass'],
                   }
 
-    owner = factory.SubFactory(CustomerFactory)
+    owner = factory.SubFactory(UserFactory)
     brand = factory.fuzzy.FuzzyChoice(car_models.keys())
     model = factory.LazyAttribute(
         lambda n: random.choice(n.car_models[n.brand])

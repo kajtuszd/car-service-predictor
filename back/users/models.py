@@ -42,18 +42,6 @@ class User(AbstractUser):
         return f'{self.first_name} {self.last_name}'
 
 
-class Customer(models.Model):
-    user = models.OneToOneField('users.User', on_delete=models.CASCADE,
-                                primary_key=True)
-
-    class Meta:
-        verbose_name = _('customer')
-        verbose_name_plural = _('customers')
-
-    def __str__(self):
-        return f'{self.user.first_name} {self.user.last_name}'
-
-
 class Workshop(models.Model):
     workshop_name = models.CharField(_('Workshop name'), max_length=30,
                                      unique=True, null=True)

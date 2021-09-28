@@ -1,5 +1,5 @@
-from .models import User, Customer, Workshop
-from .serializers import UserSerializer, CustomerSerializer, WorkshopSerializer
+from .models import User, Workshop
+from .serializers import UserSerializer, WorkshopSerializer
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
@@ -9,13 +9,6 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     lookup_field = 'username'
     permissions_classes = [IsAuthenticated]
-
-
-class CustomerViewSet(viewsets.ModelViewSet):
-    serializer_class = CustomerSerializer
-    queryset = Customer.objects.all()
-    lookup_field = 'user'
-    permission_classes = [IsAuthenticated]
 
 
 class WorkshopViewSet(viewsets.ModelViewSet):

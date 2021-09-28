@@ -11,7 +11,6 @@ class CarViewSet(viewsets.ModelViewSet):
     lookup_field = 'slug'
     permissions_classes = [IsAuthenticated]
 
-
 class CarPartViewSet(viewsets.ModelViewSet):
     serializer_class = CarPartSerializer
     queryset = CarPart.objects.all()

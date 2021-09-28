@@ -16,14 +16,12 @@ class CarPartCreationTests(TestCase):
         for part in self.parts:
             part.category.save()
             part.car.engine.save()
-            part.car.owner.user.save()
             part.car.owner.save()
             part.car.save()
             part.save()
             self.assertIsNotNone(part.category.id)
             self.assertIsNotNone(part.car.engine.id)
-            self.assertIsNotNone(part.car.owner.user.id)
-            self.assertIsNotNone(part.car.owner.pk)
+            self.assertIsNotNone(part.car.owner.id)
             self.assertIsNotNone(part.car.id)
             self.assertIsNotNone(part.id)
 
