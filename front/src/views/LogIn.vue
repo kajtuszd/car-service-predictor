@@ -6,7 +6,7 @@
 
                 <form @submit.prevent="logInForm">
                     <div class="field">
-                        <label>Username or Email</label>
+                        <label>Username</label>
                         <div class="control has-icons-left">
                             <input type="text" name="username" class="input" v-model="username">
                             <span class="icon is-small is-left">
@@ -52,7 +52,7 @@
                 this.errors = []
 
                 if (this.username === '') {
-                    this.errors.push('Username or Email is required.')
+                    this.errors.push('Username is required.')
                 }
 
                 if (this.password === '') {
