@@ -5,6 +5,7 @@ import LogIn from '../views/LogIn.vue'
 import Profile from '../views/Profile.vue'
 import Workshop from '../views/Workshop.vue'
 import CarOwner from '../views/CarOwner.vue'
+import UserForm from '../views/UserForm.vue'
 import store from '../store'
 
 const routes = [
@@ -48,6 +49,14 @@ const routes = [
     path: '/profile/car-owner',
     name: 'CarOwner',
     component: CarOwner,
+    meta: {
+        loginRequired: true,
+    }
+  },
+  {
+    path: '/user-form',
+    name: 'UserForm',
+    component: UserForm,
     meta: {
         loginRequired: true,
     }

@@ -72,9 +72,10 @@
                         .post('auth/token/login/', logInData)
                         .then(response => {
                             const authToken = response.data.auth_token 
-                            this.$store.commit('setAuthToken', authToken)
+                            this.$store.commit('setAuthToken', authToken, this.username)
                             axios.defaults.headers.common['Authorization'] = 'Token ' + authToken
                             localStorage.setItem('authToken', authToken)
+                            localStorage.setItem('username', this.username)
 
                             toast(
                                 {

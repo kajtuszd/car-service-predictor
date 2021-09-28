@@ -1,15 +1,16 @@
 <template>
     <div class="container">
-        <div class="columns">
-            <div class="column is-4 is-narrow-4">
-                <h1 class="title">CarOwner</h1>
-            </div>
-        </div>
+        <h1 class="title">Car Owner</h1>
+        <Cars />
     </div>
 </template>
 
 <script>
+    import Cars from '../components/views/Cars.vue'
     export default {
         name: 'CarOwner',
+        components: {
+            Cars,
+        },
     }
 </script>

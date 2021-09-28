@@ -6,6 +6,11 @@
             </div>
         </div>
         <Menu />
+
+        <router-link to="user-form">
+            <button class="button is-success is-outlined">User info form</button>
+        </router-link>
+
     </div>
 </template>
 

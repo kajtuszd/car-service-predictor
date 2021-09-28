@@ -4,7 +4,7 @@
             <div class="card" @click="redirectToCarOwner">
                 <div class="card-image">
                     <figure class="image is-4by3">
-                        <img src="https://picsum.photos/3000" alt="Car owner image">
+                        <img src="https://picsum.photos/id/0/2000" alt="Car owner image">
                     </figure>
                 </div>
                 <div class="card-content">
@@ -19,7 +19,7 @@
             <div class="card" @click="redirectToWorkshop">
                 <div class="card-image">
                     <figure class="image is-4by3">
-                        <img src="https://picsum.photos/2000" alt="Workshop image">
+                        <img src="https://picsum.photos/id/1079/2000" alt="Workshop image">
                     </figure>
                 </div>
                 <div class="card-content">
@@ -46,3 +46,10 @@
         }
     }
 </script>
+
+<style scoped>
+    .card:hover {
+        box-shadow: 0 10px 30px rgba(20, 20, 20, 0.5);
+        transition: 0.5s;
+    }
+</style>
