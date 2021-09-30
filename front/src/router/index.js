@@ -6,6 +6,8 @@ import Profile from '../views/Profile.vue'
 import Workshop from '../views/Workshop.vue'
 import CarOwner from '../views/CarOwner.vue'
 import UserForm from '../views/UserForm.vue'
+import CarForm from '../views/CarForm.vue'
+import WorkshopForm from '../views/WorkshopForm.vue'
 import store from '../store'
 
 const routes = [
@@ -54,9 +56,25 @@ const routes = [
     }
   },
   {
+    path: '/profile/car-form',
+    name: 'CarForm',
+    component: CarForm,
+    meta: {
+        loginRequired: true,
+    }
+  },
+  {
     path: '/user-form',
     name: 'UserForm',
     component: UserForm,
+    meta: {
+        loginRequired: true,
+    }
+  },
+  {
+    path: '/workshop-form',
+    name: 'WorkshopForm',
+    component: WorkshopForm,
     meta: {
         loginRequired: true,
     }

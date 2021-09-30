@@ -25,6 +25,10 @@
                 </tbody>
             </table>
         </div>
+
+        <router-link to="car-form">
+            <button class="button is-success is-outlined">+ Add car</button>
+        </router-link>
     </div>
 </template>
 

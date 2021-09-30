@@ -2,77 +2,88 @@
     <div class="container">
         <div class="columns">
             <div class="column is-4 is-offset-4">
-                <h1 class="title">User form</h1>
+                <h1 class="title">Car form</h1>
 
-                <form @submit.prevent="userForm">
+                <form @submit.prevent="carForm">
                     <div class="field">
-                        <label>Name</label>
+                        <label>Brand</label>
                         <div class="control has-icons-left">
-                            <input type="text" name="first_name" class="input" v-model="first_name">
+                            <input type="text" name="brand" class="input" v-model="brand">
                             <span class="icon is-small is-left">
-                                <i class="fas fa-signature"></i>
+                                <i class="fas fa-car"></i>
                             </span>
                         </div>
                     </div>
 
                     <div class="field">
-                        <label>Surname</label>
+                        <label>Model</label>
                         <div class="control has-icons-left">
-                            <input type="text" name="last_name" class="input" v-model="last_name">
+                            <input type="text" name="model" class="input" v-model="model">
                             <span class="icon is-small is-left">
-                                <i class="fas fa-signature"></i>
+                                <i class="fas fa-car-side"></i>
                             </span>
                         </div>
                     </div>
 
                     <div class="field">
-                        <label>City</label>
+                        <label>Production year</label>
                         <div class="control has-icons-left">
-                            <input type="text" name="city" class="input" v-model="city">
+                            <input type="text" name="productionYear" class="input" v-model="productionYear">
                             <span class="icon is-small is-left">
-                                <i class="fas fa-city"></i>
+                                <i class="fas fa-calendar-alt"></i>
                             </span>
                         </div>
                     </div>
 
                     <div class="field">
-                        <label>Street</label>
+                        <label>Registration</label>
                         <div class="control has-icons-left">
-                            <input type="text" name="street" class="input" v-model="street">
+                            <input type="text" name="registration" class="input" v-model="registration">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-registered"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Car mileage</label>
+                        <div class="control has-icons-left">
+                            <input type="text" name="carMileage" class="input" v-model="carMileage">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-road"></i>
                             </span>
                         </div>
                     </div>
 
-
                     <div class="field">
-                        <label>House number</label>
+                        <label>Engine Capacity</label>
                         <div class="control has-icons-left">
-                            <input type="text" name="house_number" class="input" v-model="house_number">
+                            <input type="text" name="capacity" class="input" v-model="capacity">
                             <span class="icon is-small is-left">
-                                <i class="fas fa-home"></i>
+                                <i class="fas fa-tools"></i>
                             </span>
                         </div>
                     </div>
 
                     <div class="field">
-                        <label>Flat number</label>
+                        <label>Horsepower</label>
                         <div class="control has-icons-left">
-                            <input type="text" name="flat_number" class="input" v-model="flat_number">
+                            <input type="text" name="horsepower" class="input" v-model="horsepower">
                             <span class="icon is-small is-left">
-                                <i class="fas fa-home"></i>
+                                <i class="fas fa-horse"></i>
                             </span>
                         </div>
                     </div>
 
                     <div class="field">
-                        <label>Zip code</label>
-                        <div class="control has-icons-left">
-                            <input type="text" name="zip_code" class="input" v-model="zip_code">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-sort-numeric-up-alt"></i>
-                            </span>
+                        <label>Drive type</label> <br/>
+                        <div class="select">
+                            <select v-model="driveType">
+                                <option value="Petrol">Petrol</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="Hybrid">Hybrid</option>
+                                <option value="LPG">LPG</option>
+                            </select>
                         </div>
                     </div>
 
@@ -81,11 +92,15 @@
                         <p v-for="e in errors" :key="e">{{e}}</p>
                     </div>
 
-                    <div class="field">
+                    <br/>
+                    
+                    <div class="buttons">
                         <div class="control">
                             <button class="button is-success is-outlined">Submit</button>
+                            <button class="button is-danger is-outlined" @click="redirectToCarOwner">Cancel</button>
                         </div>
                     </div>
+
                 </form>
             </div>
         </div>
@@ -97,54 +112,55 @@
     import {toast} from 'bulma-toast'
 
     export default {
-        name: 'UserForm',
+        name: 'CarForm',
         methods: {
-            userForm() {
+            carForm() {
                 this.errors = []
 
-                if (this.first_name === '') {
-                    this.errors.push('Name is required.')
+                if (this.brand === '') {
+                    this.errors.push('Brand is required.')
                 }
                 
-                if (this.last_name === '') {
-                    this.errors.push('Surname is required.')
+                if (this.model === '') {
+                    this.errors.push('Model is required.')
                 }
 
-                if (this.city === '') {
-                    this.errors.push('City is required.')
+                if (this.productionYear === '') {
+                    this.errors.push('Production year is required.')
                 }
 
-                if (this.street === '') {
-                    this.errors.push('Street is required.')
+                if (this.registration === '') {
+                    this.errors.push('Registration is required.')
                 }
 
-                if (this.house_number === '') {
-                    this.errors.push('House number is required.')
-                }
-
-                if (this.zip_code === '') {
-                    this.errors.push('Zip code is required.')
+                if (this.carMileage === '') {
+                    this.errors.push('Car mileage number is required.')
                 }
 
                 if (!this.errors.length) {
-                    const userData = {
-                        first_name: this.first_name,
-                        last_name: this.last_name,
-                        city: this.city,
-                        street: this.street,
-                        house_number: this.house_number,
-                        flat_number: this.flat_number,
-                        zip_code: this.zip_code,
+
+                    const engineData = {
+                        horsepower: this.horsepower,
+                        capacity: this.capacity,
+                        engine_type: this.driveType,
                     }
 
-                    const usernameStored = localStorage.getItem('username')
+                    const carData = {
+                        brand: this.brand,
+                        model: this.model,
+                        production_year: this.productionYear,
+                        registration: this.registration,
+                        mileage: this.carMileage,
+                        engine: engineData,
+                    }
+                    console.log(carData)
                     
                     axios
-                        .patch(`users/user/${usernameStored}/`, userData)
+                        .post('cars/car/', carData)
                         .then(response => {
                             toast(
                                 {
-                                    message: 'Form was sent successfully.',
+                                    message: 'Car was created successfully.',
                                     type: 'is-success',
                                     dismissible: true,
                                     pauseOnHover: true,
@@ -152,8 +168,6 @@
                                     animate: { in: 'fadeIn', out: 'fadeOut' },
                                 }
                             )
-
-                            this.$router.push('/profile')
                         })
                         .catch(error => {
                             if (error.response) {
@@ -166,21 +180,25 @@
                         })
                 }
             },
-
             cleanErrors() {
                 this.errors = []
+            },
+            redirectToCarOwner() {
+                return this.$router.push('car-owner');
             }
 
         },
         data() {
             return {
-                first_name: '',
-                last_name: '',
-                city: '',
-                street: '',
-                house_number: '',
-                flat_number: '',
-                zip_code: '',
+                brand: '',
+                model: '',
+                productionYear: '',
+                registration: '',
+                carMileage: '',
+                engine: '',
+                horsepower: '',
+                capacity: '',
+                driveType: '',
                 errors: []
             }
         }
