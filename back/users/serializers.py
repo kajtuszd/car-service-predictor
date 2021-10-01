@@ -28,8 +28,9 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def update(self, instance, validated_data):
-        workshop_data = validated_data.pop('workshop')
-        workshop = Workshop.objects.create(**workshop_data)
-        instance.workshop = workshop
+        if 'workshop' in validated_data:
+            workshop_data = validated_data.pop('workshop')
+            workshop = Workshop.objects.create(**workshop_data)
+            instance.workshop = workshop
         instance.save()
         return instance

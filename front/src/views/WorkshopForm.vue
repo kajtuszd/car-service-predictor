@@ -70,7 +70,7 @@
                                 }
                             )
 
-                            this.$router.push('/profile')
+                            this.$router.push('/profile/workshop')
                         })
                         .catch(error => {
                             if (error.response) {
@@ -85,7 +85,7 @@
             },
             cleanErrors() {
                 this.errors = []
-            }
+            },
         },
         data() {
             return {
