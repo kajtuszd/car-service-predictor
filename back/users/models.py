@@ -3,6 +3,21 @@ from django.core.validators import (EmailValidator, MaxValueValidator,
                                     MinValueValidator, RegexValidator)
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from utils.slugs import generate_slug
+
+
+class Workshop(models.Model):
+    workshop_name = models.CharField(_('Workshop name'), max_length=30,
+                                     unique=True, null=True)
+    slug = models.CharField(_('Slug'), default=generate_slug, max_length=10,
+                             unique=True, db_index=True, editable=False)
+
+    class Meta:
+        verbose_name = _('workshop')
+        verbose_name_plural = _('workshops')
+
+    def __str__(self):
+        return f'{self.workshop_name}'
 
 
 class User(AbstractUser):
@@ -33,6 +48,8 @@ class User(AbstractUser):
                                                              'be entered in '
                                                              'the format '
                                                              '12-345.'))])
+    workshop = models.OneToOneField(Workshop, on_delete=models.CASCADE,
+                                    blank=True, null=True)
 
     class Meta:
         verbose_name = _('user')
@@ -40,29 +57,3 @@ class User(AbstractUser):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
-
-
-class Customer(models.Model):
-    user = models.OneToOneField('users.User', on_delete=models.CASCADE,
-                                primary_key=True)
-
-    class Meta:
-        verbose_name = _('customer')
-        verbose_name_plural = _('customers')
-
-    def __str__(self):
-        return f'{self.user.first_name} {self.user.last_name}'
-
-
-class Workshop(models.Model):
-    workshop_name = models.CharField(_('Workshop name'), max_length=30,
-                                     unique=True, null=True)
-    user = models.OneToOneField('users.User', on_delete=models.CASCADE,
-                                primary_key=True)
-
-    class Meta:
-        verbose_name = _('workshop')
-        verbose_name_plural = _('workshops')
-
-    def __str__(self):
-        return f'{self.workshop_name}'

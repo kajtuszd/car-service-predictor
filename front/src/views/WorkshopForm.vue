@@ -2,25 +2,15 @@
     <div class="container">
         <div class="columns">
             <div class="column is-4 is-offset-4">
-                <h1 class="title">Log In</h1>
+                <h1 class="title">Workshop form</h1>
 
-                <form @submit.prevent="logInForm">
+                <form @submit.prevent="workshopForm">
                     <div class="field">
-                        <label>Username</label>
+                        <label>Workshop name</label>
                         <div class="control has-icons-left">
-                            <input type="text" name="username" class="input" v-model="username">
+                            <input type="text" name="workshopName" class="input" v-model="workshopName">
                             <span class="icon is-small is-left">
-                                <i class="fas fa-at"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label>Password</label>
-                        <div class="control has-icons-left">
-                            <input type="password" name="password" class="input" v-model="password">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-lock"></i>
+                                <i class="fas fa-signature"></i>
                             </span>
                         </div>
                     </div>
@@ -46,40 +36,32 @@
     import {toast} from 'bulma-toast'
 
     export default {
-        name: 'LogIn',
+        name: 'WorkshopForm',
         methods: {
-            logInForm() {
+            workshopForm() {
                 this.errors = []
 
-                if (this.username === '') {
-                    this.errors.push('Username is required.')
+                if (this.workshopName === '') {
+                    this.errors.push('Workshop name is required.')
                 }
-
-                if (this.password === '') {
-                    this.errors.push('Password is required.')
-                }
-
-                axios.defaults.headers.common['Authorization'] = ''
-                localStorage.removeItem('authToken')
 
                 if (!this.errors.length) {
-                    const logInData = {
-                        username: this.username,
-                        password: this.password,
+                    const workshopName = {
+                        workshop_name: this.workshopName,
                     }
 
-                    axios
-                        .post('auth/token/login/', logInData)
-                        .then(response => {
-                            const authToken = response.data.auth_token 
-                            this.$store.commit('setAuthToken', authToken, this.username)
-                            axios.defaults.headers.common['Authorization'] = 'Token ' + authToken
-                            localStorage.setItem('authToken', authToken)
-                            localStorage.setItem('username', this.username)
+                    const workshop = {
+                        workshop: workshopName,
+                    }
 
+                    const usernameStored = localStorage.getItem('username')
+
+                    axios
+                        .patch(`users/user/${usernameStored}/`, workshop)
+                        .then(response => {
                             toast(
                                 {
-                                    message: 'Successfully logged in. ',
+                                    message: 'Form was sent successfully.',
                                     type: 'is-success',
                                     dismissible: true,
                                     pauseOnHover: true,
@@ -88,7 +70,7 @@
                                 }
                             )
 
-                            this.$router.push('/profile')
+                            this.$router.push('/profile/workshop')
                         })
                         .catch(error => {
                             if (error.response) {
@@ -103,14 +85,13 @@
             },
             cleanErrors() {
                 this.errors = []
-            }
+            },
         },
         data() {
-        return {
-            username: '',
-            password: '',
-            errors: []
+            return {
+                workshopName: '',
+                errors: []
+            }
         }
     }
-}
 </script>

@@ -9,6 +9,15 @@
         </div>
 
         <div class="navbar-menu">
+
+            <div class="navbar-start" v-if="this.$store.state.isAuthenticated">
+                <div class="navbar-item">
+                    <div class="button is-light is-outlined" @click="redirectToProfile">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+
             <div class="navbar-end">
                 <div class="navbar-item">
 
@@ -72,6 +81,9 @@
                 localStorage.removeItem('authToken')
                 this.$store.commit('cleanAuthToken')
                 this.$router.push('/')
+            },
+            redirectToProfile() {
+                return this.$router.push('/profile');
             }
         }
     }

@@ -54,6 +54,12 @@ class CarPartSerializer(serializers.ModelSerializer):
 
 
 class CarSerializer(serializers.ModelSerializer):
+    owner = serializers.PrimaryKeyRelatedField(
+        read_only=True,
+        default=serializers.CurrentUserDefault()
+        )
+    engine = EngineSerializer()
+
     class Meta:
         model = Car
         fields = [
@@ -70,3 +76,9 @@ class CarSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'url': {'lookup_field': 'slug'}
         }
+
+    def create(self, validated_data):
+        engine_data = validated_data.pop('engine')
+        engine = Engine.objects.create(**engine_data)
+        car = Car.objects.create(engine=engine, **validated_data)
+        return car

@@ -1,6 +1,13 @@
 import factory
 
 
+class WorkshopFactory(factory.django.DjangoModelFactory):
+    workshop_name = factory.Sequence(lambda n: 'workshop_name%d' % n)
+
+    class Meta:
+        model = 'users.Workshop'
+
+
 class UserFactory(factory.django.DjangoModelFactory):
     username = factory.Sequence(lambda n: 'username%d' % n)
     email = factory.LazyAttribute(lambda e: '%s@example.pl' % e.username)
@@ -10,21 +17,7 @@ class UserFactory(factory.django.DjangoModelFactory):
                                                 'defaultpassword')
     first_name = factory.Faker('first_name')
     last_name = factory.Faker('last_name')
+    workshop = factory.SubFactory(WorkshopFactory)
 
     class Meta:
         model = 'users.User'
-
-
-class WorkshopFactory(factory.django.DjangoModelFactory):
-    workshop_name = factory.Sequence(lambda n: 'workshop_name%d' % n)
-    user = factory.SubFactory(UserFactory)
-
-    class Meta:
-        model = 'users.Workshop'
-
-
-class CustomerFactory(factory.django.DjangoModelFactory):
-    user = factory.SubFactory(UserFactory)
-
-    class Meta:
-        model = 'users.Customer'
