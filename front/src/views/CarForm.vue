@@ -153,7 +153,6 @@
                         mileage: this.carMileage,
                         engine: engineData,
                     }
-                    console.log(carData)
                     
                     axios
                         .post('cars/car/', carData)
@@ -168,6 +167,7 @@
                                     animate: { in: 'fadeIn', out: 'fadeOut' },
                                 }
                             )
+                            this.redirectToCarOwner()
                         })
                         .catch(error => {
                             if (error.response) {
@@ -186,7 +186,6 @@
             redirectToCarOwner() {
                 return this.$router.push('car-owner');
             }
-
         },
         data() {
             return {

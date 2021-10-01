@@ -15,10 +15,10 @@ class ServiceCreationTests(TestCase):
         for service in self.services:
             service.car_part.category.save()
             service.car_part.car.engine.save()
+            service.car_part.car.owner.workshop.save()
             service.car_part.car.owner.save()
             service.car_part.car.save()
             service.car_part.save()
-            service.workshop.user.save()
             service.workshop.save()
             service.save()
             self.assertIsNotNone(service.car_part.category.id)
@@ -26,8 +26,7 @@ class ServiceCreationTests(TestCase):
             self.assertIsNotNone(service.car_part.car.owner.pk)
             self.assertIsNotNone(service.car_part.car.id)
             self.assertIsNotNone(service.car_part.id)
-            self.assertIsNotNone(service.workshop.user.id)
-            self.assertIsNotNone(service.workshop.pk)
+            self.assertIsNotNone(service.car_part.car.owner.workshop.id)
             self.assertIsNotNone(service.id)
 
 
@@ -41,11 +40,10 @@ class ServiceDeletionTests(TestCase):
         self.service.delete()
         self.assertIsNotNone(self.service.car_part.category.id)
         self.assertIsNotNone(self.service.car_part.car.engine.id)
-        self.assertIsNotNone(self.service.car_part.car.owner.id)
+        self.assertIsNotNone(self.service.car_part.car.owner.pk)
         self.assertIsNotNone(self.service.car_part.car.id)
         self.assertIsNotNone(self.service.car_part.id)
-        self.assertIsNotNone(self.service.workshop.user.id)
-        self.assertIsNotNone(self.service.workshop.pk)
+        self.assertIsNotNone(self.service.workshop.id)
         self.assertIsNone(self.service.id)
 
 

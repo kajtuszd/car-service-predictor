@@ -72,7 +72,7 @@ const routes = [
     }
   },
   {
-    path: '/workshop-form',
+    path: '/profile/workshop-form',
     name: 'WorkshopForm',
     component: WorkshopForm,
     meta: {

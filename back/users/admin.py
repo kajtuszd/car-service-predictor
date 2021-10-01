@@ -12,7 +12,7 @@ class CustomUserAdmin(UserAdmin):
     )
     list_display = (
         'first_name', 'last_name', 'email', 'username', 'phone', 'is_superuser',
-        'is_staff', 'is_active', 'date_joined',
+        'is_staff', 'is_active', 'date_joined', 'workshop',
         )
     ordering = ('email', 'first_name', 'last_name', 'username', 'date_joined',)
     search_fields = ('email', 'phone', 'first_name', 'last_name', 'username',)
@@ -20,9 +20,9 @@ class CustomUserAdmin(UserAdmin):
 
 
 class CustomWorkshopAdmin(admin.ModelAdmin):
-    search_fields = ('workshop_name', 'user',)
-    list_display = ('workshop_name', 'user',)
-    ordering = ('workshop_name', 'user',)
+    search_fields = ('workshop_name',)
+    list_display = ('workshop_name',)
+    ordering = ('workshop_name',)
 
 
 admin.site.register(User, CustomUserAdmin)

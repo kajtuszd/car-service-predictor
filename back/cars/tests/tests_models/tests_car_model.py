@@ -15,10 +15,12 @@ class CarCreationTests(TestCase):
 
     def test_save_car_object(self):
         for car in self.cars:
+            car.owner.workshop.save()
             car.owner.save()
             car.engine.save()
             car.save()
-            self.assertIsNotNone(car.owner.id)
+            self.assertIsNotNone(car.owner.workshop.id)
+            self.assertIsNotNone(car.owner.pk)
             self.assertIsNotNone(car.engine.id)
             self.assertIsNotNone(car.id)
 
@@ -57,20 +59,20 @@ class CarDeletionTests(TestCase):
     def test_delete_car_and_not_delete_other_car_objects(self):
         self.car.delete()
         self.assertTrue(Engine.objects.filter(id=self.car.engine.id).exists())
-        self.assertTrue(User.objects.filter(id=self.car.owner.id).exists())
+        self.assertTrue(User.objects.filter(pk=self.car.owner.pk).exists())
         self.assertFalse(Car.objects.filter(id=self.car.id).exists())
 
     def test_delete_owner_and_car_by_cascade(self):
         user = self.car.owner
         self.car.owner.delete()
         self.assertTrue(Engine.objects.filter(id=self.car.engine.id).exists())
-        self.assertFalse(User.objects.filter(id=user.id).exists())
+        self.assertFalse(User.objects.filter(pk=user.pk).exists())
         self.assertFalse(Car.objects.filter(id=self.car.id).exists())
 
     def test_delete_engine_and_car_by_cascade(self):
         self.car.engine.delete()
         self.assertFalse(Engine.objects.filter(id=self.car.engine.id).exists())
-        self.assertTrue(User.objects.filter(id=self.car.owner.id).exists())
+        self.assertTrue(User.objects.filter(pk=self.car.owner.pk).exists())
         self.assertFalse(Car.objects.filter(id=self.car.id).exists())
 
 

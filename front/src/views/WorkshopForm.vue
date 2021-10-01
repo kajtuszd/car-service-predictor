@@ -47,11 +47,17 @@
 
                 if (!this.errors.length) {
                     const workshopName = {
-                        workshopName: this.workshopName,
+                        workshop_name: this.workshopName,
                     }
-                    
+
+                    const workshop = {
+                        workshop: workshopName,
+                    }
+
+                    const usernameStored = localStorage.getItem('username')
+
                     axios
-                        .patch(`users/workshop/`, workshopName)
+                        .patch(`users/user/${usernameStored}/`, workshop)
                         .then(response => {
                             toast(
                                 {

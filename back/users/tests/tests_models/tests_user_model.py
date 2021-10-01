@@ -11,17 +11,23 @@ class UserModelTests(TestCase):
 
     def test_users_are_created_correctly(self):
         for user in self.users:
+            user.workshop.save()
             user.save()
-            self.assertIsNotNone(user.id)
+            self.assertIsNotNone(user.pk)
+            self.assertIsNotNone(user.workshop.id)
 
     def test_creating_accounts_not_possible_with_one_email_address(self):
         self.users[1].email = self.users[0].email
+        self.users[0].workshop.save()
+        self.users[1].workshop.save()
         self.users[0].save()
         with self.assertRaises(IntegrityError):
             self.users[1].save()
 
     def test_creating_accounts_not_possible_with_not_unique_username(self):
         self.users[1].username = self.users[0].username
+        self.users[0].workshop.save()
+        self.users[1].workshop.save()
         self.users[0].save()
         with self.assertRaises(IntegrityError):
             self.users[1].save()

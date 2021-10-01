@@ -14,5 +14,5 @@ class UserViewSet(viewsets.ModelViewSet):
 class WorkshopViewSet(viewsets.ModelViewSet):
     serializer_class = WorkshopSerializer
     queryset = Workshop.objects.all()
-    lookup_field = 'user'
+    lookup_field = 'slug'
     permission_classes = [IsAuthenticated]
