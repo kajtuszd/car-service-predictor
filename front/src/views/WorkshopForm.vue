@@ -16,6 +16,26 @@
                     </div>
 
                     <div class="field">
+                        <label>Email</label>
+                        <div class="control has-icons-left">
+                            <input type="email" name="email" class="input" v-model="email">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Phone</label>
+                        <div class="control has-icons-left">
+                            <input type="text" name="phone" class="input" v-model="phone">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-phone"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
                         <label>City</label>
                         <div class="control has-icons-left">
                             <input type="text" name="city" class="input" v-model="city">
@@ -34,7 +54,6 @@
                             </span>
                         </div>
                     </div>
-
 
                     <div class="field">
                         <label>House number</label>
@@ -96,6 +115,14 @@
                     this.errors.push('Workshop name is required.')
                 }
 
+                if (this.email === '') {
+                    this.errors.push('Email is required.')
+                }
+
+                if (this.phone === '') {
+                    this.errors.push('Phone is required.')
+                }
+
                 if (this.city === '') {
                     this.errors.push('City is required.')
                 }
@@ -115,12 +142,13 @@
                 if (!this.errors.length) {
                     const workshopData = {
                         workshop_name: this.workshopName,
+                        email: this.email,
+                        phone: this.phone,
                         city: this.city,
                         street: this.street,
                         house_number: this.house_number,
                         flat_number: this.flat_number,
                         zip_code: this.zip_code,
-
                     }
 
                     const workshop = {
@@ -163,6 +191,13 @@
         data() {
             return {
                 workshopName: '',
+                email: '',
+                phone: '',
+                city: '',
+                street: '',
+                house_number: '',
+                flat_number: '',
+                zip_code: '',
                 errors: []
             }
         }

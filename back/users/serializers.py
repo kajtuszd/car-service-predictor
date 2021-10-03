@@ -8,6 +8,8 @@ class WorkshopSerializer(serializers.ModelSerializer):
         model = Workshop
         fields = [
             'workshop_name',
+            'phone',
+            'email',
             'city',
             'street',
             'house_number',

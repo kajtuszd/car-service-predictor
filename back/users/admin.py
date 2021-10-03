@@ -22,10 +22,10 @@ class CustomUserAdmin(UserAdmin):
 class CustomWorkshopAdmin(admin.ModelAdmin):
     list_display = (
         'workshop_name', 'city', 'street', 'house_number', 'flat_number',
-        'zip_code',
+        'zip_code', 'email', 'phone',
     )
-    search_fields = ('workshop_name',)
-    ordering = ('workshop_name',)
+    search_fields = ('workshop_name', 'email', 'phone',)
+    ordering = ('workshop_name', 'email',)
 
 
 admin.site.register(User, CustomUserAdmin)

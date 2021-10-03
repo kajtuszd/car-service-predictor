@@ -9,6 +9,14 @@ class WorkshopFactory(factory.django.DjangoModelFactory):
     street = factory.Sequence(lambda n: 'street%d' % n)
     house_number = factory.fuzzy.FuzzyInteger(1, 1000)
     flat_number = factory.fuzzy.FuzzyInteger(1, 100)
+    email = factory.Sequence(lambda e: '%s@workshop.pl' % e)
+
+    @factory.sequence
+    def phone(n):
+        result = []
+        for i in range(9):
+            result.append(random.randint(0,9))
+        return ''.join(str(i) for i in result)        
 
     @factory.sequence
     def zip_code(n):

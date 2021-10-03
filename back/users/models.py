@@ -9,6 +9,12 @@ from utils.slugs import generate_slug
 class Workshop(models.Model):
     workshop_name = models.CharField(_('Workshop name'), max_length=30,
                                      unique=True, null=True)
+    email = models.EmailField(_('E-mail address'), validators=[EmailValidator])
+    phone = models.CharField(_('Phone number'), validators=[
+        RegexValidator(r'^\+?1?\d{9,12}$', _(
+            "Phone number must be entered in the format: 123456789 or "
+            "+48123456789. Up to 12 digits allowed."), 'invalid'), ],
+                             max_length=12, blank=True)
     city = models.CharField(_('City'), max_length=30, null=True)
     street = models.CharField(_('Street'), max_length=30, null=True)
     house_number = models.IntegerField(_('House number'), null=True,
