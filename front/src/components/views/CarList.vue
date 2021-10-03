@@ -36,7 +36,7 @@
     import axios from 'axios'
 
     export default {
-        name: 'Cars',
+        name: 'CarList',
         mounted() {
             this.getCars()
         },

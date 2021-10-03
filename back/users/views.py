@@ -1,7 +1,7 @@
 from .models import User, Workshop
 from .serializers import UserSerializer, WorkshopSerializer
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -15,4 +15,4 @@ class WorkshopViewSet(viewsets.ModelViewSet):
     serializer_class = WorkshopSerializer
     queryset = Workshop.objects.all()
     lookup_field = 'slug'
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
