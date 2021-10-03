@@ -8,6 +8,11 @@ class WorkshopSerializer(serializers.ModelSerializer):
         model = Workshop
         fields = [
             'workshop_name',
+            'city',
+            'street',
+            'house_number',
+            'flat_number',
+            'zip_code',
             'slug',
         ]
         lookup_field = 'slug'

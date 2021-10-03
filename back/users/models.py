@@ -9,8 +9,22 @@ from utils.slugs import generate_slug
 class Workshop(models.Model):
     workshop_name = models.CharField(_('Workshop name'), max_length=30,
                                      unique=True, null=True)
+    city = models.CharField(_('City'), max_length=30, null=True)
+    street = models.CharField(_('Street'), max_length=30, null=True)
+    house_number = models.IntegerField(_('House number'), null=True,
+                                       validators=[MaxValueValidator(1000),
+                                                   MinValueValidator(1)])
+    flat_number = models.IntegerField(_('Flat number'), null=True, blank=True,
+                                      validators=[MaxValueValidator(100),
+                                                  MinValueValidator(1)])
+    zip_code = models.CharField(_('Zip code'), null=True, max_length=6,
+                                validators=[RegexValidator(r'^\d{2}-\d{3}$',
+                                                           _('Zip code must '
+                                                             'be entered in '
+                                                             'the format '
+                                                             '12-345.'))])
     slug = models.CharField(_('Slug'), default=generate_slug, max_length=10,
-                             unique=True, db_index=True, editable=False)
+                            unique=True, db_index=True, editable=False)
 
     class Meta:
         verbose_name = _('workshop')

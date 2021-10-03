@@ -8,6 +8,11 @@ class WorkshopSerializerTests(TestCase):
     def setUp(self):
         self.test_data = {
             'workshop_name': 'exampleName',
+            'city': 'London',
+            'street': 'Downing',
+            'house_number': 10,
+            'flat_number': 2,
+            'zip_code': '12-345',
         }
         self.workshop = WorkshopFactory(**self.test_data)
 
