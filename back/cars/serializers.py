@@ -82,3 +82,10 @@ class CarSerializer(serializers.ModelSerializer):
         engine = Engine.objects.create(**engine_data)
         car = Car.objects.create(engine=engine, **validated_data)
         return car
+
+    def update(self, instance, validated_data):
+        instance.registration = validated_data.get('registration',
+                                                   instance.registration)
+        instance.mileage = validated_data.get('mileage', instance.mileage)
+        instance.save()
+        return instance
