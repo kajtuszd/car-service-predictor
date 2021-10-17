@@ -54,10 +54,6 @@ class CarPartSerializer(serializers.ModelSerializer):
 
 
 class CarSerializer(serializers.ModelSerializer):
-    owner = serializers.PrimaryKeyRelatedField(
-        read_only=True,
-        default=serializers.CurrentUserDefault()
-        )
     engine = EngineSerializer()
 
     class Meta:

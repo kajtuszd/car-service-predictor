@@ -8,7 +8,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     lookup_field = 'username'
-    permissions_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class WorkshopViewSet(viewsets.ModelViewSet):

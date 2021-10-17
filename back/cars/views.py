@@ -9,10 +9,13 @@ class CarViewSet(viewsets.ModelViewSet):
     serializer_class = CarSerializer
     queryset = Car.objects.all()
     lookup_field = 'slug'
-    permissions_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    def get_queryset(self, *args, **kwargs):
+        return self.queryset.filter(owner=self.request.user.pk)
 
 
 class CarPartViewSet(viewsets.ModelViewSet):

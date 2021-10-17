@@ -48,7 +48,7 @@
     export default {
         name: 'LogIn',
         methods: {
-            logInForm() {
+            async logInForm() {
                 this.errors = []
 
                 if (this.username === '') {
@@ -68,10 +68,10 @@
                         password: this.password,
                     }
 
-                    axios
+                    await axios
                         .post('auth/token/login/', logInData)
                         .then(response => {
-                            const authToken = response.data.auth_token 
+                            const authToken = response.data.auth_token
                             this.$store.commit('setAuthToken', authToken, this.username)
                             axios.defaults.headers.common['Authorization'] = 'Token ' + authToken
                             localStorage.setItem('authToken', authToken)
