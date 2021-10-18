@@ -24,11 +24,11 @@ class CarPartCategorySerializer(serializers.ModelSerializer):
         fields = [
             'name',
             'drive_type',
-            'slug',
+            'id',
         ]
-        lookup_field = 'slug'
+        lookup_field = 'id'
         extra_kwargs = {
-            'url': {'lookup_field': 'slug'}
+            'url': {'lookup_field': 'id'}
         }
 
 

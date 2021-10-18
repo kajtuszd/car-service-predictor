@@ -54,8 +54,6 @@ class CarPartCategory(models.Model):
     name = models.CharField(_('Part name'), max_length=30)
     drive_type = models.CharField(_('Only for drive type'), max_length=20,
                                   choices=EngineType.TYPES, blank=True)
-    slug = models.CharField(_('Slug'), default=generate_slug, max_length=10,
-                             unique=True, db_index=True, editable=False)
 
     class Meta:
         verbose_name = _('car part category')

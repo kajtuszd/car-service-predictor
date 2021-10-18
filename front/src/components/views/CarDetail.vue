@@ -32,18 +32,23 @@
             </div>
         </div>
 
+        <CarPartList />
+        
         <router-link to="#">
             <button class="button is-success is-outlined">+ Add car part</button>
         </router-link>
-
     </div>
 </template>
 
 <script>
     import axios from 'axios'
+    import CarPartList from '../layout/CarPartList.vue'
 
     export default {
         name: 'Car',
+        components: {
+            CarPartList,
+        },
         mounted() {
             this.getCar()
         },
@@ -63,8 +68,8 @@
         },
         data() {
             return {
-                car: '',
+                car: [],
             }
-        }
+        },
     }
 </script>
