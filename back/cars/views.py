@@ -1,8 +1,10 @@
-from .models import CarPartCategory, CarPart, Engine, Car
-from .serializers import (CarPartCategorySerializer, CarPartSerializer,
-                          EngineSerializer, CarSerializer)
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (IsAuthenticated,
+                                        IsAuthenticatedOrReadOnly)
+
+from .models import Car, CarPart, CarPartCategory, Engine
+from .serializers import (CarPartCategorySerializer, CarPartSerializer,
+                          CarSerializer, EngineSerializer)
 
 
 class CarViewSet(viewsets.ModelViewSet):
@@ -24,11 +26,12 @@ class CarPartViewSet(viewsets.ModelViewSet):
     lookup_field = 'slug'
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    # def get_queryset(self, *args, **kwargs):
-    #     car = self.request.query_params.get('car')
-    #     if car is not None:
-    #         return self.queryset.filter(car=car)
-    #     return self.queryset
+    def get_queryset(self, *args, **kwargs):
+        car_slug = self.request.query_params.get('car_slug')
+        if car_slug is not None:
+            car = Car.objects.get(slug=car_slug)
+            return self.queryset.filter(car=car)
+        return self.queryset
 
 
 class CarPartCategoryViewSet(viewsets.ModelViewSet):
@@ -36,12 +39,6 @@ class CarPartCategoryViewSet(viewsets.ModelViewSet):
     queryset = CarPartCategory.objects.all()
     lookup_field = 'id'
     permission_classes = [IsAuthenticatedOrReadOnly]
-
-    # def get_queryset(self, *args, **kwargs):
-    #     car = self.request.query_params.get('car')
-    #     if car is not None:
-    #         return self.queryset.filter(car=car)
-    #     return self.queryset
 
 
 class EngineViewSet(viewsets.ModelViewSet):

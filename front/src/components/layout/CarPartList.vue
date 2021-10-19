@@ -65,7 +65,7 @@
         methods: {
             async getParts() {
                 await axios
-                    .get('/cars/car-part/')
+                    .get('/cars/car-part/', {params: { car_slug: this.$route.params.slug } })
                     .then(response => {
                         this.parts = response.data
                     })

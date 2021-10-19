@@ -56,7 +56,7 @@
             async getCar() {
                 const carSlug = this.$route.params.slug
 
-                axios
+                await axios
                     .get(`cars/car/${carSlug}/`)
                     .then(response => {
                         this.car = response.data
