@@ -11,7 +11,7 @@ class CarPartSerializerTests(TestCase):
         }
         self.car_part = CarPartFactory(**self.test_data)
 
-    @tag('par')
+    @tag('part')
     def test_serializer_contains_expected_data(self):
         serialized_category = CarPartSerializer(instance=self.car_part)
         for field in self.test_data.keys():

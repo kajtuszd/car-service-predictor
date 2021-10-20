@@ -33,6 +33,8 @@ class CarPartCategorySerializer(serializers.ModelSerializer):
 
 
 class CarPartSerializer(serializers.ModelSerializer):
+    category = CarPartCategorySerializer()
+
     class Meta:
         model = CarPart
         fields = [
@@ -51,6 +53,13 @@ class CarPartSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'url': {'lookup_field': 'slug'}
         }
+
+    def create(self, validated_data):
+        category_data = validated_data.pop('category')
+        category = CarPartCategory.objects.get(name=category_data['name'],
+                                    drive_type=category_data['drive_type'])
+        car_part = CarPart.objects.create(category=category, **validated_data)
+        return car_part
 
 
 class CarSerializer(serializers.ModelSerializer):

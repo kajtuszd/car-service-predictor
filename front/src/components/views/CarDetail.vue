@@ -33,10 +33,7 @@
         </div>
 
         <CarPartList />
-        
-        <router-link to="#">
-            <button class="button is-success is-outlined">+ Add car part</button>
-        </router-link>
+
     </div>
 </template>
 

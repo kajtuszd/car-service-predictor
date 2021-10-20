@@ -10,6 +10,7 @@ import CarOwner from '../views/CarOwner.vue'
 import UserForm from '../views/UserForm.vue'
 import UpdateCar from '../views/UpdateCar.vue'
 import CarForm from '../views/CarForm.vue'
+import CarPartForm from '../views/CarPartForm.vue'
 import WorkshopForm from '../views/WorkshopForm.vue'
 import store from '../store'
 
@@ -18,11 +19,6 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
     path: '/sign-up',
@@ -78,6 +74,14 @@ const routes = [
     path: '/profile/car-owner/:slug/update',
     name: 'UpdateCar',
     component: UpdateCar,
+    meta: {
+        loginRequired: true,
+    }
+  },
+  {
+    path: '/profile/car-owner/:slug/car-part-form',
+    name: 'CarPartForm',
+    component: CarPartForm,
     meta: {
         loginRequired: true,
     }

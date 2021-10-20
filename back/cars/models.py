@@ -109,7 +109,7 @@ class Car(models.Model):
 
 class CarPart(models.Model):
     category = models.ForeignKey(CarPartCategory, on_delete=models.CASCADE)
-    latest_fix_date = models.DateTimeField(_('Latest service date'),
+    latest_fix_date = models.DateField(_('Latest service date'),
                                            validators=[no_future_validator])
     latest_fix_mileage = models.PositiveIntegerField(
         _('Car mileage before latest service'),
@@ -121,7 +121,7 @@ class CarPart(models.Model):
         _('Service needed every - mileage'),
         validators=[MinValueValidator(0), MaxValueValidator(1000000)],
     )
-    next_fix_date = models.DateTimeField(_('Next service date'),
+    next_fix_date = models.DateField(_('Next service date'),
                                          validators=[no_past_validator],
                                          blank=True, null=True)
     next_fix_mileage = models.PositiveIntegerField(

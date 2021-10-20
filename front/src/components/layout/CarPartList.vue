@@ -23,7 +23,7 @@
 
                 <tbody>
                     <tr v-for="part in parts" :key="part.id">
-                        <td>{{ part.category }}</td>
+                        <td>{{ part.category.name }}</td>
                         <td>{{ part.latest_fix_date }}</td>
                         <td>{{ part.latest_fix_mileage }}</td>
                         <td>{{ part.fix_every_period }}</td>
@@ -41,9 +41,9 @@
             </table>
         </div>
 
-        <!-- <router-link to="car-form">
+        <router-link :to="{ name: 'CarPartForm'}">
             <button class="button is-success is-outlined">+ Add part</button>
-        </router-link> -->
+        </router-link>
     </div>
 </template>
 
@@ -54,7 +54,6 @@
         name: 'CarPartList',
         mounted() {
             this.getParts()
-            this.getCategories()
         },
         data() {
             return {
@@ -68,19 +67,6 @@
                     .get('/cars/car-part/', {params: { car_slug: this.$route.params.slug } })
                     .then(response => {
                         this.parts = response.data
-                    })
-            },
-            async getCategories() {
-                await axios
-                    .get('/cars/car-part-category')
-                    .then(response => {
-                        var categories = response.data
-                        this.parts.forEach(function (elem, ind) {
-                            elem["category"] = categories[ind].name
-                        })
-                    })
-                    .catch(error => {
-                        console.log(error)
                     })
             },
         },

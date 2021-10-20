@@ -25,6 +25,11 @@ class CarPartViewSet(viewsets.ModelViewSet):
     queryset = CarPart.objects.all()
     lookup_field = 'slug'
     permission_classes = [IsAuthenticatedOrReadOnly]
+    
+    def perform_create(self, serializer):
+        car_slug = self.request.query_params.get('car_slug')
+        car = Car.objects.get(slug=car_slug)
+        serializer.save(car=car)
 
     def get_queryset(self, *args, **kwargs):
         car_slug = self.request.query_params.get('car_slug')
