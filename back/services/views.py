@@ -8,4 +8,4 @@ class ServiceViewSet(viewsets.ModelViewSet):
     serializer_class = ServiceSerializer
     queryset = Service.objects.all()
     lookup_field = 'slug'
-    permissions_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]

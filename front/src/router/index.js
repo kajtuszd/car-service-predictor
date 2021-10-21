@@ -5,9 +5,13 @@ import LogIn from '../views/LogIn.vue'
 import Profile from '../views/Profile.vue'
 import Workshop from '../views/Workshop.vue'
 import WorkshopList from '../components/views/WorkshopList.vue'
+import CarDetail from '../components/views/CarDetail.vue'
 import CarOwner from '../views/CarOwner.vue'
 import UserForm from '../views/UserForm.vue'
+import UpdateCar from '../views/UpdateCar.vue'
+import UpdateCarPart from '../views/UpdateCarPart.vue'
 import CarForm from '../views/CarForm.vue'
+import CarPartForm from '../views/CarPartForm.vue'
 import WorkshopForm from '../views/WorkshopForm.vue'
 import store from '../store'
 
@@ -16,11 +20,6 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
     path: '/sign-up',
@@ -60,6 +59,38 @@ const routes = [
     path: '/profile/car-form',
     name: 'CarForm',
     component: CarForm,
+    meta: {
+        loginRequired: true,
+    }
+  },
+  {
+    path: '/profile/car-owner/:slug',
+    name: 'CarDetail',
+    component: CarDetail,
+    meta: {
+        loginRequired: true,
+    }
+  },
+  {
+    path: '/profile/car-owner/:slug/update-part/:part_slug',
+    name: 'UpdateCarPart',
+    component: UpdateCarPart,
+    meta: {
+        loginRequired: true,
+    }
+  },
+  {
+    path: '/profile/car-owner/:slug/update',
+    name: 'UpdateCar',
+    component: UpdateCar,
+    meta: {
+        loginRequired: true,
+    }
+  },
+  {
+    path: '/profile/car-owner/:slug/car-part-form',
+    name: 'CarPartForm',
+    component: CarPartForm,
     meta: {
         loginRequired: true,
     }

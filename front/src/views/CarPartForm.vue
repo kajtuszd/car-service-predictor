@@ -2,63 +2,25 @@
     <div class="container">
         <div class="columns">
             <div class="column is-4 is-offset-4">
-                <h1 class="title">Car form</h1>
+                <h1 class="title">Car part form</h1>
 
-                <form @submit.prevent="carForm">
+                <form @submit.prevent="carPartForm">
+
                     <div class="field">
-                        <label>Brand</label>
-                        <div class="control has-icons-left">
-                            <input type="text" name="brand" class="input" v-model="brand">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-car"></i>
-                            </span>
+                        <label>Category</label> <br/>
+                        <div class="select">
+                            <select v-model="category">
+                                <option v-for="category in categories" v-bind:key="category.id">
+                                    {{ category.name }}
+                                </option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="field">
-                        <label>Model</label>
+                        <label>Latest fix date</label>
                         <div class="control has-icons-left">
-                            <input type="text" name="model" class="input" v-model="model">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-car-side"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label>Production year</label>
-                        <div class="control has-icons-left">
-                            <input type="text" name="productionYear" class="input" v-model="productionYear">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-calendar-alt"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label>Registration</label>
-                        <div class="control has-icons-left">
-                            <input type="text" name="registration" class="input" v-model="registration">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-registered"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label>Car mileage</label>
-                        <div class="control has-icons-left">
-                            <input type="text" name="carMileage" class="input" v-model="carMileage">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-road"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label>Engine Capacity</label>
-                        <div class="control has-icons-left">
-                            <input type="text" name="capacity" class="input" v-model="capacity">
+                            <input type="date" name="latest_fix_date" class="input" v-model="latest_fix_date">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-tools"></i>
                             </span>
@@ -66,24 +28,62 @@
                     </div>
 
                     <div class="field">
-                        <label>Horsepower</label>
+                        <label>Latest Fix Mileage</label>
                         <div class="control has-icons-left">
-                            <input type="text" name="horsepower" class="input" v-model="horsepower">
+                            <input type="text" name="latest_fix_mileage" class="input" v-model="latest_fix_mileage">
                             <span class="icon is-small is-left">
-                                <i class="fas fa-horse"></i>
+                                <i class="fas fa-calendar-alt"></i>
                             </span>
                         </div>
                     </div>
 
                     <div class="field">
-                        <label>Drive type</label> <br/>
-                        <div class="select">
-                            <select v-model="driveType">
-                                <option value="Petrol">Petrol</option>
-                                <option value="Diesel">Diesel</option>
-                                <option value="Hybrid">Hybrid</option>
-                                <option value="LPG">LPG</option>
-                            </select>
+                        <label>Fix Every Period</label>
+                        <div class="control has-icons-left">
+                            <input type="text" name="fix_every_period" class="input" v-model="fix_every_period">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-clock"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Fix Every Mileage</label>
+                        <div class="control has-icons-left">
+                            <input type="text" name="fix_every_mileage" class="input" v-model="fix_every_mileage">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-road"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Next Fix Date</label>
+                        <div class="control has-icons-left">
+                            <input type="date" name="next_fix_date" class="input" v-model="next_fix_date">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Next Fix Mileage</label>
+                        <div class="control has-icons-left">
+                            <input type="text" name="next_fix_mileage" class="input" v-model="next_fix_mileage">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-road"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Description</label>
+                        <div class="control has-icons-left">
+                            <input type="text" name="description" class="input" v-model="description">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-pen"></i>
+                            </span>
                         </div>
                     </div>
 
@@ -112,54 +112,45 @@
     import {toast} from 'bulma-toast'
 
     export default {
-        name: 'CarForm',
+        name: 'CarPartForm',
+        mounted() {
+            this.getPartCategories()
+        },
         methods: {
-            carForm() {
+            async getPartCategories() {
+                await axios
+                    .get('/cars/car-part-category')
+                    .then(response => {
+                        this.categories = response.data
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            },
+            carPartForm() {
                 this.errors = []
-
-                if (this.brand === '') {
-                    this.errors.push('Brand is required.')
-                }
-                
-                if (this.model === '') {
-                    this.errors.push('Model is required.')
-                }
-
-                if (this.productionYear === '') {
-                    this.errors.push('Production year is required.')
-                }
-
-                if (this.registration === '') {
-                    this.errors.push('Registration is required.')
-                }
-
-                if (this.carMileage === '') {
-                    this.errors.push('Car mileage number is required.')
-                }
 
                 if (!this.errors.length) {
 
-                    const engineData = {
-                        horsepower: this.horsepower,
-                        capacity: this.capacity,
-                        engine_type: this.driveType,
-                    }
+                    let category = this.categories.find(elem => elem.name === this.category)
 
-                    const carData = {
-                        brand: this.brand,
-                        model: this.model,
-                        production_year: this.productionYear,
-                        registration: this.registration,
-                        mileage: this.carMileage,
-                        engine: engineData,
+                    const carPartData = {
+                        latest_fix_date: this.latest_fix_date,
+                        latest_fix_mileage: this.latest_fix_mileage,
+                        fix_every_period: this.fix_every_period,
+                        fix_every_mileage: this.fix_every_mileage,
+                        next_fix_date: this.next_fix_date,
+                        next_fix_mileage: this.next_fix_mileage,
+                        description: this.description,
+                        category: category,
                     }
                     
                     axios
-                        .post('cars/car/', carData)
+                        .post('cars/car-part/', carPartData, {params: { car_slug: this.$route.params.slug} })
                         .then(response => {
                             toast(
                                 {
-                                    message: 'Car was created successfully.',
+                                    message: 'Car part was created successfully.',
                                     type: 'is-success',
                                     dismissible: true,
                                     pauseOnHover: true,
@@ -184,20 +175,20 @@
                 this.errors = []
             },
             redirectToCarOwner() {
-                return this.$router.push('car-owner')
+                return this.$router.push(`/profile/car-owner/${this.$route.params.slug}`)
             }
         },
         data() {
             return {
-                brand: '',
-                model: '',
-                productionYear: '',
-                registration: '',
-                carMileage: '',
-                engine: '',
-                horsepower: '',
-                capacity: '',
-                driveType: '',
+                latest_fix_date: '',
+                latest_fix_mileage: '',
+                fix_every_period: '',
+                fix_every_mileage: '',
+                next_fix_date: '',
+                next_fix_mileage: '',
+                description: '',
+                categories: [],
+                category: '',
                 errors: []
             }
         }

@@ -23,7 +23,7 @@
             this.$store.commit('startStore')
 
             if (this.$store.state.token) {
-                let token = "Token " + this.$store.state.token
+                let token = "Token " + this.$store.state.authToken
                 axios.defaults.headers.common['Authorization'] = token
             } else {
                 axios.defaults.headers.common['Authorization'] = ""

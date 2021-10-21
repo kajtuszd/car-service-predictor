@@ -21,6 +21,11 @@
                         <td>{{ car.brand }}</td>
                         <td>{{ car.model }}</td>
                         <td>{{ car.production_year }}</td>
+                        <td>
+                            <router-link :to="{ name: 'CarDetail', params: { slug: car.slug }}">
+                                <button class="button is-dark is-outlined">More ...</button>
+                            </router-link>
+                        </td>
                     </tr>
                 </tbody>
             </table>

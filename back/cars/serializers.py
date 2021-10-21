@@ -24,15 +24,17 @@ class CarPartCategorySerializer(serializers.ModelSerializer):
         fields = [
             'name',
             'drive_type',
-            'slug',
+            'id',
         ]
-        lookup_field = 'slug'
+        lookup_field = 'id'
         extra_kwargs = {
-            'url': {'lookup_field': 'slug'}
+            'url': {'lookup_field': 'id'}
         }
 
 
 class CarPartSerializer(serializers.ModelSerializer):
+    category = CarPartCategorySerializer()
+
     class Meta:
         model = CarPart
         fields = [
@@ -52,12 +54,34 @@ class CarPartSerializer(serializers.ModelSerializer):
             'url': {'lookup_field': 'slug'}
         }
 
+    def create(self, validated_data):
+        category_data = validated_data.pop('category')
+        category = CarPartCategory.objects.get(name=category_data['name'],
+                                               drive_type=category_data[
+                                                   'drive_type'])
+        car_part = CarPart.objects.create(category=category, **validated_data)
+        return car_part
+
+    def update(self, instance, validated_data):
+        instance.latest_fix_date = validated_data.get('latest_fix_date',
+                                                      instance.latest_fix_date)
+        instance.latest_fix_mileage = validated_data.get('latest_fix_mileage',
+                                                         instance.latest_fix_mileage)
+        instance.fix_every_period = validated_data.get('fix_every_period',
+                                                       instance.fix_every_period)
+        instance.fix_every_mileage = validated_data.get('fix_every_mileage',
+                                                        instance.fix_every_mileage)
+        instance.next_fix_date = validated_data.get('next_fix_date',
+                                                    instance.next_fix_date)
+        instance.next_fix_mileage = validated_data.get('next_fix_mileage',
+                                                       instance.next_fix_mileage)
+        instance.description = validated_data.get('description',
+                                                  instance.description)
+        instance.save()
+        return instance
+
 
 class CarSerializer(serializers.ModelSerializer):
-    owner = serializers.PrimaryKeyRelatedField(
-        read_only=True,
-        default=serializers.CurrentUserDefault()
-        )
     engine = EngineSerializer()
 
     class Meta:
@@ -82,3 +106,10 @@ class CarSerializer(serializers.ModelSerializer):
         engine = Engine.objects.create(**engine_data)
         car = Car.objects.create(engine=engine, **validated_data)
         return car
+
+    def update(self, instance, validated_data):
+        instance.registration = validated_data.get('registration',
+                                                   instance.registration)
+        instance.mileage = validated_data.get('mileage', instance.mileage)
+        instance.save()
+        return instance

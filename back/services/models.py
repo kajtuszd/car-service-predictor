@@ -24,7 +24,7 @@ class Service(models.Model):
     workshop = models.ForeignKey(Workshop, on_delete=models.CASCADE,
                                  blank=False, null=True)
     slug = models.CharField(_('Slug'), default=generate_slug, max_length=10,
-                             unique=True, db_index=True, editable=False)
+                            unique=True, db_index=True, editable=False)
 
     class Meta:
         verbose_name = _('service')

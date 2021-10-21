@@ -1,6 +1,6 @@
 import random
 import string
-from datetime import datetime
+from datetime import date
 
 import factory
 import factory.fuzzy
@@ -74,8 +74,8 @@ class CarFactory(factory.django.DjangoModelFactory):
 
 class CarPartFactory(factory.django.DjangoModelFactory):
     category = factory.SubFactory(CarPartCategoryFactory)
-    latest_fix_date = factory.fuzzy.FuzzyDateTime(
-        datetime(return_current_year(), 1, 1, tzinfo=timezone.now().tzinfo)
+    latest_fix_date = factory.fuzzy.FuzzyDate(
+        date(return_current_year(), 1, 1)
     )
     latest_fix_mileage = factory.fuzzy.FuzzyInteger(20, 1000)
     fix_every_period = factory.fuzzy.FuzzyInteger(20, 1000)

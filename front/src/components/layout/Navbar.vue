@@ -84,7 +84,15 @@
             },
             redirectToProfile() {
                 return this.$router.push('/profile');
+            },
+            refreshToken() {
+                if (this.$store.state.isAuthenticated) {
+                    axios.defaults.headers.common['Authorization'] = 'Token ' + this.$store.state.authToken
+                }
             }
+        },
+        mounted() {
+            this.refreshToken()
         }
     }
 </script>

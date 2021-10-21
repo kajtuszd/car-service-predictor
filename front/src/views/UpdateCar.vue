@@ -2,25 +2,25 @@
     <div class="container">
         <div class="columns">
             <div class="column is-4 is-offset-4">
-                <h1 class="title">Log In</h1>
+                <h1 class="title">Update your {{ this.car.brand }} {{ this.car.model }}</h1>
 
-                <form @submit.prevent="logInForm">
+                <form @submit.prevent="carForm">
                     <div class="field">
-                        <label>Username</label>
+                        <label>Registration</label>
                         <div class="control has-icons-left">
-                            <input type="text" name="username" class="input" v-model="username">
+                            <input type="text" name="registration" class="input" v-model="this.car.registration">
                             <span class="icon is-small is-left">
-                                <i class="fas fa-at"></i>
+                                <i class="fas fa-registered"></i>
                             </span>
                         </div>
                     </div>
 
                     <div class="field">
-                        <label>Password</label>
+                        <label>Car mileage</label>
                         <div class="control has-icons-left">
-                            <input type="password" name="password" class="input" v-model="password">
+                            <input type="text" name="carMileage" class="input" v-model="this.car.mileage">
                             <span class="icon is-small is-left">
-                                <i class="fas fa-lock"></i>
+                                <i class="fas fa-road"></i>
                             </span>
                         </div>
                     </div>
@@ -30,7 +30,9 @@
                         <p v-for="e in errors" :key="e">{{e}}</p>
                     </div>
 
-                    <div class="field">
+                    <br/>
+                    
+                    <div class="buttons">
                         <div class="control">
                             <button class="button is-success is-outlined">Submit</button>
                         </div>
@@ -46,40 +48,27 @@
     import {toast} from 'bulma-toast'
 
     export default {
-        name: 'LogIn',
+        name: 'UpdateCar',
         methods: {
-            async logInForm() {
+            async carForm() {
                 this.errors = []
 
-                if (this.username === '') {
-                    this.errors.push('Username is required.')
+                if (this.car.registration === '') {
+                    this.errors.push('Registration is required.')
                 }
 
-                if (this.password === '') {
-                    this.errors.push('Password is required.')
+                if (this.car.mileage === '') {
+                    this.errors.push('Car mileage number is required.')
                 }
-
-                axios.defaults.headers.common['Authorization'] = ''
-                localStorage.removeItem('authToken')
 
                 if (!this.errors.length) {
-                    const logInData = {
-                        username: this.username,
-                        password: this.password,
-                    }
-
-                    await axios
-                        .post('auth/token/login/', logInData)
+                    
+                    axios
+                        .patch(`cars/car/${this.car.slug}/`, this.car)
                         .then(response => {
-                            const authToken = response.data.auth_token
-                            this.$store.commit('setAuthToken', authToken, this.username)
-                            axios.defaults.headers.common['Authorization'] = 'Token ' + authToken
-                            localStorage.setItem('authToken', authToken)
-                            localStorage.setItem('username', this.username)
-
                             toast(
                                 {
-                                    message: 'Successfully logged in. ',
+                                    message: 'Car was updated successfully.',
                                     type: 'is-success',
                                     dismissible: true,
                                     pauseOnHover: true,
@@ -87,8 +76,7 @@
                                     animate: { in: 'fadeIn', out: 'fadeOut' },
                                 }
                             )
-
-                            this.$router.push('/profile')
+                            this.redirectToCarProfile()
                         })
                         .catch(error => {
                             if (error.response) {
@@ -103,14 +91,31 @@
             },
             cleanErrors() {
                 this.errors = []
-            }
+            },
+            redirectToCarProfile() {
+                return this.$router.back();
+            },
+            async getCar() {
+                const carSlug = this.$route.params.slug
+
+                axios
+                    .get(`cars/car/${carSlug}/`)
+                    .then(response => {
+                        this.car = response.data
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            },
+        },
+        mounted() {
+            this.getCar()
         },
         data() {
-        return {
-            username: '',
-            password: '',
-            errors: []
+            return {
+                errors: [],
+                car: '',
+            }
         }
     }
-}
 </script>
