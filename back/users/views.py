@@ -1,12 +1,12 @@
 from .models import User, Workshop
-from .serializers import UserSerializer, WorkshopSerializer
+from .serializers import UserSerializerDB, WorkshopSerializer
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, \
     IsAuthenticatedOrReadOnly
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
+    serializer_class = UserSerializerDB
     queryset = User.objects.all()
     lookup_field = 'username'
     permission_classes = [IsAuthenticated]

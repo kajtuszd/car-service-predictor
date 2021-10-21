@@ -23,7 +23,7 @@ class WorkshopSerializer(serializers.ModelSerializer):
         }
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializerDB(serializers.ModelSerializer):
     workshop = WorkshopSerializer()
 
     class Meta:

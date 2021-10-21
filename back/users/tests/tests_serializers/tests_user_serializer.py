@@ -1,6 +1,6 @@
 from django.test import TestCase, tag
 from users.factories import UserFactory
-from users.serializers import UserSerializer
+from users.serializers import UserSerializerDB
 
 
 class UserSerializerTests(TestCase):
@@ -16,6 +16,6 @@ class UserSerializerTests(TestCase):
 
     @tag('user')
     def test_serializer_contains_expected_data(self):
-        serialized_user = UserSerializer(instance=self.user)
+        serialized_user = UserSerializerDB(instance=self.user)
         for field in self.test_data.keys():
             self.assertEqual(self.test_data[field], serialized_user.data[field])
