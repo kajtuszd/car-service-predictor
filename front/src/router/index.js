@@ -9,6 +9,7 @@ import CarDetail from '../components/views/CarDetail.vue'
 import CarOwner from '../views/CarOwner.vue'
 import UserForm from '../views/UserForm.vue'
 import UpdateCar from '../views/UpdateCar.vue'
+import UpdateCarPart from '../views/UpdateCarPart.vue'
 import CarForm from '../views/CarForm.vue'
 import CarPartForm from '../views/CarPartForm.vue'
 import WorkshopForm from '../views/WorkshopForm.vue'
@@ -66,6 +67,14 @@ const routes = [
     path: '/profile/car-owner/:slug',
     name: 'CarDetail',
     component: CarDetail,
+    meta: {
+        loginRequired: true,
+    }
+  },
+  {
+    path: '/profile/car-owner/:slug/update-part/:part_slug',
+    name: 'UpdateCarPart',
+    component: UpdateCarPart,
     meta: {
         loginRequired: true,
     }

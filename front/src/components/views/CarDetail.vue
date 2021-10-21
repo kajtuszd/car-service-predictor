@@ -29,8 +29,17 @@
                         </footer>
                     </div>
                 </div>
+                <br/>
+                <div class="buttons">
+                    <div class="control">
+                        <button class="button is-danger is-outlined" @click="redirectToCarOwner">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
+
 
         <CarPartList />
 
@@ -61,6 +70,9 @@
                     .catch(error => {
                         console.log(error)
                     })
+            },
+            redirectToCarOwner() {
+                return this.$router.push('/profile/car-owner');
             },
         },
         data() {

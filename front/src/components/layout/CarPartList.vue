@@ -31,11 +31,11 @@
                         <td>{{ part.next_fix_date }}</td>
                         <td>{{ part.next_fix_mileage }}</td>
                         <td>{{ part.description }}</td>
-                        <!-- <td>
-                            <router-link :to="{ name: 'CarDetail', params: { slug: car.slug }}">
+                        <td>
+                            <router-link :to="{ name: 'UpdateCarPart', params: {slug: this.$route.params.slug, part_slug: part.slug }}">
                                 <button class="button is-dark is-outlined">More ...</button>
                             </router-link>
-                        </td> -->
+                        </td>
                     </tr>
                 </tbody>
             </table>
