@@ -20,10 +20,10 @@ class Service(models.Model):
                                                       MinValueValidator(0)],
                                decimal_places=2, max_digits=7)
     car_part = models.ForeignKey(CarPart, on_delete=models.CASCADE)
-    date_start = models.DateTimeField(_('Start date'),
-                                      validators=[no_past_validator])
-    date_finish = models.DateTimeField(_('Finish date'),
-                                       validators=[no_past_validator])
+    date = models.DateField(_('Service date'),
+                            validators=[no_past_validator],
+                            blank=True, null=True)
+    time = models.TimeField(_('Service time'), blank=True, null=True)
     is_active = models.BooleanField(_('Is active'), default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
