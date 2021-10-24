@@ -1,5 +1,6 @@
 from rest_framework import serializers
-
+from users.serializers import UserSerializerDB
+from users.models import User
 from .models import Car, CarPart, CarPartCategory, Engine
 
 
@@ -30,6 +31,41 @@ class CarPartCategorySerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'url': {'lookup_field': 'id'}
         }
+
+
+class CarSerializer(serializers.ModelSerializer):
+    engine = EngineSerializer()
+
+    class Meta:
+        model = Car
+        fields = [
+            'owner',
+            'brand',
+            'model',
+            'production_year',
+            'registration',
+            'mileage',
+            'engine',
+            'slug',
+        ]
+        lookup_field = 'slug'
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }
+
+    def create(self, validated_data):
+        engine_data = validated_data.pop('engine')
+        engine = Engine.objects.create(**engine_data)
+        car = Car.objects.create(engine=engine, **validated_data)
+        return car
+
+    def update(self, instance, validated_data):
+        validated_data.pop('owner')
+        instance.registration = validated_data.get('registration',
+                                                   instance.registration)
+        instance.mileage = validated_data.get('mileage', instance.mileage)
+        instance.save()
+        return instance
 
 
 class CarPartSerializer(serializers.ModelSerializer):
@@ -77,39 +113,5 @@ class CarPartSerializer(serializers.ModelSerializer):
                                                        instance.next_fix_mileage)
         instance.description = validated_data.get('description',
                                                   instance.description)
-        instance.save()
-        return instance
-
-
-class CarSerializer(serializers.ModelSerializer):
-    engine = EngineSerializer()
-
-    class Meta:
-        model = Car
-        fields = [
-            'owner',
-            'brand',
-            'model',
-            'production_year',
-            'registration',
-            'mileage',
-            'engine',
-            'slug',
-        ]
-        lookup_field = 'slug'
-        extra_kwargs = {
-            'url': {'lookup_field': 'slug'}
-        }
-
-    def create(self, validated_data):
-        engine_data = validated_data.pop('engine')
-        engine = Engine.objects.create(**engine_data)
-        car = Car.objects.create(engine=engine, **validated_data)
-        return car
-
-    def update(self, instance, validated_data):
-        instance.registration = validated_data.get('registration',
-                                                   instance.registration)
-        instance.mileage = validated_data.get('mileage', instance.mileage)
         instance.save()
         return instance

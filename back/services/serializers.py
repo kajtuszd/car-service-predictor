@@ -1,9 +1,14 @@
+from cars.serializers import CarPartSerializer
 from rest_framework import serializers
+from users.serializers import WorkshopSerializer
 
 from .models import Service
 
 
 class ServiceSerializer(serializers.ModelSerializer):
+    car_part = CarPartSerializer()
+    workshop = WorkshopSerializer()
+
     class Meta:
         model = Service
         fields = [

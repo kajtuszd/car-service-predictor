@@ -1,10 +1,17 @@
+from datetime import date
+
 from cars.models import CarPart
-from cars.validators import no_past_validator
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from users.models import Workshop
 from utils.slugs import generate_slug
+
+
+def no_past_validator(chosen_date):
+    if chosen_date.date() < date.today():
+        raise ValidationError('This cannot be done in the past.')
 
 
 class Service(models.Model):
