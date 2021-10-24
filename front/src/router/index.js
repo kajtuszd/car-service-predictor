@@ -13,6 +13,7 @@ import UpdateCarPart from '../views/UpdateCarPart.vue'
 import CarForm from '../views/CarForm.vue'
 import CarPartForm from '../views/CarPartForm.vue'
 import WorkshopForm from '../views/WorkshopForm.vue'
+import ServiceForm from '../views/ServiceForm.vue'
 import store from '../store'
 
 const routes = [
@@ -59,6 +60,14 @@ const routes = [
     path: '/profile/car-form',
     name: 'CarForm',
     component: CarForm,
+    meta: {
+        loginRequired: true,
+    }
+  },
+  {
+    path: '/profile/service-form',
+    name: 'ServiceForm',
+    component: ServiceForm,
     meta: {
         loginRequired: true,
     }

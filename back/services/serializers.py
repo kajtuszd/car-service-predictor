@@ -6,8 +6,8 @@ from .models import Service
 
 
 class ServiceSerializer(serializers.ModelSerializer):
-    car_part = CarPartSerializer()
-    workshop = WorkshopSerializer()
+    car_part = CarPartSerializer(required=False)
+    workshop = WorkshopSerializer(required=False)
 
     class Meta:
         model = Service

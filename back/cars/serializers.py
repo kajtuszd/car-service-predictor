@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from users.serializers import UserSerializerDB
-from users.models import User
+
 from .models import Car, CarPart, CarPartCategory, Engine
 
 
@@ -35,6 +35,7 @@ class CarPartCategorySerializer(serializers.ModelSerializer):
 
 class CarSerializer(serializers.ModelSerializer):
     engine = EngineSerializer()
+    owner = UserSerializerDB(required=False)
 
     class Meta:
         model = Car
@@ -60,7 +61,6 @@ class CarSerializer(serializers.ModelSerializer):
         return car
 
     def update(self, instance, validated_data):
-        validated_data.pop('owner')
         instance.registration = validated_data.get('registration',
                                                    instance.registration)
         instance.mileage = validated_data.get('mileage', instance.mileage)
@@ -70,6 +70,7 @@ class CarSerializer(serializers.ModelSerializer):
 
 class CarPartSerializer(serializers.ModelSerializer):
     category = CarPartCategorySerializer()
+    car = CarSerializer(required=False)
 
     class Meta:
         model = CarPart

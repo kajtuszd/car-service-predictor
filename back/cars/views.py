@@ -5,10 +5,6 @@ from rest_framework.permissions import (IsAuthenticated,
 from .models import Car, CarPart, CarPartCategory, Engine
 from .serializers import (CarPartCategorySerializer, CarPartSerializer,
                           CarSerializer, EngineSerializer)
-# from rest_framework.decorators import action
-# from users.serializers import UserSerializerDB
-# from users.models import User
-# from rest_framework.response import Response
 
 
 class CarViewSet(viewsets.ModelViewSet):
@@ -22,13 +18,6 @@ class CarViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self, *args, **kwargs):
         return self.queryset.filter(owner=self.request.user.pk)
-    
-    # @action(detail=True, methods=['get'])
-    # def car_owner(self, request):
-    #     car = self.get_object()
-    #     user = User.objects.get(username=car.owner.username)
-    #     serializer = UserSerializerDB(data=user.data)
-    #     return Response(serializer.data)
 
 
 class CarPartViewSet(viewsets.ModelViewSet):

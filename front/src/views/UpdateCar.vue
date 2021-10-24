@@ -62,9 +62,14 @@
                 }
 
                 if (!this.errors.length) {
+
+                    const carData = {
+                        mileage: this.car.mileage,
+                        registration: this.registration,
+                    }
                     
                     axios
-                        .patch(`cars/car/${this.car.slug}/`, this.car)
+                        .patch(`cars/car/${this.car.slug}/`, carData)
                         .then(response => {
                             toast(
                                 {

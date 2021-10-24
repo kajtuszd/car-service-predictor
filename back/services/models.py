@@ -10,7 +10,7 @@ from utils.slugs import generate_slug
 
 
 def no_past_validator(chosen_date):
-    if chosen_date.date() < date.today():
+    if chosen_date < date.today():
         raise ValidationError('This cannot be done in the past.')
 
 
