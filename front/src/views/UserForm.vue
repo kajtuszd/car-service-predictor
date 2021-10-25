@@ -8,7 +8,7 @@
                     <div class="field">
                         <label>Name</label>
                         <div class="control has-icons-left">
-                            <input type="text" name="first_name" class="input" v-model="first_name">
+                            <input type="text" name="first_name" class="input" v-model="this.user.first_name">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-signature"></i>
                             </span>
@@ -18,7 +18,7 @@
                     <div class="field">
                         <label>Surname</label>
                         <div class="control has-icons-left">
-                            <input type="text" name="last_name" class="input" v-model="last_name">
+                            <input type="text" name="last_name" class="input" v-model="this.user.last_name">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-signature"></i>
                             </span>
@@ -28,7 +28,7 @@
                     <div class="field">
                         <label>City</label>
                         <div class="control has-icons-left">
-                            <input type="text" name="city" class="input" v-model="city">
+                            <input type="text" name="city" class="input" v-model="this.user.city">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-city"></i>
                             </span>
@@ -38,7 +38,7 @@
                     <div class="field">
                         <label>Street</label>
                         <div class="control has-icons-left">
-                            <input type="text" name="street" class="input" v-model="street">
+                            <input type="text" name="street" class="input" v-model="this.user.street">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-road"></i>
                             </span>
@@ -49,7 +49,7 @@
                     <div class="field">
                         <label>House number</label>
                         <div class="control has-icons-left">
-                            <input type="text" name="house_number" class="input" v-model="house_number">
+                            <input type="text" name="house_number" class="input" v-model="this.user.house_number">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-home"></i>
                             </span>
@@ -59,7 +59,7 @@
                     <div class="field">
                         <label>Flat number</label>
                         <div class="control has-icons-left">
-                            <input type="text" name="flat_number" class="input" v-model="flat_number">
+                            <input type="text" name="flat_number" class="input" v-model="this.user.flat_number">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-home"></i>
                             </span>
@@ -69,7 +69,7 @@
                     <div class="field">
                         <label>Zip code</label>
                         <div class="control has-icons-left">
-                            <input type="text" name="zip_code" class="input" v-model="zip_code">
+                            <input type="text" name="zip_code" class="input" v-model="this.user.zip_code">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-sort-numeric-up-alt"></i>
                             </span>
@@ -98,6 +98,9 @@
 
     export default {
         name: 'UserForm',
+        mounted() {
+            this.getUser()
+        },
         methods: {
             userForm() {
                 this.errors = []
@@ -127,14 +130,15 @@
                 }
 
                 if (!this.errors.length) {
+
                     const userData = {
-                        first_name: this.first_name,
-                        last_name: this.last_name,
-                        city: this.city,
-                        street: this.street,
-                        house_number: this.house_number,
-                        flat_number: this.flat_number,
-                        zip_code: this.zip_code,
+                        first_name: this.user.first_name,
+                        last_name: this.user.last_name,
+                        city: this.user.city,
+                        street: this.user.street,
+                        house_number: this.user.house_number,
+                        flat_number: this.user.flat_number,
+                        zip_code: this.user.zip_code,
                     }
 
                     const usernameStored = localStorage.getItem('username')
@@ -166,7 +170,18 @@
                         })
                 }
             },
+            async getUser() {
+                const usernameStored = localStorage.getItem('username')
 
+                axios
+                    .get(`users/user/${usernameStored}/`)
+                    .then(response => {
+                        this.user = response.data
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            },
             cleanErrors() {
                 this.errors = []
             }
@@ -174,13 +189,7 @@
         },
         data() {
             return {
-                first_name: '',
-                last_name: '',
-                city: '',
-                street: '',
-                house_number: '',
-                flat_number: '',
-                zip_code: '',
+                user: '',
                 errors: []
             }
         }

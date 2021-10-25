@@ -105,7 +105,6 @@
                     
                     let workshop = this.workshops.find(elem => elem.workshop_name === this.workshop)
                     let partTextWordsArray = this.part.split(" ")
-                    // let partCategoryName = partTextWordsArray[partTextWordsArray.length - 1] 
                     
                     let partCategoryName = ''
                     for (let i = partTextWordsArray.length - 1; partTextWordsArray[i] !== '-'; i--) {

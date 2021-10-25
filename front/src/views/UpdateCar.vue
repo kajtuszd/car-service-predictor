@@ -65,7 +65,7 @@
 
                     const carData = {
                         mileage: this.car.mileage,
-                        registration: this.registration,
+                        registration: this.car.registration,
                     }
                     
                     axios
