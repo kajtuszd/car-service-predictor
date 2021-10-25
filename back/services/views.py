@@ -1,9 +1,10 @@
-from .models import Service
-from .serializers import ServiceSerializer
+from cars.models import Car, CarPart
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from users.models import Workshop
-from cars.models import CarPart
+
+from .models import Service
+from .serializers import ServiceSerializer
 
 
 class ServiceViewSet(viewsets.ModelViewSet):
@@ -18,3 +19,14 @@ class ServiceViewSet(viewsets.ModelViewSet):
         workshop = Workshop.objects.get(workshop_name=workshop_name)
         car_part = CarPart.objects.get(slug=car_part_slug)
         serializer.save(workshop=workshop, car_part=car_part)
+
+# TODO: add param for workshop
+    def get_queryset(self, *args, **kwargs):
+        cars = Car.objects.filter(owner=self.request.user.pk)
+        car_parts = []
+        for car in cars:
+            car_parts += CarPart.objects.filter(car=car)
+        services = []
+        for car_part in car_parts:
+            services += Service.objects.filter(car_part=car_part)
+        return services

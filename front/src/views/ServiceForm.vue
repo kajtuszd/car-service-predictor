@@ -19,7 +19,7 @@
                         <label>Car part</label> <br/>
                         <div class="select">
                             <select v-model="part">
-                                <option v-for="part in parts" v-bind:key="part">
+                                <option v-for="part in parts" v-bind:key="part" :value="part.slug">
                                     {{ part.car.brand }} {{ part.car.model }} - {{ part.category.name }}
                                 </option>
                             </select>
@@ -104,16 +104,6 @@
                 if (!this.errors.length) {
                     
                     let workshop = this.workshops.find(elem => elem.workshop_name === this.workshop)
-                    let partTextWordsArray = this.part.split(" ")
-                    
-                    let partCategoryName = ''
-                    for (let i = partTextWordsArray.length - 1; partTextWordsArray[i] !== '-'; i--) {
-                        partCategoryName = (partTextWordsArray[i] + ' ').concat(partCategoryName)
-                    }
-                    var lastIndex = partCategoryName.lastIndexOf(" ");
-                    partCategoryName = partCategoryName.substring(0, lastIndex)
-                    console.log(partCategoryName)
-                    let part = this.parts.find(elem => elem.category.name === partCategoryName)
 
                     const serviceData = {
                         title: this.title,
@@ -121,12 +111,12 @@
                         time: this.time,
                         description: this.description,
                         workshop_name: workshop.workshop_name,
-                        car_part_slug: part.slug,
+                        car_part_slug: this.part,
                         cost: 0,
                     }
                     
                     axios
-                        .post('services/service/', serviceData, {params: { car_part_slug: part.slug, workshop_name: workshop.workshop_name}})
+                        .post('services/service/', serviceData, {params: { car_part_slug: this.part, workshop_name: workshop.workshop_name}})
                         .then(response => {
                             toast(
                                 {

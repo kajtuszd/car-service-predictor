@@ -36,7 +36,11 @@ class CarPartViewSet(viewsets.ModelViewSet):
         if car_slug is not None:
             car = Car.objects.get(slug=car_slug)
             return self.queryset.filter(car=car)
-        return self.queryset
+        cars = Car.objects.filter(owner=self.request.user.pk)
+        car_parts_queryset = []
+        for car in cars:
+            car_parts_queryset += CarPart.objects.filter(car=car)
+        return car_parts_queryset
 
 
 class CarPartCategoryViewSet(viewsets.ModelViewSet):
