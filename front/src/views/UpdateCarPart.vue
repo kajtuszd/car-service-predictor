@@ -107,8 +107,18 @@
                 if (!this.errors.length) {
                     const carPartSlug = this.$route.params.part_slug
 
+                    const carPartData = {
+                        latest_fix_date : this.carPart.latest_fix_date,
+                        latest_fix_mileage : this.carPart.latest_fix_mileage,
+                        fix_every_period : this.carPart.fix_every_period,
+                        fix_every_mileage : this.carPart.fix_every_mileage,
+                        next_fix_date : this.carPart.next_fix_date,
+                        next_fix_mileage : this.carPart.next_fix_mileage,
+                        description : this.carPart.description,
+                    }
+
                     await axios
-                        .patch(`cars/car-part/${carPartSlug}/`, this.carPart)
+                        .patch(`cars/car-part/${carPartSlug}/`, carPartData, {params: { car_slug: this.$route.params.slug} } )
                         .then(response => {
                             toast(
                                 {
@@ -141,9 +151,10 @@
             },
             async getCarPart() {
                 const carPartSlug = this.$route.params.part_slug
+                const carSlug = this.$route.params.slug
 
                 await axios
-                    .get(`cars/car-part/${carPartSlug}/`)
+                    .get(`cars/car-part/${carPartSlug}/`, {params: { car_slug:  carSlug} })
                     .then(response => {
                         this.carPart = response.data
                     })

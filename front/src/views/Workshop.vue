@@ -36,16 +36,22 @@
                 </div>
             </div>
         </div>
+
+        <WorkshopServiceList/>
     </div>
 </template>
 
 <script>
     import axios from 'axios'
+    import WorkshopServiceList from '../components/views/WorkshopServiceList.vue'
 
     export default {
         name: 'Workshop',
         mounted() {
             this.isWorkshopCreated()
+        },
+        components: {
+            WorkshopServiceList
         },
         methods: {
             async isWorkshopCreated() {

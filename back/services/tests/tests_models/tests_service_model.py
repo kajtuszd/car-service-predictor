@@ -1,6 +1,5 @@
-from datetime import timedelta
+from datetime import date, timedelta
 
-from django.core.exceptions import ValidationError
 from django.test import TestCase, tag
 from services.factories import ServiceFactory
 
@@ -57,14 +56,6 @@ class ServiceModelTests(TestCase):
         for service in self.services:
             self.assertEquals(service.__str__(), f'{service.title}')
 
-    def test_finish_date_is_after_start_date(self):
+    def test_finish_date_is_not_in_past(self):
         for service in self.services:
-            self.assertGreater(service.date_finish, service.date_start)
-
-    def test_finish_date_is_before_start_date(self):
-        for service in self.services:
-            service.date_finish = service.date_start - timedelta(hours=1)
-            with self.assertRaises(ValidationError,
-                                   msg='Service start date should be before '
-                                       'finish date.'):
-                service.save()
+            self.assertGreater(service.date, date.today() - timedelta(days=1))

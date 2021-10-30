@@ -4,7 +4,6 @@ from datetime import date
 
 import factory
 import factory.fuzzy
-from django.utils import timezone
 from users.factories import UserFactory
 
 from .models import EngineType, return_current_year

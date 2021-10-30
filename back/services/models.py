@@ -1,10 +1,17 @@
+from datetime import date
+
 from cars.models import CarPart
-from cars.validators import no_past_validator
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from users.models import Workshop
 from utils.slugs import generate_slug
+
+
+def no_past_validator(chosen_date):
+    if chosen_date < date.today():
+        raise ValidationError('This cannot be done in the past.')
 
 
 class Service(models.Model):
@@ -13,10 +20,10 @@ class Service(models.Model):
                                                       MinValueValidator(0)],
                                decimal_places=2, max_digits=7)
     car_part = models.ForeignKey(CarPart, on_delete=models.CASCADE)
-    date_start = models.DateTimeField(_('Start date'),
-                                      validators=[no_past_validator])
-    date_finish = models.DateTimeField(_('Finish date'),
-                                       validators=[no_past_validator])
+    date = models.DateField(_('Service date'),
+                            validators=[no_past_validator],
+                            blank=True, null=True)
+    time = models.TimeField(_('Service time'), blank=True, null=True)
     is_active = models.BooleanField(_('Is active'), default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -8,15 +8,19 @@
         </div>
 
         <CarList />
+        <ServiceList />
     </div>
 </template>
 
 <script>
     import CarList from '../components/views/CarList.vue'
+    import ServiceList from '../components/views/ServiceList.vue'
+
     export default {
         name: 'CarOwner',
         components: {
             CarList,
+            ServiceList,
         },
     }
 </script>
