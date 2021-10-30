@@ -31,14 +31,16 @@
                         <td>{{ service.date }}</td>
                         <td>{{ service.is_active }}</td>
                         <td>{{ service.workshop.workshop_name }}</td>
+                        <td>
+                            <router-link :to="{ name: 'UpdateService', params: { slug: service.slug }}">
+                                <button class="button is-dark is-outlined">More ...</button>
+                            </router-link>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <router-link to="service-form">
-            <button class="button is-success is-outlined">+ Add service</button>
-        </router-link>
     </div>
 </template>
 
