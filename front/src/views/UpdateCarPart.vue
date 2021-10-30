@@ -118,7 +118,7 @@
                     }
 
                     await axios
-                        .patch(`cars/car-part/${carPartSlug}/`, carPartData)
+                        .patch(`cars/car-part/${carPartSlug}/`, carPartData, {params: { car_slug: this.$route.params.slug} } )
                         .then(response => {
                             toast(
                                 {
@@ -151,9 +151,10 @@
             },
             async getCarPart() {
                 const carPartSlug = this.$route.params.part_slug
+                const carSlug = this.$route.params.slug
 
                 await axios
-                    .get(`cars/car-part/${carPartSlug}/`)
+                    .get(`cars/car-part/${carPartSlug}/`, {params: { car_slug:  carSlug} })
                     .then(response => {
                         this.carPart = response.data
                     })

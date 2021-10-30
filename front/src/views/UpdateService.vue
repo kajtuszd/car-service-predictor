@@ -55,6 +55,11 @@
                         </div>
                     </div>
 
+                    <label class="checkbox">Is active</label>
+                    <div class="control">
+                        <input type="checkbox" name="is_active" v-model="this.service.is_active">
+                    </div>
+
                     <div class="notification is-danger" v-if="errors.length">
                         <button class="delete" v-on:click="cleanErrors"></button>
                         <p v-for="e in errors" :key="e">{{e}}</p>
@@ -93,6 +98,7 @@
                         workshop_name: this.service.workshop_name,
                         car_part_slug: this.service.part,
                         cost: this.service.cost,
+                        is_active: this.service.is_active,
                     }
                     
                     await axios
