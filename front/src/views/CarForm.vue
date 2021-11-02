@@ -56,6 +56,16 @@
                     </div>
 
                     <div class="field">
+                        <label>Daily car mileage</label>
+                        <div class="control has-icons-left">
+                            <input type="text" name="dailyCarMileage" class="input" v-model="dailyCarMileage">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-road"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
                         <label>Engine Capacity</label>
                         <div class="control has-icons-left">
                             <input type="text" name="capacity" class="input" v-model="capacity">
@@ -137,6 +147,10 @@
                     this.errors.push('Car mileage number is required.')
                 }
 
+                if (this.dailyCarMileage === '') {
+                    this.errors.push('Daily car mileage is required.')
+                }
+
                 if (!this.errors.length) {
 
                     const engineData = {
@@ -151,6 +165,7 @@
                         production_year: this.productionYear,
                         registration: this.registration,
                         mileage: this.carMileage,
+                        daily_mileage: this.dailyCarMileage,
                         engine: engineData,
                     }
                     
@@ -198,6 +213,7 @@
                 horsepower: '',
                 capacity: '',
                 driveType: '',
+                dailyCarMileage: '',
                 errors: []
             }
         }

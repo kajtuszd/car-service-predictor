@@ -40,7 +40,7 @@ class Engine(models.Model):
     engine_type = models.CharField(_('Engine type'), max_length=20,
                                    choices=EngineType.TYPES)
     slug = models.CharField(_('Slug'), default=generate_slug, max_length=10,
-                             unique=True, db_index=True, editable=False)
+                            unique=True, db_index=True, editable=False)
 
     class Meta:
         verbose_name = _('engine')
@@ -92,8 +92,12 @@ class Car(models.Model):
                                               MaxValueValidator(1000000)])
     engine = models.ForeignKey(Engine, on_delete=models.CASCADE, null=True,
                                blank=False)
+    daily_mileage = models.PositiveIntegerField(_('Daily car mileage'),
+                                                validators=[
+                                                    MaxValueValidator(10000)],
+                                                default=10)
     slug = AutoSlugField(populate_from=['brand', 'model'], db_index=True,
-                                unique=True, slugify_function=append_slug)
+                         unique=True, slugify_function=append_slug)
 
     class Meta:
         verbose_name = _('car')
@@ -110,7 +114,7 @@ class Car(models.Model):
 class CarPart(models.Model):
     category = models.ForeignKey(CarPartCategory, on_delete=models.CASCADE)
     latest_fix_date = models.DateField(_('Latest service date'),
-                                           validators=[no_future_validator])
+                                       validators=[no_future_validator])
     latest_fix_mileage = models.PositiveIntegerField(
         _('Car mileage before latest service'),
         validators=[MinValueValidator(0), MaxValueValidator(1000000)],
@@ -122,8 +126,8 @@ class CarPart(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(1000000)],
     )
     next_fix_date = models.DateField(_('Next service date'),
-                                         validators=[no_past_validator],
-                                         blank=True, null=True)
+                                     validators=[no_past_validator],
+                                     blank=True, null=True)
     next_fix_mileage = models.PositiveIntegerField(
         _('Mileage until next service'),
         validators=[MinValueValidator(0), MaxValueValidator(1000000)],
@@ -131,9 +135,10 @@ class CarPart(models.Model):
     )
     description = models.CharField(_('Car part description'), max_length=50,
                                    blank=True, null=True)
-    car = models.ForeignKey(Car, on_delete=models.CASCADE, blank=False, null=True)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, blank=False,
+                            null=True)
     slug = models.CharField(_('Slug'), default=generate_slug, max_length=10,
-                             unique=True, db_index=True, editable=False)
+                            unique=True, db_index=True, editable=False)
 
     class Meta:
         verbose_name = _('car part')

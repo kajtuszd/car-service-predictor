@@ -47,6 +47,7 @@ class CarSerializer(serializers.ModelSerializer):
             'registration',
             'mileage',
             'engine',
+            'daily_mileage',
             'slug',
         ]
         lookup_field = 'slug'
@@ -64,6 +65,8 @@ class CarSerializer(serializers.ModelSerializer):
         instance.registration = validated_data.get('registration',
                                                    instance.registration)
         instance.mileage = validated_data.get('mileage', instance.mileage)
+        instance.daily_mileage = validated_data.get('daily_mileage',
+                                                    instance.daily_mileage)
         instance.save()
         return instance
 
