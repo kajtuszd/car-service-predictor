@@ -13,6 +13,8 @@
                         <th>Brand</th>
                         <th>Model</th>
                         <th>Production year</th>
+                        <th>Mileage</th>
+                        <th>Daily mileage</th>
                     </tr>
                 </thead>
 
@@ -21,6 +23,8 @@
                         <td>{{ car.brand }}</td>
                         <td>{{ car.model }}</td>
                         <td>{{ car.production_year }}</td>
+                        <td>{{ car.mileage }}</td>
+                        <td>{{ car.daily_mileage }}</td>
                         <td>
                             <router-link :to="{ name: 'CarDetail', params: { slug: car.slug }}">
                                 <button class="button is-dark is-outlined">More ...</button>
