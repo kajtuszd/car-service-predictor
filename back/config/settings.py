@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'djoser',
     'drf_yasg',
+    'celery',
+    # 'django_celery_beat',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -132,7 +134,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Warsaw'
 
 USE_I18N = True
 
@@ -145,3 +147,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Celery
+
+CELERY_BROKER_URL = "redis://redis:6379"
+CELERY_RESULT_BACKEND = "redis://redis:6379"

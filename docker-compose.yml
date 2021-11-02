@@ -20,6 +20,7 @@ services:
    - .env
   depends_on:
    - db
+   - redis
   links:
    - db:db
   volumes:
@@ -29,6 +30,24 @@ services:
   networks: 
    - nginx_network
    - backend_network
+
+ redis:
+  image: redis:alpine
+  container_name: redis
+
+ celery:
+  container_name: celery
+  restart: always
+  build: ./back
+  entrypoint: "celery -A config worker -l info"
+  volumes:
+   - ./back:/back
+  env_file:
+   - .env
+  depends_on:
+   - db
+   - redis
+   - webapp
 
  front:
   build: ./front
