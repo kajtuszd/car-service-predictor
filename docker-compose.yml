@@ -34,6 +34,8 @@ services:
  redis:
   image: redis:alpine
   container_name: redis
+  networks: 
+   - backend_network
 
  celery:
   container_name: celery
@@ -48,6 +50,24 @@ services:
    - db
    - redis
    - webapp
+  networks: 
+   - backend_network
+
+ celery-beat:
+  container_name: celery-beat
+  restart: always
+  build: ./back
+  entrypoint: "celery -A config beat -l info"
+  volumes:
+   - ./back:/back
+  env_file:
+   - .env
+  depends_on:
+   - db
+   - redis
+   - webapp
+  networks: 
+   - backend_network
 
  front:
   build: ./front

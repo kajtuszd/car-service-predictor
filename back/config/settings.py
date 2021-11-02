@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'djoser',
     'drf_yasg',
     'celery',
-    # 'django_celery_beat',
+    'django_celery_beat',
 ]
 
 CORS_ALLOWED_ORIGINS = [
