@@ -45,17 +45,21 @@ def calculate_next_fix_date():
         
         # 1 case
         days_until_service_needed = car_part.next_fix_mileage / car_part.car.daily_mileage
-        print("\n\n1 Days until fix " + str(days_until_service_needed) + "\n\n")
+        # print("\n\n1 Days until fix " + str(days_until_service_needed) + "\n\n")
         
         next_fix_date1 = date.today() + timedelta(days=days_until_service_needed)
-        print("date " + str(next_fix_date1) + "\n\n")
+        # print("date " + str(next_fix_date1) + "\n\n")
 
         # 2 case
         next_fix_date2 = car_part.latest_fix_date + timedelta(days=car_part.fix_every_period)
-        print("\n\n2 Days until fix" + str(next_fix_date2) + "\n\n")
+        # print("\n\n2 Days until fix" + str(next_fix_date2) + "\n\n")
 
-        if next_fix_date1 < next_fix_date2:
-            car_part.next_fix_date = next_fix_date1
+        if next_fix_date1 < car_part.next_fix_date or next_fix_date2 < car_part.next_fix_date:
+            car_part.next_fix_date = date.today()
         else:
-            car_part.next_fix_date = next_fix_date2
+            if next_fix_date1 < next_fix_date2:
+                car_part.next_fix_date = next_fix_date1
+            else:
+                car_part.next_fix_date = next_fix_date2
+
         car_part.save()
