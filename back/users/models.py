@@ -52,8 +52,6 @@ class User(AbstractUser):
     email = models.CharField(_('Email address'), max_length=30, unique=True,
                              validators=[EmailValidator(
                                  message='Please enter valid E-mail address')])
-    is_customer = models.BooleanField(_('Is customer'), default=False)
-    is_workshop = models.BooleanField(_('Is workshop'), default=False)
     city = models.CharField(_('City'), max_length=30, null=True)
     street = models.CharField(_('Street'), max_length=30, null=True)
     house_number = models.IntegerField(_('House number'), null=True,
