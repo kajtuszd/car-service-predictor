@@ -47,26 +47,6 @@
                     </div>
 
                     <div class="field">
-                        <label>Next Fix Date</label>
-                        <div class="control has-icons-left">
-                            <input type="date" name="next_fix_date" class="input" v-model="this.carPart.next_fix_date">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-calendar"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label>Next Fix Mileage</label>
-                        <div class="control has-icons-left">
-                            <input type="text" name="next_fix_mileage" class="input" v-model="this.carPart.next_fix_mileage">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-road"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="field">
                         <label>Description</label>
                         <div class="control has-icons-left">
                             <input type="text" name="description" class="input" v-model="this.carPart.description">
@@ -112,8 +92,6 @@
                         latest_fix_mileage : this.carPart.latest_fix_mileage,
                         fix_every_period : this.carPart.fix_every_period,
                         fix_every_mileage : this.carPart.fix_every_mileage,
-                        next_fix_date : this.carPart.next_fix_date,
-                        next_fix_mileage : this.carPart.next_fix_mileage,
                         description : this.carPart.description,
                     }
 

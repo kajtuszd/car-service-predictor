@@ -15,8 +15,8 @@ def set_up_service_task(instance, **kwargs):
         d_hours = instance.time.hour - datetime.now().hour
         d_date = instance.date - datetime.now().date()
         service_datetime = datetime.utcnow() + timedelta(seconds=d_seconds,
-                                                        minutes=d_minutes,
-                                                        hours=d_hours,
-                                                        days=d_date.days)
+                                                         minutes=d_minutes,
+                                                         hours=d_hours,
+                                                         days=d_date.days)
         update_service.apply_async(eta=service_datetime,
-                                kwargs={'slug': instance.slug})
+                                   kwargs={'slug': instance.slug})
