@@ -133,6 +133,14 @@ class CarPart(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(1000000)],
         blank=True, null=True
     )
+    predicted_fix_date = models.DateField(_('Predicted service date'),
+                                          blank=True, null=True,
+                                          validators=[no_past_validator])
+    predicted_fix_mileage = models.PositiveIntegerField(
+        _('Mileage until next service'),
+        validators=[MinValueValidator(0), MaxValueValidator(1000000)],
+        blank=True, null=True
+    )
     description = models.CharField(_('Car part description'), max_length=50,
                                    blank=True, null=True)
     car = models.ForeignKey(Car, on_delete=models.CASCADE, blank=False,

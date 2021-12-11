@@ -4,6 +4,7 @@ from rest_framework import serializers
 from users.serializers import UserSerializerDB
 
 from .models import Car, CarPart, CarPartCategory, Engine
+from services.models import Service
 
 
 class EngineSerializer(serializers.ModelSerializer):
@@ -87,15 +88,60 @@ class CarPartSerializer(serializers.ModelSerializer):
             'fix_every_mileage',
             'next_fix_date',
             'next_fix_mileage',
+            'predicted_fix_date',
+            'predicted_fix_mileage',
             'description',
             'car',
             'slug',
         ]
-        optional_fields = ['next_fix_date', 'next_fix_mileage', ]
+        optional_fields = [
+            'next_fix_date',
+            'next_fix_mileage',
+            'predicted_fix_date',
+            'predicted_fix_mileage'
+        ]
         lookup_field = 'slug'
         extra_kwargs = {
             'url': {'lookup_field': 'slug'}
         }
+
+    @staticmethod
+    def calculate_predicted_fix_data(car_part):
+        brand = car_part.car.brand
+        model = car_part.car.model
+        cars = Car.objects.filter(brand=brand, model=model)
+        category = CarPartCategory.objects.get(name=car_part.category.name)
+        car_parts = []
+        for car in cars:
+            car_parts += CarPart.objects.filter(car=car, category=category)
+        services = []
+        if car_parts:
+            for car_part in car_parts:
+                services += Service.objects.filter(car_part=car_part)
+            inactive_services = []
+            for service in services:
+                if not service.is_active:
+                    inactive_services.append(service)
+            if not inactive_services:
+                car_part.predicted_fix_mileage = None
+                car_part.predicted_fix_date = None
+                car_part.save()
+                return car_part
+            sum_days = 0
+            sum_mileage = 0
+            for inactive_service in inactive_services:
+                sum_days += inactive_service.days_from_latest_fix
+                sum_mileage += inactive_service.mileage_from_latest_fix
+            car_part.predicted_fix_mileage = car_part.latest_fix_mileage + sum_mileage / len(
+                inactive_services)
+            car_part.predicted_fix_date = car_part.latest_fix_date + timedelta(
+                days=sum_days / len(inactive_services))
+            car_part.save()
+            return car_part
+        car_part.predicted_fix_mileage = None
+        car_part.predicted_fix_date = None
+        car_part.save()
+        return car_part
 
     def create(self, validated_data):
         category_data = validated_data.pop('category')
@@ -117,6 +163,7 @@ class CarPartSerializer(serializers.ModelSerializer):
                                           fix_every_mileage=fix_every_mileage,
                                           latest_fix_date=latest_fix_date,
                                           **validated_data)
+        car_part = self.calculate_predicted_fix_data(car_part)
         return car_part
 
     def update(self, instance, validated_data):
@@ -135,4 +182,5 @@ class CarPartSerializer(serializers.ModelSerializer):
         instance.description = validated_data.get('description',
                                                   instance.description)
         instance.save()
-        return instance
+        car_part = self.calculate_predicted_fix_data(instance)
+        return car_part

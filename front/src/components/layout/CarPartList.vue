@@ -17,6 +17,8 @@
                         <th>Fix every mileage</th>
                         <th>Next fix date</th>
                         <th>Next fix mileage</th>
+                        <th>Predicted fix date</th>
+                        <th>Predicted fix mileage</th>
                         <th>Description</th>
                     </tr>
                 </thead>
@@ -30,7 +32,21 @@
                         <td>{{ part.fix_every_mileage }}</td>
                         <td>{{ part.next_fix_date }}</td>
                         <td>{{ part.next_fix_mileage }}</td>
-                        <td>{{ part.description }}</td>
+                        
+                        <td v-if="!part.predicted_fix_date">
+                            Insufficient data
+                        </td>
+                        <td v-else>
+                            {{ part.predicted_fix_date }}
+                        </td>
+
+                        <td v-if="!part.predicted_fix_mileage">
+                            Insufficient data
+                        </td>
+                        <td v-else>
+                            {{ part.predicted_fix_mileage }}
+                        </td>
+                        
                         <td>
                             <router-link :to="{ name: 'UpdateCarPart', params: {slug: this.$route.params.slug, part_slug: part.slug }}">
                                 <button class="button is-dark is-outlined">More ...</button>

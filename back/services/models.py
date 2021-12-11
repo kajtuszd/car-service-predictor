@@ -27,6 +27,12 @@ class Service(models.Model):
     is_active = models.BooleanField(_('Is active'), default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    days_from_latest_fix = models.PositiveIntegerField(
+        _('Days from latest fix'), validators=[MaxValueValidator(10000)],
+        default=0)
+    mileage_from_latest_fix = models.PositiveIntegerField(
+        _('Mileage from latest fix'), validators=[MaxValueValidator(1000000)],
+        default=0)
     description = models.CharField(_('Description'), max_length=100, blank=True)
     workshop = models.ForeignKey(Workshop, on_delete=models.CASCADE,
                                  blank=False, null=True)
