@@ -129,7 +129,7 @@ class CarPart(models.Model):
                                      validators=[no_past_validator],
                                      blank=True, null=True)
     next_fix_mileage = models.PositiveIntegerField(
-        _('Mileage until next service'),
+        _('Next service mileage'),
         validators=[MinValueValidator(0), MaxValueValidator(1000000)],
         blank=True, null=True
     )
