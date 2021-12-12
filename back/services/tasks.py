@@ -6,6 +6,19 @@ from cars.models import Car, CarPart, CarPartCategory
 from celery import shared_task
 
 from .models import Service
+from django.core.mail import send_mail
+from django.conf import settings
+
+
+@shared_task
+def send_email_service_confirmation(slug):
+    print("An email was sent")
+    service = Service.objects.get(slug=slug)
+    send_mail('Service confirmation',
+            'Hi, your service will take place in {}'.format(service.workshop),
+            settings.DEFAULT_FROM_EMAIL,
+            (service.car_part.car.owner.email,)
+        )
 
 
 def calculate_next_fix_date(car_part):
