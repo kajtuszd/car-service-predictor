@@ -6,24 +6,23 @@ from cars.models import Car, CarPart, CarPartCategory
 from celery import shared_task
 from django.conf import settings
 from django.core.mail import send_mail
-
-from .models import Service
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+
+from .models import Service
 
 
 @shared_task
 def send_email_service_confirmation(slug):
     service = Service.objects.get(slug=slug)
-    html_message = render_to_string('mail_template.html', {'context': service})
+    html_message = render_to_string('mail_template.html', {'service': service})
     plain_message = strip_tags(html_message)
-    send_mail('Service confirmation',
+    send_mail('Service booking confirmation',
             plain_message,
             settings.DEFAULT_FROM_EMAIL,
             (service.car_part.car.owner.email,),
             html_message=html_message
         )
-    print("An email was sent")
 
 
 def calculate_next_fix_date(car_part):
