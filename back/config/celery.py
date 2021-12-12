@@ -25,7 +25,11 @@ app.conf.beat_schedule = {
     'every-day_calculate_predicted_fix_data': {
         'task': 'services.tasks.calculate_predicted_fix_data',
         'schedule': crontab(minute=2, hour=0),
-    }
+    },
+    'every-day_send_service_reminder': {
+        'task': 'services.tasks.send_service_reminder',
+        'schedule': crontab(minute=0, hour=0),
+    },
 }
 
 

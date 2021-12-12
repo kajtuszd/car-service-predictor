@@ -72,6 +72,8 @@ class ServiceSerializer(serializers.ModelSerializer):
         instance.date = validated_data.get('date', instance.date)
         instance.time = validated_data.get('time', instance.time)
         instance.cost = validated_data.get('cost', instance.cost)
+        instance.is_active = validated_data.get('is_active',
+                                                instance.is_active)
         instance.description = validated_data.get('description',
                                                   instance.description)
         instance.save()

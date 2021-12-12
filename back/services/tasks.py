@@ -38,6 +38,20 @@ def send_email_service_update(slug):
               )
 
 
+@shared_task
+def send_service_reminder():
+    todays_services = Service.objects.filter(date=date.today(), is_active=True)
+    for service in todays_services:
+        html_message = render_to_string('service_reminder.html', {'service': service})
+        plain_message = strip_tags(html_message)
+        send_mail('Booked service reminder',
+                plain_message,
+                settings.DEFAULT_FROM_EMAIL,
+                (service.car_part.car.owner.email,),
+                html_message=html_message
+                )
+
+
 def calculate_next_fix_date(car_part):
     car_part.next_fix_mileage = car_part.latest_fix_mileage + car_part.fix_every_mileage
     next_service_days = (
