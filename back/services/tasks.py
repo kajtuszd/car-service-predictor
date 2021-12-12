@@ -26,6 +26,19 @@ def send_email_service_confirmation(slug):
 
 
 @shared_task
+def send_email_service_request(slug):
+    service = Service.objects.get(slug=slug)
+    html_message = render_to_string('user_service_request.html', {'service': service})
+    plain_message = strip_tags(html_message)
+    send_mail('Service booking request',
+              plain_message,
+              settings.DEFAULT_FROM_EMAIL,
+              (service.workshop.email,),
+              html_message=html_message
+              )
+
+
+@shared_task
 def send_email_service_update(slug):
     service = Service.objects.get(slug=slug)
     html_message = render_to_string('service_update.html', {'service': service})
