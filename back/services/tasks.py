@@ -15,19 +15,33 @@ from .models import Service
 @shared_task
 def send_email_service_confirmation(slug):
     service = Service.objects.get(slug=slug)
-    html_message = render_to_string('mail_template.html', {'service': service})
+    html_message = render_to_string('service_create.html', {'service': service})
     plain_message = strip_tags(html_message)
     send_mail('Service booking confirmation',
-            plain_message,
-            settings.DEFAULT_FROM_EMAIL,
-            (service.car_part.car.owner.email,),
-            html_message=html_message
-        )
+              plain_message,
+              settings.DEFAULT_FROM_EMAIL,
+              (service.car_part.car.owner.email,),
+              html_message=html_message
+              )
+
+
+@shared_task
+def send_email_service_update(slug):
+    service = Service.objects.get(slug=slug)
+    html_message = render_to_string('service_update.html', {'service': service})
+    plain_message = strip_tags(html_message)
+    send_mail('Booked service update',
+              plain_message,
+              settings.DEFAULT_FROM_EMAIL,
+              (service.car_part.car.owner.email,),
+              html_message=html_message
+              )
 
 
 def calculate_next_fix_date(car_part):
     car_part.next_fix_mileage = car_part.latest_fix_mileage + car_part.fix_every_mileage
-    next_service_days = (car_part.next_fix_mileage - car_part.car.mileage) / car_part.car.daily_mileage
+    next_service_days = (
+                                    car_part.next_fix_mileage - car_part.car.mileage) / car_part.car.daily_mileage
     next_fix_date1 = date.today() + timedelta(days=next_service_days)
     next_fix_date2 = car_part.latest_fix_date + timedelta(
         days=car_part.fix_every_period)

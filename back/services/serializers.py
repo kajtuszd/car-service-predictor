@@ -5,7 +5,8 @@ from rest_framework import serializers
 from users.serializers import WorkshopSerializer
 
 from .models import Service
-from .tasks import update_service, send_email_service_confirmation
+from .tasks import (send_email_service_confirmation, send_email_service_update,
+                    update_service)
 
 
 class ServiceSerializer(serializers.ModelSerializer):
@@ -65,3 +66,14 @@ class ServiceSerializer(serializers.ModelSerializer):
         self.set_up_service_task(service)
         send_email_service_confirmation(service.slug)
         return service
+
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title', instance.title)
+        instance.date = validated_data.get('date', instance.date)
+        instance.time = validated_data.get('time', instance.time)
+        instance.cost = validated_data.get('cost', instance.cost)
+        instance.description = validated_data.get('description',
+                                                  instance.description)
+        instance.save()
+        send_email_service_update(instance.slug)
+        return instance
