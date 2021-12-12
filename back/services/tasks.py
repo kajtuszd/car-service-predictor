@@ -4,13 +4,71 @@ from datetime import date, timedelta
 
 from cars.models import Car, CarPart, CarPartCategory
 from celery import shared_task
+from django.conf import settings
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 from .models import Service
 
 
+@shared_task
+def send_email_service_confirmation(slug):
+    service = Service.objects.get(slug=slug)
+    html_message = render_to_string('service_create.html', {'service': service})
+    plain_message = strip_tags(html_message)
+    send_mail('Service booking confirmation',
+              plain_message,
+              settings.DEFAULT_FROM_EMAIL,
+              (service.car_part.car.owner.email,),
+              html_message=html_message
+              )
+
+
+@shared_task
+def send_email_service_request(slug):
+    service = Service.objects.get(slug=slug)
+    html_message = render_to_string('user_service_request.html', {'service': service})
+    plain_message = strip_tags(html_message)
+    send_mail('Service booking request',
+              plain_message,
+              settings.DEFAULT_FROM_EMAIL,
+              (service.workshop.email,),
+              html_message=html_message
+              )
+
+
+@shared_task
+def send_email_service_update(slug):
+    service = Service.objects.get(slug=slug)
+    html_message = render_to_string('service_update.html', {'service': service})
+    plain_message = strip_tags(html_message)
+    send_mail('Booked service update',
+              plain_message,
+              settings.DEFAULT_FROM_EMAIL,
+              (service.car_part.car.owner.email,),
+              html_message=html_message
+              )
+
+
+@shared_task
+def send_service_reminder():
+    todays_services = Service.objects.filter(date=date.today(), is_active=True)
+    for service in todays_services:
+        html_message = render_to_string('service_reminder.html', {'service': service})
+        plain_message = strip_tags(html_message)
+        send_mail('Booked service reminder',
+                plain_message,
+                settings.DEFAULT_FROM_EMAIL,
+                (service.car_part.car.owner.email,),
+                html_message=html_message
+                )
+
+
 def calculate_next_fix_date(car_part):
     car_part.next_fix_mileage = car_part.latest_fix_mileage + car_part.fix_every_mileage
-    next_service_days = (car_part.next_fix_mileage - car_part.car.mileage) / car_part.car.daily_mileage
+    next_service_days = (
+                                    car_part.next_fix_mileage - car_part.car.mileage) / car_part.car.daily_mileage
     next_fix_date1 = date.today() + timedelta(days=next_service_days)
     next_fix_date2 = car_part.latest_fix_date + timedelta(
         days=car_part.fix_every_period)

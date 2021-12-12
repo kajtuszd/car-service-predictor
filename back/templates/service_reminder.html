@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <h2>Hello!</h2>
+    <h2>We kindly remind that your booked workshop appointment is held today. Details are below:</h2>
+    <p> <strong>Title:</strong> {{ service.title }} </p> 
+    <p> <strong>Car:</strong> {{ service.car_part.car }} </p>
+    <p> <strong>Car part:</strong> {{ service.car_part }} </p>
+    <p> <strong>Date:</strong> {{ service.date }} </p>
+    <p> <strong>Time:</strong> {{ service.time }} </p>
+    <p> <strong>Cost:</strong> {{ service.cost }} </p>
+    <p> <strong>Workshop:</strong> {{ service.workshop }}, {{ service.workshop.street}} 
+    {{ service.workshop.house_number}}/{{service.workshop.flat_number}}
+    {{ service.workshop.zip_code }} {{ service.workshop.city}}
+    </p>
+    <p> <strong>Contact:</strong> {{ service.workshop.email}}, {{ service.workshop.phone}} </p>
+    <br>
+    <br>
+    <h3>Car Service Predictor</h3>
+    <h5>THIS IS AN AUTOMATED MESSAGE - PLEASE DO NOT REPLY</h5>
+</html>
