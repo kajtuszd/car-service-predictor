@@ -26,6 +26,16 @@
                     </div>
 
                     <div class="field">
+                        <label>Phone</label>
+                        <div class="control has-icons-left">
+                            <input type="phone" name="phone" class="input" v-model="this.user.phone">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-phone"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="field">
                         <label>City</label>
                         <div class="control has-icons-left">
                             <input type="text" name="city" class="input" v-model="this.user.city">
@@ -44,7 +54,6 @@
                             </span>
                         </div>
                     </div>
-
 
                     <div class="field">
                         <label>House number</label>
@@ -105,30 +114,6 @@
             userForm() {
                 this.errors = []
 
-                if (this.first_name === '') {
-                    this.errors.push('Name is required.')
-                }
-                
-                if (this.last_name === '') {
-                    this.errors.push('Surname is required.')
-                }
-
-                if (this.city === '') {
-                    this.errors.push('City is required.')
-                }
-
-                if (this.street === '') {
-                    this.errors.push('Street is required.')
-                }
-
-                if (this.house_number === '') {
-                    this.errors.push('House number is required.')
-                }
-
-                if (this.zip_code === '') {
-                    this.errors.push('Zip code is required.')
-                }
-
                 if (!this.errors.length) {
 
                     const userData = {
@@ -136,6 +121,7 @@
                         last_name: this.user.last_name,
                         city: this.user.city,
                         street: this.user.street,
+                        phone: this.user.phone,
                         house_number: this.user.house_number,
                         flat_number: this.user.flat_number,
                         zip_code: this.user.zip_code,
