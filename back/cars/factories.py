@@ -53,6 +53,7 @@ class CarFactory(factory.django.DjangoModelFactory):
     production_year = factory.fuzzy.FuzzyInteger(1990, return_current_year())
     mileage = factory.fuzzy.FuzzyInteger(0, 1000000)
     engine = factory.SubFactory(EngineFactory)
+    daily_mileage = factory.fuzzy.FuzzyInteger(0,10000)
 
     @factory.sequence
     def registration(n):

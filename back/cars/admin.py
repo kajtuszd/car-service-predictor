@@ -5,8 +5,8 @@ from .models import Car, CarPart, CarPartCategory, Engine
 
 class CustomCarAdmin(admin.ModelAdmin):
     list_display = (
-        'brand', 'model', 'owner', 'production_year', 'registration', 'mileage',
-        'capacity', 'horsepower', 'engine_type',)
+        'brand', 'model', 'owner', 'production_year', 'daily_mileage',
+        'registration', 'mileage', 'capacity', 'horsepower', 'engine_type',)
     search_fields = (
         'brand', 'model', 'owner', 'registration', 'capacity', 'horsepower',)
     ordering = ('brand', 'model', 'owner',)

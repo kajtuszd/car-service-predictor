@@ -15,6 +15,7 @@
                         <div class="content">
                             Production year: {{ this.car.production_year }} <br>
                             Mileage: {{ this.car.mileage }} <br>
+                            Daily mileage: {{ this.car.daily_mileage }} <br>
                             Power: {{ this.car?.engine?.horsepower }} <br>
                             Engine capacity: {{ this.car?.engine?.capacity }} <br>
                             Drive type: {{ this.car?.engine?.engine_type }} <br>

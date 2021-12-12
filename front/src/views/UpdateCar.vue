@@ -25,6 +25,16 @@
                         </div>
                     </div>
 
+                    <div class="field">
+                        <label>Daily car mileage</label>
+                        <div class="control has-icons-left">
+                            <input type="text" name="dailyCarMileage" class="input" v-model="this.car.daily_mileage">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-road"></i>
+                            </span>
+                        </div>
+                    </div>
+
                     <div class="notification is-danger" v-if="errors.length">
                         <button class="delete" v-on:click="cleanErrors"></button>
                         <p v-for="e in errors" :key="e">{{e}}</p>
@@ -61,11 +71,16 @@
                     this.errors.push('Car mileage number is required.')
                 }
 
+                if (this.car.daily_mileage === '') {
+                    this.errors.push('Daily car mileage is required.')
+                }
+
                 if (!this.errors.length) {
 
                     const carData = {
                         mileage: this.car.mileage,
                         registration: this.car.registration,
+                        daily_mileage: this.car.daily_mileage,
                     }
                     
                     axios

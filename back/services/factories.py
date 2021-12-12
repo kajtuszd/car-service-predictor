@@ -1,5 +1,5 @@
 import random
-from datetime import timedelta, date
+from datetime import date, datetime, timedelta
 
 import factory
 import factory.fuzzy
@@ -15,7 +15,7 @@ class ServiceFactory(factory.django.DjangoModelFactory):
         date.today() + timedelta(days=2),
         date.today() + timedelta(days=random.randint(2,32))
     )
-    time = factory.Faker('time')
+    time = datetime.now().time()
     is_active = factory.fuzzy.FuzzyChoice([True, False])
     description = factory.Sequence(lambda n: 'description%d' % n)
     workshop = factory.SubFactory(WorkshopFactory)
