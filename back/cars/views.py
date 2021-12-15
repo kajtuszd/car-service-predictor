@@ -1,6 +1,8 @@
 from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework.permissions import (IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
+from rest_framework.response import Response
 
 from .models import Car, CarPart, CarPartCategory, Engine
 from .serializers import (CarPartCategorySerializer, CarPartSerializer,
@@ -11,13 +13,17 @@ class CarViewSet(viewsets.ModelViewSet):
     serializer_class = CarSerializer
     queryset = Car.objects.all()
     lookup_field = 'slug'
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
     def get_queryset(self, *args, **kwargs):
         return self.queryset.filter(owner=self.request.user.pk)
+
+    @action(detail=False, methods=['get'])
+    def all(self, request):
+        return Response(Car.objects.all().count())
 
 
 class CarPartViewSet(viewsets.ModelViewSet):
@@ -41,6 +47,10 @@ class CarPartViewSet(viewsets.ModelViewSet):
         for car in cars:
             car_parts_queryset += CarPart.objects.filter(car=car)
         return car_parts_queryset
+
+    @action(detail=False, methods=['get'])
+    def all(self, request):
+        return Response(CarPart.objects.all().count())
 
 
 class CarPartCategoryViewSet(viewsets.ModelViewSet):
