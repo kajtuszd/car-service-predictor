@@ -1,8 +1,6 @@
 from cars.models import Car, CarPart
 from rest_framework import viewsets
-from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework.response import Response
 from users.models import User, Workshop
 
 from .models import Service
@@ -37,7 +35,3 @@ class ServiceViewSet(viewsets.ModelViewSet):
             for car_part in car_parts:
                 services += Service.objects.filter(car_part=car_part)
             return services
-    
-    @action(detail=False, methods=['get'])
-    def all(self, request):
-        return Response(Service.objects.all().count())
