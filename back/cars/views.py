@@ -1,3 +1,4 @@
+from django.db.models import Count
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import (IsAuthenticated,
@@ -24,6 +25,16 @@ class CarViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def all(self, request):
         return Response(Car.objects.all().count())
+
+    @action(detail=False, methods=['get'])
+    def most_popular_brand(self, request):
+        cars = Car.objects.values('brand').annotate(num_cars=Count('model')).order_by('-num_cars')
+        return Response(cars[0]["brand"])
+
+    @action(detail=False, methods=['get'])
+    def most_popular_model(self, request):
+        cars = Car.objects.values('brand', 'model').annotate(num_cars=Count('model')).order_by('-num_cars')
+        return Response((cars[0]["brand"], cars[0]["model"],))
 
 
 class CarPartViewSet(viewsets.ModelViewSet):
