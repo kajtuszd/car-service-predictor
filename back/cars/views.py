@@ -15,7 +15,7 @@ class CarViewSet(viewsets.ModelViewSet):
     queryset = Car.objects.all()
     lookup_field = 'slug'
     permission_classes = [IsAuthenticatedOrReadOnly]
-    
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
@@ -28,12 +28,14 @@ class CarViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def most_popular_brand(self, request):
-        cars = Car.objects.values('brand').annotate(num_cars=Count('model')).order_by('-num_cars')
+        cars = Car.objects.values('brand').annotate(
+            num_cars=Count('model')).order_by('-num_cars')
         return Response(cars[0]["brand"])
 
     @action(detail=False, methods=['get'])
     def most_popular_model(self, request):
-        cars = Car.objects.values('brand', 'model').annotate(num_cars=Count('model')).order_by('-num_cars')
+        cars = Car.objects.values('brand', 'model').annotate(
+            num_cars=Count('model')).order_by('-num_cars')
         return Response((cars[0]["brand"], cars[0]["model"],))
 
 
@@ -42,7 +44,7 @@ class CarPartViewSet(viewsets.ModelViewSet):
     queryset = CarPart.objects.all()
     lookup_field = 'slug'
     permission_classes = [IsAuthenticatedOrReadOnly]
-    
+
     def perform_create(self, serializer):
         car_slug = self.request.query_params.get('car_slug')
         car = Car.objects.get(slug=car_slug)
