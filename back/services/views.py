@@ -1,4 +1,5 @@
 from cars.models import Car, CarPart
+from django.db.models import Count
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -41,3 +42,8 @@ class ServiceViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def all(self, request):
         return Response(Service.objects.all().count())
+
+    @action(detail=False, methods=['get'])
+    def most_frequently_fixed_part(self, request):
+        parts = Service.objects.annotate(num_parts=Count('car_part__category__name'))
+        return Response(parts[0].car_part.category.name)
