@@ -38,8 +38,9 @@
                             <h1 class="title">{{this.allWorkshops}}</h1>
                         </article>
                         <article class="tile is-10 is-child notification is-primary">
-                            <p class="title">...tiles</p>
-                            <p class="subtitle">Bottom tile</p>
+                            <p class="title">Workshop</p>
+                            <p class="subtitle">most popular</p>
+                            <h1 class="title">{{this.popularWorkshop}}</h1>
                         </article>
                     </div>
                 </div>
@@ -49,16 +50,19 @@
                 <div class="tile">
                     <div class="tile is-parent is-vertical">
                         <article class="tile is-10 is-child notification is-primary">
-                            <p class="title">Vertical...</p>
-                            <p class="subtitle">Top tile</p>
+                            <p class="title">Car brand</p>
+                            <p class="subtitle">most popular</p>
+                            <h1 class="title">{{this.popularBrand}}</h1>
                         </article>
                         <article class="tile is-10 is-child notification is-primary">
-                            <p class="title">...tiles</p>
-                            <p class="subtitle">Bottom tile</p>
+                            <p class="title">Car model</p>
+                            <p class="subtitle">most popular</p>
+                            <h1 class="title">{{this.popularModel[0]}} {{this.popularModel[1]}}</h1>
                         </article>
                         <article class="tile is-10 is-child notification is-primary">
-                            <p class="title">...tiles</p>
-                            <p class="subtitle">Bottom tile</p>
+                            <p class="title">Part</p>
+                            <p class="subtitle">most frequently fixed</p>
+                            <h1 class="title">{{this.mostFrequentlyFixedPart}}</h1>
                         </article>
                     </div>
                 </div>
