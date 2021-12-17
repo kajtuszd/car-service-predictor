@@ -24,7 +24,11 @@ class CarPartCategoryFactory(factory.django.DjangoModelFactory):
                            'Timing belt': '',
                            'Spark plugs': 'Petrol',
                            'Glow plugs': 'Diesel',
-                           'Engine oil': ''
+                           'Engine oil': '',
+                           'Tires': '',
+                           'Cooler': '',
+                           'Cabin filter': '',
+                           'Brakes': ''
                            }
 
     name = factory.Iterator(car_part_categories.keys())
@@ -53,7 +57,7 @@ class CarFactory(factory.django.DjangoModelFactory):
     production_year = factory.fuzzy.FuzzyInteger(1990, return_current_year())
     mileage = factory.fuzzy.FuzzyInteger(0, 1000000)
     engine = factory.SubFactory(EngineFactory)
-    daily_mileage = factory.fuzzy.FuzzyInteger(0,10000)
+    daily_mileage = factory.fuzzy.FuzzyInteger(0, 10000)
 
     @factory.sequence
     def registration(n):

@@ -1,6 +1,9 @@
 from cars.models import Car, CarPart
+from django.db.models import Count
 from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
 from users.models import User, Workshop
 
 from .models import Service
@@ -35,3 +38,35 @@ class ServiceViewSet(viewsets.ModelViewSet):
             for car_part in car_parts:
                 services += Service.objects.filter(car_part=car_part)
             return services
+
+    @action(detail=False, methods=['get'])
+    def all(self, request):
+        return Response(Service.objects.all().count())
+
+    @action(detail=False, methods=['get'])
+    def most_popular_workshop(self, request):
+        if Service.objects.all().count() == 0:
+            return Response('')
+        services = Service.objects.values('workshop__workshop_name').annotate(
+            num_services=Count('workshop')).order_by('-num_services')
+        return Response(services[0]["workshop__workshop_name"])
+
+    @action(detail=False, methods=['get'])
+    def most_frequently_fixed_part(self, request):
+        if Service.objects.all().count() == 0:
+            return Response('')
+        services = Service.objects.values('car_part__category__name').annotate(
+            num_services=Count('car_part')).order_by('-num_services')
+        return Response(services[0]["car_part__category__name"])
+
+    @action(detail=False, methods=['get'])
+    def most_frequently_fixed_model(self, request):
+        if Service.objects.all().count() == 0:
+            return Response('')
+        services = Service.objects.values('car_part__car__model',
+                                          'car_part__car__brand').annotate(
+            num_services=Count('car_part__car__brand')).order_by(
+            '-num_services')
+        brand = services[0]["car_part__car__brand"]
+        model = services[0]["car_part__car__model"]
+        return Response((brand, model))
