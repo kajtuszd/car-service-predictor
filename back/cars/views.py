@@ -29,7 +29,7 @@ class CarViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def most_popular_brand(self, request):
         if Car.objects.all().count() == 0:
-            return Response('') 
+            return Response('')
         cars = Car.objects.values('brand').annotate(
             num_cars=Count('model')).order_by('-num_cars')
         return Response(cars[0]["brand"])
@@ -37,10 +37,18 @@ class CarViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def most_popular_model(self, request):
         if Car.objects.all().count() == 0:
-            return Response('') 
+            return Response('')
         cars = Car.objects.values('brand', 'model').annotate(
             num_cars=Count('model')).order_by('-num_cars')
         return Response((cars[0]["brand"], cars[0]["model"],))
+
+    @action(detail=False, methods=['get'])
+    def different_models_number(self, request):
+        if Car.objects.all().count() == 0:
+            return Response('')
+        cars = Car.objects.values('brand', 'model').annotate(
+            num_cars=Count('model')).order_by('-num_cars')
+        return Response(cars)
 
 
 class CarPartViewSet(viewsets.ModelViewSet):
@@ -81,4 +89,12 @@ class EngineViewSet(viewsets.ModelViewSet):
     serializer_class = EngineSerializer
     queryset = Engine.objects.all()
     lookup_field = 'slug'
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    @action(detail=False, methods=['get'])
+    def most_popular_drive_type(self, request):
+        if Engine.objects.all().count() == 0:
+            return Response('')
+        engines = Engine.objects.values('engine_type').annotate(
+            num_engines=Count('engine_type')).order_by('-num_engines')
+        return Response(engines[0]["engine_type"])

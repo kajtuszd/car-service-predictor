@@ -46,7 +46,7 @@ class ServiceViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def most_popular_workshop(self, request):
         if Service.objects.all().count() == 0:
-            return Response('') 
+            return Response('')
         services = Service.objects.values('workshop__workshop_name').annotate(
             num_services=Count('workshop')).order_by('-num_services')
         return Response(services[0]["workshop__workshop_name"])
@@ -54,7 +54,17 @@ class ServiceViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def most_frequently_fixed_part(self, request):
         if Service.objects.all().count() == 0:
-            return Response('') 
+            return Response('')
         services = Service.objects.values('car_part__category__name').annotate(
             num_services=Count('car_part')).order_by('-num_services')
         return Response(services[0]["car_part__category__name"])
+
+    @action(detail=False, methods=['get'])
+    def most_frequently_fixed_model(self, request):
+        if Service.objects.all().count() == 0:
+            return Response('')
+        services = Service.objects.values('car_part__car__model',
+                                          'car_part__car__brand').annotate(
+            num_services=Count('car_part__car__brand')).order_by(
+            '-num_services')
+        return Response(services)
