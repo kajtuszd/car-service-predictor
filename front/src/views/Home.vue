@@ -87,6 +87,9 @@
             this.getMostPopularModel()
             this.getMostPopularWorkshop()
             this.getMostFrequentlyFixedPart()
+            this.getMostFrequentlyFixedModel()
+            this.getMostPopularDriveType()
+            this.getDifferentModelsNumber()
         },
         methods: {
             async getAllCarsNumber() {
@@ -168,6 +171,38 @@
                         }
                     })
             },
+            async getMostFrequentlyFixedModel() {
+                await axios
+                    .get('services/service/most_frequently_fixed_model/')
+                    .then(response => {
+                        if(response.data === ''){
+                            this.mostFrequentlyFixedModel = 'no data'
+                        } else {
+                            this.mostFrequentlyFixedModel = response.data
+                        }
+                        console.log(this.mostFrequentlyFixedModel)
+                    })
+            },
+            async getMostPopularDriveType() {
+                await axios
+                    .get('cars/engine/most_popular_drive_type/')
+                    .then(response => {
+                        if(response.data === ''){
+                            this.mostPopularDriveType = 'no data'
+                        } else {
+                            this.mostPopularDriveType = response.data
+                        }
+                        console.log(this.mostPopularDriveType)
+                    })
+            },
+            async getDifferentModelsNumber() {
+                await axios
+                    .get('cars/car/different_models_number/')
+                    .then(response => {
+                        this.differentModelsNumber = response.data
+                        console.log(this.differentModelsNumber)
+                    })
+            },
         },
         data() {
             return {
@@ -180,6 +215,9 @@
                 popularBrand: '',
                 popularWorkshop: '',
                 mostFrequentlyFixedPart: '',
+                mostFrequentlyFixedModel: '',
+                mostPopularDriveType: '',
+                differentModelsNumber: ''
             }
         }
     }

@@ -67,4 +67,6 @@ class ServiceViewSet(viewsets.ModelViewSet):
                                           'car_part__car__brand').annotate(
             num_services=Count('car_part__car__brand')).order_by(
             '-num_services')
-        return Response(services)
+        brand = services[0]["car_part__car__brand"]
+        model = services[0]["car_part__car__model"]
+        return Response((model, brand,))

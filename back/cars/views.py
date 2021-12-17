@@ -48,7 +48,7 @@ class CarViewSet(viewsets.ModelViewSet):
             return Response('')
         cars = Car.objects.values('brand', 'model').annotate(
             num_cars=Count('model')).order_by('-num_cars')
-        return Response(cars)
+        return Response(len(cars))
 
 
 class CarPartViewSet(viewsets.ModelViewSet):
