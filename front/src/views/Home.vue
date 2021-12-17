@@ -5,64 +5,103 @@
             <div class="tile is-vertical">
                 <div class="tile">
                     <div class="tile is-parent is-vertical">
-                        <article class="tile is-10 is-child notification is-primary">
+                        <article class="tile is-11 is-child notification is-success">
                             <p class="title">Cars</p>
                             <p class="subtitle">registered in system</p>
-                            <h1 class="title">{{this.allCars}}</h1>
+                            <br/>
+                            <h1 class="title has-text-centered">{{this.allCars}}</h1>
+                            <br/>
                         </article>
-                        <article class="tile is-10 is-child notification is-primary">
-                            <p class="title">Car parts</p>
-                            <p class="subtitle">registered in system</p>
-                            <h1 class="title">{{this.allCarParts}}</h1>
+                        <article class="tile is-11 is-child notification is-light">
+                            <p class="title">Drive type</p>
+                            <p class="subtitle">most popular</p>
+                            <br/>
+                            <h1 class="title has-text-centered">{{this.mostPopularDriveType}}</h1>
+                            <br/>
                         </article>
-                        <article class="tile is-10 is-child notification is-primary">
+                        <article class="tile is-11 is-child notification is-success">
                             <p class="title">Services</p>
                             <p class="subtitle">registered in system</p>
-                            <h1 class="title">{{this.allServices}}</h1>
+                            <br/>
+                            <h1 class="title has-text-centered">{{this.allServices}}</h1>
+                            <br/>
                         </article>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tile is-vertical">
-                <div class="tile">
-                    <div class="tile is-parent is-vertical">
-                        <article class="tile is-10 is-child notification is-primary">
-                            <p class="title">Users</p>
-                            <p class="subtitle">registered in system</p>
-                            <h1 class="title">{{this.allUsers}}</h1>
-                        </article>
-                        <article class="tile is-10 is-child notification is-primary">
-                            <p class="title">Workshops</p>
-                            <p class="subtitle">registered in system</p>
-                            <h1 class="title">{{this.allWorkshops}}</h1>
-                        </article>
-                        <article class="tile is-10 is-child notification is-primary">
-                            <p class="title">Workshop</p>
-                            <p class="subtitle">most popular</p>
-                            <h1 class="title">{{this.popularWorkshop}}</h1>
-                        </article>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tile is-vertical">
-                <div class="tile">
-                    <div class="tile is-parent is-vertical">
-                        <article class="tile is-10 is-child notification is-primary">
-                            <p class="title">Car brand</p>
-                            <p class="subtitle">most popular</p>
-                            <h1 class="title">{{this.popularBrand}}</h1>
-                        </article>
-                        <article class="tile is-10 is-child notification is-primary">
+                        <article class="tile is-11 is-child notification is-light">
                             <p class="title">Car model</p>
                             <p class="subtitle">most popular</p>
-                            <h1 class="title">{{this.popularModel[0]}} {{this.popularModel[1]}}</h1>
+                            <br/>
+                            <h1 class="title has-text-centered">{{this.popularModel[0]}} {{this.popularModel[1]}}</h1>
+                            <br/>
                         </article>
-                        <article class="tile is-10 is-child notification is-primary">
-                            <p class="title">Part</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tile is-vertical">
+                <div class="tile">
+                    <div class="tile is-parent is-vertical">
+                        <article class="tile is-11 is-child notification is-light">
+                            <p class="title">Users</p>
+                            <p class="subtitle">registered in system</p>
+                            <br/>
+                            <h1 class="title has-text-centered">{{this.allUsers}}</h1>
+                            <br/>
+                        </article>
+                        <article class="tile is-11 is-child notification is-success">
+                            <p class="title">Workshops</p>
+                            <p class="subtitle">registered in system</p>
+                            <br/>
+                            <h1 class="title has-text-centered">{{this.allWorkshops}}</h1>
+                            <br/>
+                        </article>
+                        <article class="tile is-11 is-child notification is-light">
+                            <p class="title">Workshop</p>
+                            <p class="subtitle">most popular</p>
+                            <br/>
+                            <h1 class="title has-text-centered">{{this.popularWorkshop}}</h1>
+                            <br/>
+                        </article>
+                        <article class="tile is-11 is-child notification is-success">
+                            <p class="title">Various</p>
+                            <p class="subtitle">car models</p>
+                            <br/>
+                            <h1 class="title has-text-centered">{{this.differentModelsNumber}}</h1>
+                            <br/>
+                        </article>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tile is-vertical">
+                <div class="tile">
+                    <div class="tile is-parent is-vertical">
+                        <article class="tile is-11 is-child notification is-success">
+                            <p class="title">Car brand</p>
+                            <p class="subtitle">most popular</p>
+                            <br/>
+                            <h1 class="title has-text-centered">{{this.popularBrand}}</h1>
+                            <br/>
+                        </article>
+                        <article class="tile is-11 is-child notification is-light">
+                            <p class="title">Car parts</p>
+                            <p class="subtitle">registered in system</p>
+                            <br/>
+                            <h1 class="title has-text-centered">{{this.allCarParts}}</h1>
+                            <br/>
+                        </article>
+                        <article class="tile is-11 is-child notification is-success">
+                            <p class="title">Car part</p>
                             <p class="subtitle">most frequently fixed</p>
-                            <h1 class="title">{{this.mostFrequentlyFixedPart}}</h1>
+                            <br/>
+                            <h1 class="title has-text-centered">{{this.mostFrequentlyFixedPart}}</h1>
+                            <br/>
+                        </article>
+                        <article class="tile is-11 is-child notification is-light">
+                            <p class="title">Car model</p>
+                            <p class="subtitle">most frequently fixed</p>
+                            <br/>
+                            <h1 class="title has-text-centered">{{this.mostFrequentlyFixedModel[0]}} {{this.mostFrequentlyFixedModel[1]}}</h1>
+                            <br/>
                         </article>
                     </div>
                 </div>
@@ -176,7 +215,7 @@
                     .get('services/service/most_frequently_fixed_model/')
                     .then(response => {
                         if(response.data === ''){
-                            this.mostFrequentlyFixedModel = 'no data'
+                            this.mostFrequentlyFixedModel = ['no', 'data']
                         } else {
                             this.mostFrequentlyFixedModel = response.data
                         }

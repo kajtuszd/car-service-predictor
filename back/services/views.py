@@ -69,4 +69,4 @@ class ServiceViewSet(viewsets.ModelViewSet):
             '-num_services')
         brand = services[0]["car_part__car__brand"]
         model = services[0]["car_part__car__model"]
-        return Response((model, brand,))
+        return Response((brand, model))

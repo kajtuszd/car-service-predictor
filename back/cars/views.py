@@ -1,8 +1,7 @@
 from django.db.models import Count
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import (IsAuthenticated,
-                                        IsAuthenticatedOrReadOnly)
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
 from .models import Car, CarPart, CarPartCategory, Engine
@@ -45,7 +44,7 @@ class CarViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def different_models_number(self, request):
         if Car.objects.all().count() == 0:
-            return Response('')
+            return Response(0)
         cars = Car.objects.values('brand', 'model').annotate(
             num_cars=Count('model')).order_by('-num_cars')
         return Response(len(cars))
