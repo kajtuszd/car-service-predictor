@@ -79,6 +79,10 @@
             this.getAllServicesNumber()
             this.getAllUsersNumber()
             this.getAllWorkshopsNumber()
+            this.getMostPopularBrand()
+            this.getMostPopularModel()
+            this.getMostPopularWorkshop()
+            this.getMostFrequentlyFixedPart()
         },
         methods: {
             async getAllCarsNumber() {
@@ -115,7 +119,35 @@
                     .then(response => {
                         this.allWorkshops = response.data
                     })
-            }
+            },
+            async getMostPopularBrand() {
+                await axios
+                    .get('cars/car/most_popular_brand/')
+                    .then(response => {
+                        this.popularBrand = response.data
+                    })
+            },
+            async getMostPopularModel() {
+                await axios
+                    .get('cars/car/most_popular_model/')
+                    .then(response => {
+                        this.popularModel = response.data
+                    })
+            },
+            async getMostPopularWorkshop() {
+                await axios
+                    .get('services/service/most_popular_workshop/')
+                    .then(response => {
+                        this.popularWorkshop = response.data
+                    })
+            },            
+            async getMostFrequentlyFixedPart() {
+                await axios
+                    .get('services/service/most_frequently_fixed_part/')
+                    .then(response => {
+                        this.mostFrequentlyFixedPart = response.data
+                    })
+            },
         },
         data() {
             return {
@@ -124,6 +156,10 @@
                 allWorkshops: '',
                 allUsers: '',
                 allServices: '',
+                popularModel: '',
+                popularBrand: '',
+                popularWorkshop: '',
+                mostFrequentlyFixedPart: '',
             }
         }
     }
