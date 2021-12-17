@@ -28,12 +28,16 @@ class CarViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def most_popular_brand(self, request):
+        if Car.objects.all().count() == 0:
+            return Response('') 
         cars = Car.objects.values('brand').annotate(
             num_cars=Count('model')).order_by('-num_cars')
         return Response(cars[0]["brand"])
 
     @action(detail=False, methods=['get'])
     def most_popular_model(self, request):
+        if Car.objects.all().count() == 0:
+            return Response('') 
         cars = Car.objects.values('brand', 'model').annotate(
             num_cars=Count('model')).order_by('-num_cars')
         return Response((cars[0]["brand"], cars[0]["model"],))

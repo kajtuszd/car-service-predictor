@@ -128,28 +128,44 @@
                 await axios
                     .get('cars/car/most_popular_brand/')
                     .then(response => {
-                        this.popularBrand = response.data
+                        if(response.data === ''){
+                            this.popularBrand = 'no data'
+                        } else {
+                            this.popularBrand = response.data
+                        }
                     })
             },
             async getMostPopularModel() {
                 await axios
                     .get('cars/car/most_popular_model/')
                     .then(response => {
-                        this.popularModel = response.data
+                        if(response.data === ''){
+                            this.popularModel = ['no', 'data']
+                        } else {
+                            this.popularModel = response.data
+                        }
                     })
             },
             async getMostPopularWorkshop() {
                 await axios
                     .get('services/service/most_popular_workshop/')
                     .then(response => {
-                        this.popularWorkshop = response.data
+                        if(response.data === ''){
+                            this.popularWorkshop = 'no data'
+                        } else {
+                            this.popularWorkshop = response.data
+                        }
                     })
             },            
             async getMostFrequentlyFixedPart() {
                 await axios
                     .get('services/service/most_frequently_fixed_part/')
                     .then(response => {
-                        this.mostFrequentlyFixedPart = response.data
+                        if(response.data === ''){
+                            this.mostFrequentlyFixedPart = 'no data'
+                        } else {
+                            this.mostFrequentlyFixedPart = response.data
+                        }
                     })
             },
         },
