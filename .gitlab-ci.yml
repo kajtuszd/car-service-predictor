@@ -15,6 +15,8 @@ build-docker-image:
     - docker-compose up -d
     - docker exec webapp chmod +x wait_for_db.sh || exit 1
     - docker exec webapp ./wait_for_db.sh || exit 1
+    - docker exec webapp python3 manage.py makemigrations
+    - docker exec webapp python3 manage.py migrate
     - docker exec webapp python3 manage.py test
   tags:
     - docker
