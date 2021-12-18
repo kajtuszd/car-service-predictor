@@ -102,7 +102,6 @@ def update_latest_fix_data():
             service.mileage_from_latest_fix = service.car_part.car.mileage - service.car_part.latest_fix_mileage
             d_time = service.date - service.car_part.latest_fix_date
             service.days_from_latest_fix = d_time.days
-            print(d_time.days)
             service.save()
 
 

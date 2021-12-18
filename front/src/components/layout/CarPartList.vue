@@ -19,7 +19,6 @@
                         <th>Next fix mileage</th>
                         <th>Predicted fix date</th>
                         <th>Predicted fix mileage</th>
-                        <th>Description</th>
                     </tr>
                 </thead>
 
