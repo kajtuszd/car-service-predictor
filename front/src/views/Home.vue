@@ -219,7 +219,6 @@
                         } else {
                             this.mostFrequentlyFixedModel = response.data
                         }
-                        console.log(this.mostFrequentlyFixedModel)
                     })
             },
             async getMostPopularDriveType() {
@@ -231,7 +230,6 @@
                         } else {
                             this.mostPopularDriveType = response.data
                         }
-                        console.log(this.mostPopularDriveType)
                     })
             },
             async getDifferentModelsNumber() {
@@ -239,7 +237,6 @@
                     .get('cars/car/different_models_number/')
                     .then(response => {
                         this.differentModelsNumber = response.data
-                        console.log(this.differentModelsNumber)
                     })
             },
         },

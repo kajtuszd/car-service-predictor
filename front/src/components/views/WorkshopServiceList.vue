@@ -15,9 +15,9 @@
                         <th>Car</th>
                         <th>Owner</th>
                         <th>Car part</th>
-                        <th>Date start</th>
+                        <th>Date</th>
+                        <th>Time</th>
                         <th>Is active</th>
-                        <th>Workshop</th>
                     </tr>
                 </thead>
 
@@ -29,8 +29,8 @@
                         <td>{{ service.car_part.car.owner.username }}</td>
                         <td>{{ service.car_part.category.name }}</td>
                         <td>{{ service.date }}</td>
+                        <td>{{ service.time }}</td>
                         <td>{{ service.is_active }}</td>
-                        <td>{{ service.workshop.workshop_name }}</td>
                         <td>
                             <router-link :to="{ name: 'UpdateService', params: { slug: service.slug }}">
                                 <button class="button is-dark is-outlined">More ...</button>
