@@ -31,7 +31,7 @@ $ docker-compose down
 - Backend: Django, Django Rest Framework
 - Frontend: Vue.js, Bulma
 - Database: PostgreSQL
-- Other: Docker, Redis, Celery, Celery Beat
+- Other: Docker, Redis, Celery, Celery Beat, Prometheus, Grafana
 
 ## Usage
 
